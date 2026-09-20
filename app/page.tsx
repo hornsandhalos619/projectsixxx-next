@@ -16,9 +16,6 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="shell" style={{ paddingTop: "1.25rem" }}>
-        <p className="sample-kicker">SAMPLE preview · not live DNS · claimable temp only</p>
-      </div>
       <section className="hero hero--centered">
         <div className="shell hero-inner">
           {/* Equal Horns + Halos soft logo bed — house statement (Vein Art) stays first */}
