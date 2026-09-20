@@ -1217,22 +1217,6 @@ html:has(.portal-root) .wordmark span { color: var(--silver); }
 
 /* === SAMPLE redesign chrome (Aureole · mark-locked tokens) === */
 
-.sample-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin: 0 0 1.35rem;
-  padding: 0.35rem 0.65rem;
-  border: 1px solid var(--crimson);
-  background: color-mix(in srgb, var(--crimson-deep) 35%, transparent);
-  font-family: var(--font-ui);
-  font-size: var(--label);
-  font-weight: 500;
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--bone-aged);
-}
-
 /* TYPE LAW: Cormorant display for house section headers (zero Unifraktur) */
 .section h2,
 .strip h2,
@@ -1268,8 +1252,7 @@ html:has(.portal-root) .wordmark span { color: var(--silver); }
 .lede,
 .nav,
 .btn,
-.badge,
-.sample-kicker {
+.badge {
   /* intentional: leave UI/Cormorant as set above */
 }
 
