@@ -1,0 +1,82 @@
+/* VOID + Obsidian Glass — Aureole 2026-09-13
+   House SAMPLE + Agent OS + shop Horns half.
+   FOUNDER: MAKE OBSIDIAN GLASS HAPPEN — not flat SaaS dark.
+   Type: Cormorant Garamond + IBM Plex Sans ONLY (no Unifraktur).
+*/
+:root {
+  /* Field */
+  --void: #05070A;
+  --obsidian: #0A0C10;
+  --obsidian-2: #0E1116;
+
+  /* Obsidian glass material (Outerwright hero lock) */
+  --glass-fill: rgba(10, 12, 16, 0.72);
+  --glass-fill-strong: rgba(5, 7, 10, 0.88);
+  --glass-edge: rgba(232, 226, 214, 0.18);
+  --glass-edge-hot: rgba(232, 226, 214, 0.32);
+  --glass-specular: rgba(255, 255, 255, 0.14);
+  --glass-blur: 16px;
+  --glass-shine: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.02) 28%,
+    transparent 55%
+  );
+
+  /* Hairlines / bone / crimson */
+  --hairline: rgba(232, 226, 214, 0.14);
+  --hairline-dim: rgba(232, 226, 214, 0.07);
+  --bone: #E8E2D6;
+  --bone-dim: rgba(232, 226, 214, 0.55);
+  --bone-mute: rgba(232, 226, 214, 0.32);
+  --crimson: #C41E2A;
+  --crimson-hot: #FF2A35;
+  --ember: #6B1218;
+  --ember-glow: rgba(196, 30, 42, 0.45);
+  --fissure-glow: rgba(255, 42, 53, 0.35);
+  --silver: #C7CCD4;
+  --ok: #9AA38A;
+  --warn: #C4A35A;
+  --cyan-live: #4DA3FF;
+  --amber-hud: #FFB800;
+
+  /* Type */
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Palatino, Georgia, serif;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", "Cascadia Mono", ui-monospace, monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 300ms;
+  --t-slow: 500ms;
+  --grain: 0.05;
+  --gutter: 10px;
+  --radius: 2px;
+}
+
+/* Utility: obsidian glass panel — use on house chrome, not flat #111 cards */
+.void-glass {
+  background:
+    var(--glass-shine),
+    var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-edge);
+  border-radius: var(--radius);
+  box-shadow:
+    inset 0 1px 0 var(--glass-specular),
+    0 0 0 1px rgba(0, 0, 0, 0.45),
+    0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.void-glass--strong {
+  background:
+    var(--glass-shine),
+    var(--glass-fill-strong);
+}
+
+.void-fissure {
+  box-shadow:
+    inset 0 1px 0 var(--glass-specular),
+    0 0 24px var(--fissure-glow),
+    0 0 1px var(--crimson-hot);
+}

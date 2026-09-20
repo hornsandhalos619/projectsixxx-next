@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Horns and Halos gates as architecture and light">
+  <title>Project SiXXX — two gates (architecture, not costume)</title>
+  <defs>
+    <filter id="grain" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+      <feComponentTransfer in="g" result="a">
+        <feFuncA type="linear" slope="0.35"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="a" mode="overlay"/>
+    </filter>
+    <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
+      <stop offset="55%" stop-color="#07060A" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#07060A" stop-opacity="0.92"/>
+    </radialGradient>
+    <linearGradient id="emberGlow" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#C45C26" stop-opacity="0.55"/>
+      <stop offset="18%" stop-color="#8B1E2D" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#07060A" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="oculus" cx="50%" cy="48%" r="50%">
+      <stop offset="0%" stop-color="#C9C2B0" stop-opacity="0.18"/>
+      <stop offset="70%" stop-color="#C9C2B0" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#07060A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ribMetal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6E6A63"/>
+      <stop offset="50%" stop-color="#C7CCD4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#6E6A63"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="#07060A"/>
+  <rect width="1600" height="900" fill="url(#vignette)"/>
+
+  <!-- HORNS: two vault ribs that never meet. Negative space is the suggestion. Ember at the threshold. -->
+  <rect x="0" y="0" width="800" height="900" fill="url(#emberGlow)"/>
+  <path d="M268 820 C 268 520, 292 210, 338 96" fill="none" stroke="url(#ribMetal)" stroke-width="2.25" stroke-linecap="round"/>
+  <path d="M532 820 C 532 520, 508 210, 462 96" fill="none" stroke="url(#ribMetal)" stroke-width="2.25" stroke-linecap="round"/>
+  <path d="M300 820 C 300 540, 318 250, 352 140" fill="none" stroke="#2A2433" stroke-width="1"/>
+  <path d="M500 820 C 500 540, 482 250, 448 140" fill="none" stroke="#2A2433" stroke-width="1"/>
+  <line x1="220" y1="828" x2="580" y2="828" stroke="#C45C26" stroke-width="1" opacity="0.55"/>
+  <line x1="250" y1="834" x2="550" y2="834" stroke="#8B1E2D" stroke-width="1" opacity="0.35"/>
+
+  <!-- Divide: hairline, not a cross, not a blade -->
+  <line x1="800" y1="80" x2="800" y2="820" stroke="#2A2433" stroke-width="1"/>
+
+  <!-- HALOS: incomplete annulus — an oculus, broken so it cannot read as holy nimbus -->
+  <circle cx="1200" cy="430" r="168" fill="url(#oculus)"/>
+  <path d="M1200 262 A168 168 0 1 1 1048 546" fill="none" stroke="#C7CCD4" stroke-width="1.75" stroke-linecap="round" opacity="0.9"/>
+  <path d="M1200 278 A152 152 0 1 1 1062 538" fill="none" stroke="#C9C2B0" stroke-width="0.75" opacity="0.45"/>
+
+  <rect width="1600" height="900" filter="url(#grain)" fill="#07060A" opacity="0.12"/>
+</svg>

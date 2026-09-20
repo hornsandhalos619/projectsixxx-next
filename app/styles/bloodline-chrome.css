@@ -1,0 +1,265 @@
+/* Bloodline chrome — Outerwright overnight 2026-09-13
+   Lineage → concrete edges for LIVE Agent OS + shop SAMPLE.
+   Depends on: /workspace/haos-void/tokens/void-tokens.css (or TOKENS.md vars)
+   TYPE LAW: Cormorant Garamond + IBM Plex Sans/Mono only — never style letterforms gothic here.
+   Gothic lives in sculpture/mark/edges only.
+*/
+
+:root {
+  /* Bloodline edge extras (on top of void-tokens) */
+  --bl-ink: #05070A;
+  --bl-needle: rgba(232, 226, 214, 0.55);
+  --bl-needle-thin: rgba(232, 226, 214, 0.28);
+  --bl-tag: rgba(196, 30, 42, 0.85);
+  --bl-doom-heat: rgba(255, 42, 53, 0.55);
+  --bl-cathedral-silver: rgba(199, 204, 212, 0.22);
+  --bl-giger-seam: rgba(232, 226, 214, 0.12);
+  --bl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+}
+
+/* ── TYPE (enforce) ── */
+.bl-display {
+  font-family: "Cormorant Garamond", Cormorant, Georgia, serif;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--bone, #E8E2D6);
+}
+.bl-ui {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--bone-dim, rgba(232, 226, 214, 0.55));
+}
+.bl-mono {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--bone-mute, rgba(232, 226, 214, 0.32));
+}
+
+/* ── GRAFFITI / STREET: tagged hierarchy ── */
+.bl-tag-once {
+  position: relative;
+}
+.bl-tag-once::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 28%;
+  max-width: 72px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--bl-tag), transparent);
+  pointer-events: none;
+}
+
+/* High-contrast void field wash */
+.bl-street-field {
+  background-color: var(--void, #05070A);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 30, 42, 0.06), transparent 55%),
+    var(--bl-grain);
+  background-blend-mode: normal, soft-light;
+}
+
+/* ── TATTOO / BLACKWORK: needle brackets ── */
+.bl-needle-frame {
+  position: relative;
+  border: 1px solid var(--bl-needle-thin);
+  border-radius: 0;
+}
+.bl-needle-frame::before,
+.bl-needle-frame::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--bl-needle);
+  border-style: solid;
+  pointer-events: none;
+}
+.bl-needle-frame::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+.bl-needle-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+/* Cybersigilism-thin angular corner ticks (4 corners via box-shadow trick on child) */
+.bl-sigil-corners {
+  position: relative;
+}
+.bl-sigil-corners::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--bl-needle), var(--bl-needle)) top left / 12px 1px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) top left / 1px 12px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) top right / 12px 1px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) top right / 1px 12px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) bottom left / 12px 1px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) bottom left / 1px 12px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) bottom right / 12px 1px no-repeat,
+    linear-gradient(var(--bl-needle), var(--bl-needle)) bottom right / 1px 12px no-repeat;
+}
+
+/* ── DOOM: heat-as-status ── */
+.bl-doom-meter {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  background: var(--ember, #6B1218);
+  border: 1px solid var(--hairline-dim, rgba(232, 226, 214, 0.07));
+}
+.bl-doom-meter > i {
+  flex: 1;
+  background: transparent;
+  display: block;
+}
+.bl-doom-meter > i.on {
+  background: linear-gradient(180deg, var(--crimson-hot, #FF2A35), var(--crimson, #C41E2A));
+  box-shadow: 0 0 8px var(--bl-doom-heat);
+}
+
+.bl-doom-alert {
+  color: var(--crimson-hot, #FF2A35);
+  text-shadow: 0 0 12px var(--ember-glow, rgba(196, 30, 42, 0.45));
+}
+
+/* ── GIGER: seam / biomechanical edge (material only) ── */
+.bl-giger-seam {
+  border-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--bl-giger-seam) 8%,
+      rgba(196, 30, 42, 0.25) 50%,
+      var(--bl-giger-seam) 92%,
+      transparent 100%
+    )
+    1;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.bl-organic-ridge {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 0 1px var(--bl-giger-seam);
+}
+
+/* ── CATHEDRAL: vertical pull + silver filigree edge ── */
+.bl-cathedral-rail {
+  border-left: 1px solid var(--bl-cathedral-silver);
+  box-shadow: inset 3px 0 12px rgba(199, 204, 212, 0.04);
+}
+
+.bl-oculus-glow {
+  box-shadow:
+    0 0 40px rgba(196, 30, 42, 0.12),
+    inset 0 0 30px rgba(5, 7, 10, 0.6);
+}
+
+/* ── DALÍ: object seating — mark/hero floats as uncanny sculpture ── */
+.bl-object-seat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42vh;
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 58%, rgba(196, 30, 42, 0.08), transparent 70%),
+    var(--void, #05070A);
+}
+.bl-object-seat img {
+  max-width: min(520px, 72vw);
+  height: auto;
+  filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.75));
+}
+
+/* ── ANNE RICE NIGHT: velvet void elegance ── */
+.bl-velvet-panel {
+  background: linear-gradient(180deg, rgba(14, 17, 22, 0.95), rgba(5, 7, 10, 0.98));
+  border: 1px solid var(--hairline, rgba(232, 226, 214, 0.14));
+  box-shadow: inset 0 1px 0 rgba(232, 226, 214, 0.06);
+}
+
+/* ── FISSURE accent (rare) ── */
+.bl-fissure-underline {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 42, 53, 0.55) 40%,
+    rgba(196, 30, 42, 0.9) 50%,
+    rgba(255, 42, 53, 0.55) 60%,
+    transparent
+  );
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+}
+
+.bl-fissure-active {
+  border-color: rgba(196, 30, 42, 0.45) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 20px var(--fissure-glow, rgba(255, 42, 53, 0.35));
+}
+
+/* ── SHOP SAMPLE card chrome (R001 @ $35) ── */
+.bl-shop-card {
+  background: var(--obsidian-2, #0E1116);
+  border: 1px solid rgba(199, 204, 212, 0.2);
+  border-radius: 0;
+  color: var(--bone, #E8E2D6);
+  transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bl-shop-card:hover {
+  border-color: rgba(199, 204, 212, 0.4);
+  /* no crimson hover glow — founder bar */
+}
+.bl-shop-card__title {
+  font-family: "Cormorant Garamond", Cormorant, Georgia, serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+.bl-shop-card__price {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--bone-dim, rgba(232, 226, 214, 0.55));
+}
+.bl-shop-card__price::before {
+  content: "$35.00";
+}
+
+/* ── Reject helpers (document in comments; no blackletter class exists) ──
+   NEVER: .unifraktur, blackletter headers, gore overlays, indigo SaaS cards.
+*/
+
+/* ── PORTAL plate seating (overnight grind) ── */
+.bl-portal-well {
+  position: relative;
+  overflow: hidden;
+  background: var(--void, #05070A) center/cover no-repeat;
+  min-height: 48vh;
+}
+.bl-portal-well--plate {
+  background-image: url("/portal/horns-portal-obsidian-light-right.png");
+  background-position: center right;
+  background-size: cover;
+}
+.bl-portal-well::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 7, 10, 0.72) 0%, rgba(5, 7, 10, 0.25) 45%, transparent 70%);
+  pointer-events: none;
+}

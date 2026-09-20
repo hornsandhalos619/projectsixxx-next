@@ -1,0 +1,50 @@
+/* Project SIXXX SAMPLE — from founder mark. Aureole 2026-09-11. Preview only.
+   Source of truth: /workspace/projectsixxx-art/sample-tokens.css */
+:root {
+  /* House / Horns — locked off mark */
+  --void: #050505;
+  --obsidian: #0B0B0C;
+  --horn: #1A1612;
+  --horn-ridge: #3A322C;
+  --glass: rgba(11, 11, 12, 0.82);
+  --hairline: #2A2433;
+  --bone: #E8E2D6;
+  --bone-aged: #C4B9A7;
+  --ash: #8A8494;
+  --crimson: #6B1C1C;
+  --crimson-deep: #3D0E0E;
+  --ember: #C45C26;
+
+  /* Surfaces mapped for existing chrome */
+  --surface: var(--obsidian);
+  --veil: var(--glass);
+  --blood: var(--crimson-deep);
+
+  /* Halos spark only — never flood house */
+  --halo-wash: #C9C2B0;
+  --halo: var(--halo-wash);
+  --silver: #C7CCD4;
+  --gild: #A68B4B;
+
+  --oxide: #6E6A63;
+  --ink: #0B0B0C;
+
+  /* Type LAW (Halos+Overmind+Horns): Cormorant + Plex only — zero Unifraktur */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-ui: var(--font-plex), "IBM Plex Sans", system-ui, sans-serif;
+  /* Legacy aliases → display (no blackletter) */
+  --font-fraktur: var(--font-display);
+  --font-gothic: var(--font-display);
+
+  --display-xl: clamp(3.25rem, 7.5vw, 6.75rem);
+  --display-lg: clamp(1.75rem, 3.2vw, 2.75rem);
+  --title: 1.5rem;
+  --ui: 0.9375rem;
+  --label: 0.6875rem;
+  --track-label: 0.18em;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 400ms;
+  --t-slow: 600ms;
+  --grain: 0.035;
+}
