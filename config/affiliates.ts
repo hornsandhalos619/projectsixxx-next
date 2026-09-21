@@ -1,6 +1,13 @@
 /**
  * Affiliate catalog lives here only. Empty tags still link the merchant.
- * G3 ships one landing: /shop/guitars with a SAMPLE Ibanez-style stub.
+ *
+ * zZounds founder affiliate IDs already live in the path. The `zzounds`
+ * network leaves merchantUrl untouched — do not stamp query tags on it.
+ * Next founder zZounds SKU: `${ZZOUNDS_AFFILIATE_BASE}/item--XXXX`
+ * (append the product path only; do not invent SKUs).
+ *
+ * Side door only: live zZounds SKUs belong on /shop and /shop/guitars.
+ * Do not put Helix / zZounds product name, dek, or CTA on app/page.tsx.
  */
 
 export type AffiliateNetwork =
@@ -8,7 +15,11 @@ export type AffiliateNetwork =
   | "sweetwater"
   | "thomann"
   | "bandh"
+  | "zzounds"
   | "merchant";
+
+/** Founder zZounds affiliate base. Append `/item--XXXX` for the next live SKU. */
+export const ZZOUNDS_AFFILIATE_BASE = "https://www.zzounds.com/a--4000088";
 
 export type ShopCategorySlug =
   | "guitars"
@@ -23,6 +34,8 @@ export type AffiliateProduct = {
   name: string;
   dek: string;
   belief: string;
+  /** Optional listing body. Shop UI prefers this, then belief. */
+  body?: string;
   merchant: string;
   merchantUrl: string;
   network: AffiliateNetwork;
@@ -30,7 +43,11 @@ export type AffiliateProduct = {
   priceHint: string;
 };
 
-const tags: Record<Exclude<AffiliateNetwork, "merchant">, string> = {
+export function productBody(product: AffiliateProduct) {
+  return product.body ?? product.belief;
+}
+
+const tags: Record<Exclude<AffiliateNetwork, "merchant" | "zzounds">, string> = {
   amazon: process.env.AFFILIATE_TAG_AMAZON ?? "",
   sweetwater: process.env.AFFILIATE_TAG_SWEETWATER ?? "",
   thomann: process.env.AFFILIATE_TAG_THOMANN ?? "",
@@ -50,7 +67,7 @@ export const shopCategories: {
     dek: "Instruments that earn the night — not costume hardware.",
     seoTitle: "Guitars — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar landing. SAMPLE Ibanez-style pick for players who want a working neck, not a wall piece. Est. in Darkness.",
+      "Affiliate guitar landing. Live Line 6 Helix LT and Helix Stadium XL at zZounds. SAMPLE Ibanez-style pick remains. Est. in Darkness.",
   },
   {
     slug: "synths",
@@ -82,7 +99,39 @@ export const shopCategories: {
   },
 ];
 
+const HELIX_LT_FOUNDER_COPY =
+  "I owned this for years, cleaner than the full HELIX, less unused ports on the back. It's amazing — hands down one of the greatest tone control units ever made for electric guitar. A wonderful start before you get your hands on the Stadium HX.";
+
+const STADIUM_XL_FOUNDER_COPY =
+  "This is literally the finest addition to my arsenal ever created. As if the Helix ever came short (which it NEVER DID) the Stadium literally rocks my socks off. Tremendous depth, clarity, punch, everything was refined to the utmost. I play a 9 string and my sound got a little muddy (I admit it) when I play her bottom end. The Stadium took that MUD and turned into clean THUD. It was like night and day. OMGZ. I can't tell you what that does for my tone: My metal is so heavy it's unreal. Crunch... haha.... it's not crunch it's more like Pulp and Mulch. And the funk. Where is Les Claypool. I think he might appreciate this thing more than I do. And that is saying something. From the blackest metal I can summon to the most twinkling footsteps of fairies and the haunting shimmer of ethereal magick, this is the finest tone control I've ever dreamed of. You want it. Trust me. It's worth every penny.";
+
 export const products: AffiliateProduct[] = [
+  {
+    slug: "line-6-helix-lt",
+    category: "guitars",
+    name: "Line 6 Helix LT",
+    dek: HELIX_LT_FOUNDER_COPY,
+    belief: HELIX_LT_FOUNDER_COPY,
+    body: HELIX_LT_FOUNDER_COPY,
+    merchant: "zZounds",
+    merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
+    network: "zzounds",
+    status: "live",
+    priceHint: "See zZounds",
+  },
+  {
+    slug: "line-6-stadium-xl",
+    category: "guitars",
+    name: "Line 6 Helix Stadium XL",
+    dek: STADIUM_XL_FOUNDER_COPY,
+    belief: STADIUM_XL_FOUNDER_COPY,
+    body: STADIUM_XL_FOUNDER_COPY,
+    merchant: "zZounds",
+    merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINSTADIUMXL?siid=390641`,
+    network: "zzounds",
+    status: "live",
+    priceHint: "See zZounds",
+  },
   {
     slug: "ibanez-rg-sample",
     category: "guitars",
@@ -147,7 +196,7 @@ export const products: AffiliateProduct[] = [
 ];
 
 function withTag(url: string, network: AffiliateNetwork): string {
-  if (network === "merchant") return url;
+  if (network === "merchant" || network === "zzounds") return url;
   const tag = tags[network];
   if (!tag) return url;
   const u = new URL(url);

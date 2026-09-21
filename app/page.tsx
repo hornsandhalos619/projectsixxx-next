@@ -171,6 +171,7 @@ export default async function HomePage() {
           <p className="muted">
             Primary door is Shopify — public shop. Affiliate shelves stay on the house hub.
           </p>
+          {/* Quiet category teasers only. No Helix / zZounds product name, dek, or CTA on the house front. */}
           <div className="grid-2" style={{ marginTop: "1.25rem" }}>
             {shopTeaser.map((cat) => (
               <Link className="card" key={cat.slug} href={`/shop/${cat.slug}`}>
