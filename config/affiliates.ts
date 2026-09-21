@@ -5,6 +5,9 @@
  * network leaves merchantUrl untouched — do not stamp query tags on it.
  * Next founder zZounds SKU: `${ZZOUNDS_AFFILIATE_BASE}/item--XXXX`
  * (append the product path only; do not invent SKUs).
+ *
+ * Side door only: live zZounds SKUs belong on /shop and /shop/guitars.
+ * Do not put Helix / zZounds product name, dek, or CTA on app/page.tsx.
  */
 
 export type AffiliateNetwork =
