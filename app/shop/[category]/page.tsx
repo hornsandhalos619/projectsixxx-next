@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categoryBySlug, outboundUrl, productsIn, shopCategories } from "@/config/affiliates";
+import { categoryBySlug, outboundUrl, productBody, productsIn, shopCategories } from "@/config/affiliates";
 import { EmailCapture } from "@/components/EmailCapture";
 import { SampleBadge } from "@/components/SampleBadge";
 
@@ -38,8 +38,8 @@ export default async function ShopCategoryPage({ params }: Props) {
           <h2>
             <Link href={`/shop/${product.category}/${product.slug}`}>{product.name}</Link>
           </h2>
-          <p>{product.belief}</p>
-          <p className="muted">{product.dek}</p>
+          <p>{productBody(product)}</p>
+          {product.dek !== productBody(product) ? <p className="muted">{product.dek}</p> : null}
           <div className="cta-row">
             <a
               className="btn btn-ember"

@@ -31,12 +31,18 @@ export type AffiliateProduct = {
   name: string;
   dek: string;
   belief: string;
+  /** Optional listing body. Shop UI prefers this, then belief. */
+  body?: string;
   merchant: string;
   merchantUrl: string;
   network: AffiliateNetwork;
   status: "sample" | "live";
   priceHint: string;
 };
+
+export function productBody(product: AffiliateProduct) {
+  return product.body ?? product.belief;
+}
 
 const tags: Record<Exclude<AffiliateNetwork, "merchant" | "zzounds">, string> = {
   amazon: process.env.AFFILIATE_TAG_AMAZON ?? "",
@@ -90,14 +96,17 @@ export const shopCategories: {
   },
 ];
 
+const HELIX_LT_FOUNDER_COPY =
+  "I owned this for years, cleaner than the full HELIX, less unused ports on the back. It's amazing — hands down one of the greatest tone control units ever made for electric guitar. A wonderful start before you get your hands on the Stadium HX.";
+
 export const products: AffiliateProduct[] = [
   {
     slug: "line-6-helix-lt",
     category: "guitars",
     name: "Line 6 Helix LT",
-    dek: "I owned this for years, cleaner than the full HELIX, less unused ports on the back.",
-    belief:
-      "I owned this for years, cleaner than the full HELIX, less unused ports on the back. It's amazing — hands down one of the greatest tone control units ever made for electric guitar. A wonderful start before you get your hands on the Stadium HX.",
+    dek: HELIX_LT_FOUNDER_COPY,
+    belief: HELIX_LT_FOUNDER_COPY,
+    body: HELIX_LT_FOUNDER_COPY,
     merchant: "zZounds",
     merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
     network: "zzounds",

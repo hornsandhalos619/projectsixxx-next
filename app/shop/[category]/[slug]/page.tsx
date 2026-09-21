@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { outboundUrl, productBySlugs, products } from "@/config/affiliates";
+import { outboundUrl, productBody, productBySlugs, products } from "@/config/affiliates";
 import { EmailCapture } from "@/components/EmailCapture";
 import { SampleBadge } from "@/components/SampleBadge";
 
@@ -35,7 +35,7 @@ export default async function ProductPage({ params }: Props) {
           ) : null}
         </p>
         <h1>{product.name}</h1>
-        <p className="lede">{product.belief}</p>
+        <p className="lede">{productBody(product)}</p>
       </header>
       <p className="muted">{product.priceHint}</p>
       <div className="cta-row">
