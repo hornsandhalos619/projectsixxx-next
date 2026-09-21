@@ -14,7 +14,7 @@ export function AdminClosed({
         <h1>This desk stays locked</h1>
         <p className="lede">
           {email ? `Signed in as ${email}.` : "A house session is required."} {desk}{" "}
-          opens for Founder and granted editors. Seed Founder with FOUNDER_EMAILS,
+          stays with Founder and granted editors. Seed Founder with FOUNDER_EMAILS,
           then sign in again.
         </p>
       </header>
