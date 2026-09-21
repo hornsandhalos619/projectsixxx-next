@@ -1,8 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import {
+  assertInside,
+  assertSafeSlug,
+  parseEditorialStatus,
+  removeFileIfExists,
+  slugify,
+  writeMdxFile,
+  type EditorialStatus,
+} from "@/lib/journal-io";
 
-export type OvermindStatus = "draft" | "published";
+export type OvermindStatus = EditorialStatus;
 
 export type OvermindPostMeta = {
   title: string;
@@ -16,6 +25,17 @@ export type OvermindPostMeta = {
 };
 
 export type OvermindPost = OvermindPostMeta & { content: string };
+
+export type OvermindPostInput = {
+  title: string;
+  slug: string;
+  date: string;
+  tags: string[];
+  teaser: string;
+  status: OvermindStatus;
+  content: string;
+  previousSlug?: string;
+};
 
 const ROOT = path.join(process.cwd(), "content/overmind/journal");
 
@@ -41,7 +61,7 @@ function parse(file: string): OvermindPost {
     stream: "overmind",
     tags,
     teaser: String(data.teaser ?? "").slice(0, 160),
-    status: data.status === "published" ? "published" : "draft",
+    status: parseEditorialStatus(data.status),
     content,
   };
 }
@@ -59,4 +79,38 @@ export function publishedOvermindPosts(): OvermindPost[] {
 
 export function getOvermindPost(slug: string): OvermindPost | undefined {
   return allOvermindPosts().find((p) => p.slug === slug);
+}
+
+export function overmindPostPath(slug: string): string {
+  return assertInside(ROOT, path.join(ROOT, `${slug}.mdx`));
+}
+
+export function writeOvermindPost(input: OvermindPostInput): { file: string } {
+  const slug = assertSafeSlug(input.slug || slugify(input.title));
+  const nextPath = overmindPostPath(slug);
+  const previousSlug = input.previousSlug
+    ? assertSafeSlug(input.previousSlug)
+    : undefined;
+  const previousPath = previousSlug ? overmindPostPath(previousSlug) : undefined;
+
+  if (fs.existsSync(nextPath) && nextPath !== previousPath) {
+    throw new Error("slug_taken");
+  }
+
+  const frontmatter: Record<string, unknown> = {
+    title: input.title,
+    slug,
+    date: input.date,
+    author: "Overmind",
+    stream: "overmind",
+    tags: input.tags,
+    teaser: input.teaser.slice(0, 160),
+    status: input.status,
+  };
+
+  writeMdxFile(nextPath, frontmatter, input.content);
+  if (previousPath && previousPath !== nextPath) {
+    removeFileIfExists(previousPath);
+  }
+  return { file: nextPath };
 }

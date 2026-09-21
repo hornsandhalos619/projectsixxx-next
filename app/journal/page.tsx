@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { journalTaxonomy, taxonomyCopy } from "@/config/site";
-import { allPosts } from "@/lib/journal";
+import { publishedPosts } from "@/lib/journal";
 import { SampleBadge } from "@/components/SampleBadge";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function JournalIndexPage() {
-  const posts = allPosts();
+  const posts = publishedPosts();
   return (
     <div className="shell">
       <header className="page-head">
@@ -22,7 +22,7 @@ export default function JournalIndexPage() {
       <section>
         {posts.map((post) => (
           <article key={`${post.category}/${post.slug}`} className="card" style={{ marginBottom: "1px" }}>
-            {post.status === "sample" ? <SampleBadge /> : null}
+            {post.sample ? <SampleBadge /> : null}
             <p className="kicker">{post.category}</p>
             <h2>
               <Link href={`/journal/${post.category}/${post.slug}`}>{post.title}</Link>

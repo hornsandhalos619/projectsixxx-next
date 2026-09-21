@@ -36,7 +36,7 @@ export default async function CategoryPage({ params }: Props) {
       ) : (
         posts.map((post) => (
           <article className="card" key={post.slug}>
-            {post.status === "sample" ? <SampleBadge /> : null}
+            {post.sample ? <SampleBadge /> : null}
             <h2>
               <Link href={`/journal/${post.category}/${post.slug}`}>{post.title}</Link>
             </h2>

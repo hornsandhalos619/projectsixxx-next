@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import {
-  allOvermindPosts,
   getOvermindPost,
   publishedOvermindPosts,
 } from "@/lib/overmind-journal";
@@ -11,7 +10,7 @@ import {
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return allOvermindPosts().map((post) => ({ slug: post.slug }));
+  return publishedOvermindPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
