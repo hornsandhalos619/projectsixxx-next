@@ -42,7 +42,7 @@ export default async function ProductPage({ params }: Props) {
         <a
           className="btn btn-ember"
           href={outboundUrl(product)}
-          rel="sponsored nofollow"
+          rel="sponsored noopener noreferrer"
           target="_blank"
         >
           Continue to {product.merchant}

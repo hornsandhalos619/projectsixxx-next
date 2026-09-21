@@ -1,6 +1,10 @@
 /**
  * Affiliate catalog lives here only. Empty tags still link the merchant.
- * G3 ships one landing: /shop/guitars with a SAMPLE Ibanez-style stub.
+ *
+ * zZounds founder affiliate IDs already live in the path. The `zzounds`
+ * network leaves merchantUrl untouched — do not stamp query tags on it.
+ * Next founder zZounds SKU: `${ZZOUNDS_AFFILIATE_BASE}/item--XXXX`
+ * (append the product path only; do not invent SKUs).
  */
 
 export type AffiliateNetwork =
@@ -8,7 +12,11 @@ export type AffiliateNetwork =
   | "sweetwater"
   | "thomann"
   | "bandh"
+  | "zzounds"
   | "merchant";
+
+/** Founder zZounds affiliate base. Append `/item--XXXX` for the next live SKU. */
+export const ZZOUNDS_AFFILIATE_BASE = "https://www.zzounds.com/a--4000088";
 
 export type ShopCategorySlug =
   | "guitars"
@@ -30,7 +38,7 @@ export type AffiliateProduct = {
   priceHint: string;
 };
 
-const tags: Record<Exclude<AffiliateNetwork, "merchant">, string> = {
+const tags: Record<Exclude<AffiliateNetwork, "merchant" | "zzounds">, string> = {
   amazon: process.env.AFFILIATE_TAG_AMAZON ?? "",
   sweetwater: process.env.AFFILIATE_TAG_SWEETWATER ?? "",
   thomann: process.env.AFFILIATE_TAG_THOMANN ?? "",
@@ -50,7 +58,7 @@ export const shopCategories: {
     dek: "Instruments that earn the night — not costume hardware.",
     seoTitle: "Guitars — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar landing. SAMPLE Ibanez-style pick for players who want a working neck, not a wall piece. Est. in Darkness.",
+      "Affiliate guitar landing. Live Line 6 Helix LT at zZounds. SAMPLE Ibanez-style pick remains. Est. in Darkness.",
   },
   {
     slug: "synths",
@@ -83,6 +91,19 @@ export const shopCategories: {
 ];
 
 export const products: AffiliateProduct[] = [
+  {
+    slug: "line-6-helix-lt",
+    category: "guitars",
+    name: "Line 6 Helix LT",
+    dek: "Amp and FX on the floor. A working board, not a relic.",
+    belief:
+      "Model the room you play in. The floor unit is a tool. Flash is not a setup.",
+    merchant: "zZounds",
+    merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
+    network: "zzounds",
+    status: "live",
+    priceHint: "See zZounds",
+  },
   {
     slug: "ibanez-rg-sample",
     category: "guitars",
@@ -147,7 +168,7 @@ export const products: AffiliateProduct[] = [
 ];
 
 function withTag(url: string, network: AffiliateNetwork): string {
-  if (network === "merchant") return url;
+  if (network === "merchant" || network === "zzounds") return url;
   const tag = tags[network];
   if (!tag) return url;
   const u = new URL(url);

@@ -44,7 +44,7 @@ export default async function ShopCategoryPage({ params }: Props) {
             <a
               className="btn btn-ember"
               href={outboundUrl(product)}
-              rel="sponsored nofollow"
+              rel="sponsored noopener noreferrer"
               target="_blank"
             >
               View at {product.merchant}
