@@ -95,9 +95,9 @@ export const products: AffiliateProduct[] = [
     slug: "line-6-helix-lt",
     category: "guitars",
     name: "Line 6 Helix LT",
-    dek: "Amp and FX on the floor. A working board, not a relic.",
+    dek: "I owned this for years, cleaner than the full HELIX, less unused ports on the back.",
     belief:
-      "Model the room you play in. The floor unit is a tool. Flash is not a setup.",
+      "I owned this for years, cleaner than the full HELIX, less unused ports on the back. It's amazing — hands down one of the greatest tone control units ever made for electric guitar. A wonderful start before you get your hands on the Stadium HX.",
     merchant: "zZounds",
     merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
     network: "zzounds",
