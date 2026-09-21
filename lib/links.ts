@@ -19,7 +19,7 @@ export const linkShelves: LinkShelf[] = [
   {
     slug: "community",
     title: "Community",
-    dek: "Homeless-support and mutual-aid doors. Links, not theater.",
+    dek: "Homeless-support and mutual-aid doors.",
     items: [
       {
         title: "National Homelessness Hotline (US)",
@@ -66,7 +66,7 @@ export const linkShelves: LinkShelf[] = [
       {
         title: "Internet Archive",
         href: "https://archive.org/",
-        dek: "Public web and media archives for citation — not a bypass tool.",
+        dek: "Public web and media archives for citation.",
       },
       {
         title: "Google Scholar",

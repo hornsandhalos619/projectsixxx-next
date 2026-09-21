@@ -52,7 +52,7 @@ export default function HomePage() {
           <p className="lede">
             A house for work that can stand in bad light. Art, music, film,
             literature, fashion, technology, and frontier AI — under one night.
-            Horns &amp; Halos is the portal, not a merch rack.
+            Horns &amp; Halos is the portal.
           </p>
         </div>
       </section>
@@ -62,7 +62,7 @@ export default function HomePage() {
           <p className="kicker">Obsidian glass</p>
           <h2 className="display">Horns material</h2>
           <p className="lede" style={{ marginInline: "auto" }}>
-            Polished obsidian glass. Crimson fissure base. Void field — sculpture, not a CSS blob.
+            Polished obsidian glass. Crimson fissure base. Void field — sculpture.
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -251,7 +251,7 @@ export default function HomePage() {
       <section className="section">
         <div className="shell">
           <p className="kicker">Manifesto</p>
-          <h2>Est. in Darkness is a date, not a filter.</h2>
+          <h2>Est. in Darkness is a date.</h2>
           <div className="prose prose--centered">
             <p>
               We do not steal sacred marks. We do not dress the house as a devil

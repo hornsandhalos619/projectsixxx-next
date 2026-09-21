@@ -35,7 +35,7 @@ export default function ServicesPage() {
         <p className="lede">
           The house takes work that can sit next to the art without embarrassing
           it. Music, film, and literature stay visible — technology is one
-          pillar, not the whole night.
+          pillar.
         </p>
       </header>
 

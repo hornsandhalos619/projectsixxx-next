@@ -58,7 +58,7 @@ export const taxonomyCopy: Record<
 > = {
   religion: {
     title: "Religion",
-    dek: "Belief as a human craft — not a costume, not a raid.",
+    dek: "Belief as a human craft.",
   },
   politics: {
     title: "Politics",
@@ -102,7 +102,7 @@ export const taxonomyCopy: Record<
   },
   community: {
     title: "Community",
-    dek: "Homeless-support links — not charity theater. See /links.",
+    dek: "Homeless-support links. See /links.",
   },
   research: {
     title: "Research",

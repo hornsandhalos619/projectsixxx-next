@@ -47,10 +47,10 @@ export const shopCategories: {
   {
     slug: "guitars",
     title: "Guitars",
-    dek: "Instruments that earn the night — not costume hardware.",
+    dek: "Instruments that earn the night.",
     seoTitle: "Guitars — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar landing. SAMPLE Ibanez-style pick for players who want a working neck, not a wall piece. Est. in Darkness.",
+      "Affiliate guitar landing. SAMPLE Ibanez-style pick for players who want a working neck. Est. in Darkness.",
   },
   {
     slug: "synths",
@@ -87,9 +87,9 @@ export const products: AffiliateProduct[] = [
     slug: "ibanez-rg-sample",
     category: "guitars",
     name: "Ibanez-style RG",
-    dek: "A fast neck. A working trem. SAMPLE pick — not an endorsement theater.",
+    dek: "A fast neck. A working trem. SAMPLE pick.",
     belief:
-      "If the neck is a hallway and the fretboard is a floor, buy the one you can walk in the dark. Flash is not a setup. A setup is a setup.",
+      "If the neck is a hallway and the fretboard is a floor, buy the one you can walk in the dark. A setup is a setup.",
     merchant: "Sweetwater",
     merchantUrl: "https://www.sweetwater.com/c1000--Solidbody_Guitars",
     network: "sweetwater",
@@ -113,7 +113,7 @@ export const products: AffiliateProduct[] = [
     category: "tablets",
     name: "Drawing tablet (placeholder)",
     dek: "Pressure, tilt, and a screen you can actually see at 2 a.m.",
-    belief: "The tool should disappear. If it fights you, it is not the tool.",
+    belief: "The tool should disappear. If it fights you, keep walking.",
     merchant: "B&H",
     merchantUrl: "https://www.bhphotovideo.com/",
     network: "bandh",
@@ -125,7 +125,7 @@ export const products: AffiliateProduct[] = [
     category: "art-supplies",
     name: "Studio kit (placeholder)",
     dek: "Paper that takes ink. Ink that stays. Steel that does not flex.",
-    belief: "Supplies are not a personality. They are a decision about permanence.",
+    belief: "Supplies are a decision about permanence.",
     merchant: "Merchant",
     merchantUrl: "https://www.dickblick.com/",
     network: "merchant",

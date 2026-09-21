@@ -10,7 +10,7 @@ export default function SchedulePage() {
     <div className="shell">
       <header className="page-head">
         <p className="kicker">Schedule</p>
-        <h1>A conversation, not a cart</h1>
+        <h1>A conversation.</h1>
         <p className="lede">Tell us the work. We will answer with time. No payments on this page.</p>
       </header>
       <form className="form">
