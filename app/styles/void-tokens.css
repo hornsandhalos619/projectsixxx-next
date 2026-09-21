@@ -4,14 +4,14 @@
    Type: Cormorant Garamond + IBM Plex Sans ONLY (no Unifraktur).
 */
 :root {
-  /* Field */
-  --void: #05070A;
-  --obsidian: #0A0C10;
-  --obsidian-2: #0E1116;
+  /* Field — true black void; companion fields stay near-black, not blue-grey */
+  --void: #000000;
+  --obsidian: #050505;
+  --obsidian-2: #0A0A0A;
 
-  /* Obsidian glass material (Outerwright hero lock) */
-  --glass-fill: rgba(10, 12, 16, 0.72);
-  --glass-fill-strong: rgba(5, 7, 10, 0.88);
+  /* Obsidian glass material (Outerwright hero lock) — lifted off the void, not slabs */
+  --glass-fill: rgba(10, 10, 10, 0.72);
+  --glass-fill-strong: rgba(5, 5, 5, 0.88);
   --glass-edge: rgba(232, 226, 214, 0.18);
   --glass-edge-hot: rgba(232, 226, 214, 0.32);
   --glass-specular: rgba(255, 255, 255, 0.14);

@@ -7,7 +7,7 @@
 
 :root {
   /* Bloodline edge extras (on top of void-tokens) */
-  --bl-ink: #05070A;
+  --bl-ink: #000000;
   --bl-needle: rgba(232, 226, 214, 0.55);
   --bl-needle-thin: rgba(232, 226, 214, 0.28);
   --bl-tag: rgba(196, 30, 42, 0.85);
@@ -57,7 +57,7 @@
 
 /* High-contrast void field wash */
 .bl-street-field {
-  background-color: var(--void, #05070A);
+  background-color: var(--void, #000000);
   background-image:
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 30, 42, 0.06), transparent 55%),
     var(--bl-grain);
@@ -176,7 +176,7 @@
   min-height: 42vh;
   background:
     radial-gradient(ellipse 55% 40% at 50% 58%, rgba(196, 30, 42, 0.08), transparent 70%),
-    var(--void, #05070A);
+    var(--void, #000000);
 }
 .bl-object-seat img {
   max-width: min(520px, 72vw);
@@ -215,7 +215,7 @@
 
 /* ── SHOP SAMPLE card chrome (R001 @ $35) ── */
 .bl-shop-card {
-  background: var(--obsidian-2, #0E1116);
+  background: var(--obsidian-2, #0A0A0A);
   border: 1px solid rgba(199, 204, 212, 0.2);
   border-radius: 0;
   color: var(--bone, #E8E2D6);
@@ -248,7 +248,7 @@
 .bl-portal-well {
   position: relative;
   overflow: hidden;
-  background: var(--void, #05070A) center/cover no-repeat;
+  background: var(--void, #000000) center/cover no-repeat;
   min-height: 48vh;
 }
 .bl-portal-well--plate {
