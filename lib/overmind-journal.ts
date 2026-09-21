@@ -1,6 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
+import { listJournalRecords } from "@/lib/cms/store";
+import type { CmsRecord } from "@/lib/cms/types";
 
 export type OvermindStatus = "draft" | "published";
 
@@ -17,46 +16,32 @@ export type OvermindPostMeta = {
 
 export type OvermindPost = OvermindPostMeta & { content: string };
 
-const ROOT = path.join(process.cwd(), "content/overmind/journal");
-
-function files(): string[] {
-  if (!fs.existsSync(ROOT)) return [];
-  return fs
-    .readdirSync(ROOT)
-    .filter((name) => name.endsWith(".mdx") || name.endsWith(".md"))
-    .map((name) => path.join(ROOT, name));
-}
-
-function parse(file: string): OvermindPost {
-  const raw = fs.readFileSync(file, "utf8");
-  const { data, content } = matter(raw);
-  const tags = Array.isArray(data.tags)
-    ? data.tags.map((t: unknown) => String(t))
-    : [];
+function toOvermindPost(record: CmsRecord): OvermindPost | null {
+  if (record.stream !== "overmind") return null;
   return {
-    title: String(data.title ?? ""),
-    slug: String(data.slug ?? path.basename(file, path.extname(file))),
-    date: String(data.date ?? ""),
+    title: record.title,
+    slug: record.slug,
+    date: record.date,
     author: "Overmind",
     stream: "overmind",
-    tags,
-    teaser: String(data.teaser ?? "").slice(0, 160),
-    status: data.status === "published" ? "published" : "draft",
-    content,
+    tags: record.tags ?? [],
+    teaser: (record.teaser || record.excerpt).slice(0, 160),
+    status: record.status,
+    content: record.body,
   };
 }
 
-export function allOvermindPosts(): OvermindPost[] {
-  return files()
-    .map(parse)
-    .filter((p) => p.stream === "overmind")
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+export async function allOvermindPosts(): Promise<OvermindPost[]> {
+  const records = await listJournalRecords();
+  return records
+    .map(toOvermindPost)
+    .filter((post): post is OvermindPost => Boolean(post));
 }
 
-export function publishedOvermindPosts(): OvermindPost[] {
-  return allOvermindPosts().filter((p) => p.status === "published");
+export async function publishedOvermindPosts(): Promise<OvermindPost[]> {
+  return (await allOvermindPosts()).filter((post) => post.status === "published");
 }
 
-export function getOvermindPost(slug: string): OvermindPost | undefined {
-  return allOvermindPosts().find((p) => p.slug === slug);
+export async function getOvermindPost(slug: string): Promise<OvermindPost | undefined> {
+  return (await allOvermindPosts()).find((post) => post.slug === slug);
 }

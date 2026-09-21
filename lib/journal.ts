@@ -1,9 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
+import { listJournalRecords } from "@/lib/cms/store";
+import type { CmsRecord } from "@/lib/cms/types";
 import { journalTaxonomy, type JournalCategory } from "@/config/site";
 
 export type PostStatus = "sample" | "house";
+export type PostVisibility = "draft" | "published";
 
 export type PostMeta = {
   title: string;
@@ -14,50 +14,46 @@ export type PostMeta = {
   category: JournalCategory;
   slug: string;
   status: PostStatus;
+  visibility: PostVisibility;
 };
 
 export type Post = PostMeta & { content: string };
 
-const ROOT = path.join(process.cwd(), "content/journal");
-
-function walk(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const p = path.join(dir, entry.name);
-    if (entry.isDirectory()) return walk(p);
-    if (entry.name.endsWith(".mdx") || entry.name.endsWith(".md")) return [p];
-    return [];
-  });
-}
-
-function parse(file: string): Post {
-  const raw = fs.readFileSync(file, "utf8");
-  const { data, content } = matter(raw);
+function toHousePost(record: CmsRecord): Post | null {
+  if (record.stream !== "house") return null;
+  const category = record.category ?? "";
+  if (!isJournalCategory(category)) return null;
   return {
-    title: String(data.title ?? ""),
-    dek: String(data.dek ?? ""),
-    excerpt: String(data.excerpt ?? ""),
-    author: String(data.author ?? "House"),
-    date: String(data.date ?? ""),
-    category: data.category as JournalCategory,
-    slug: String(data.slug ?? path.basename(file, path.extname(file))),
-    status: data.status === "house" ? "house" : "sample",
-    content,
+    title: record.title,
+    dek: record.dek || record.excerpt,
+    excerpt: record.excerpt,
+    author: record.author || "House",
+    date: record.date,
+    category,
+    slug: record.slug,
+    status: record.status === "published" ? "house" : "sample",
+    visibility: record.status,
+    content: record.body,
   };
 }
 
-export function allPosts(): Post[] {
-  return walk(ROOT)
-    .map(parse)
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+export async function allPosts(): Promise<Post[]> {
+  const records = await listJournalRecords();
+  return records
+    .map(toHousePost)
+    .filter((post): post is Post => Boolean(post));
 }
 
-export function postsIn(category: string): Post[] {
-  return allPosts().filter((p) => p.category === category);
+export async function publishedPosts(): Promise<Post[]> {
+  return (await allPosts()).filter((post) => post.visibility === "published");
 }
 
-export function getPost(category: string, slug: string): Post | undefined {
-  return allPosts().find((p) => p.category === category && p.slug === slug);
+export async function postsIn(category: string): Promise<Post[]> {
+  return (await publishedPosts()).filter((post) => post.category === category);
+}
+
+export async function getPost(category: string, slug: string): Promise<Post | undefined> {
+  return (await allPosts()).find((post) => post.category === category && post.slug === slug);
 }
 
 export function isJournalCategory(value: string): value is JournalCategory {

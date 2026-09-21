@@ -7,6 +7,8 @@ import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string }> };
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return journalTaxonomy.map((category) => ({ category }));
 }
@@ -22,7 +24,7 @@ export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
   if (!isJournalCategory(category)) notFound();
   const copy = taxonomyCopy[category];
-  const posts = postsIn(category);
+  const posts = await postsIn(category);
 
   return (
     <div className="shell">

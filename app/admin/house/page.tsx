@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { AdminClosed } from "@/components/AdminClosed";
 import { canSeeHouseAdmin } from "@/config/roles";
 import { hornsAndHalosLiveUrl, site } from "@/config/site";
 import { shopifyUrl, spreadshopUrl } from "@/config/shops";
@@ -9,7 +9,9 @@ export const metadata: Metadata = { title: "House console" };
 
 export default async function AdminHousePage() {
   const viewer = await getViewer();
-  if (!canSeeHouseAdmin(viewer.role)) notFound();
+  if (!canSeeHouseAdmin(viewer.role)) {
+    return <AdminClosed email={viewer.email} desk="The house console" />;
+  }
 
   return (
     <div className="shell">
@@ -50,6 +52,20 @@ export default async function AdminHousePage() {
             ) : (
               <span className="muted">(empty — using {site.portalPath})</span>
             )}
+          </p>
+        </div>
+      </section>
+
+      <section className="section">
+        <p className="kicker">Journal desk</p>
+        <div className="admin-note">
+          <p>
+            Write at <a href="/admin/journal">/admin/journal</a>. Storage uses
+            the first set of <code>DATABASE_URL</code> / <code>POSTGRES_URL</code>,{" "}
+            <code>BLOB_READ_WRITE_TOKEN</code>, or <code>GITHUB_TOKEN</code>.
+            Google sign-in needs <code>AUTH_GOOGLE_ID</code>,{" "}
+            <code>AUTH_GOOGLE_SECRET</code>, <code>AUTH_SECRET</code>, and{" "}
+            <code>FOUNDER_EMAILS</code>.
           </p>
         </div>
       </section>

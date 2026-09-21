@@ -1,4 +1,5 @@
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { AdminClosed } from "@/components/AdminClosed";
 import { canSeeAdminHub } from "@/config/roles";
 import { getViewer } from "@/lib/session";
 
@@ -10,6 +11,11 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const viewer = await getViewer();
-  if (!canSeeAdminHub(viewer.role)) notFound();
+  if (viewer.role === "anon") {
+    redirect("/signin?callbackUrl=/admin");
+  }
+  if (!canSeeAdminHub(viewer.role)) {
+    return <AdminClosed email={viewer.email} desk="House consoles" />;
+  }
   return children;
 }

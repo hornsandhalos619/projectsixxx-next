@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { primaryNav, site } from "@/config/site";
 import {
   canSeeAccount,
+  canSeeAdminHub,
   canSeeHouseAdmin,
   canSeeJournalAdmin,
   canSeeShopAdmin,
@@ -23,6 +24,9 @@ export async function Header() {
     })),
   ];
 
+  if (canSeeAdminHub(viewer.role)) {
+    items.push({ href: "/admin", label: "Desk" });
+  }
   if (canSeeJournalAdmin(viewer.role)) {
     items.push({ href: "/admin/journal", label: "Journal console" });
   }
