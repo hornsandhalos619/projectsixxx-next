@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { journalTaxonomy, taxonomyCopy } from "@/config/site";
-import { allPosts } from "@/lib/journal";
+import { publishedPosts } from "@/lib/journal";
 import { SampleBadge } from "@/components/SampleBadge";
 
 export const metadata: Metadata = {
@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   description: "House writing. Craft, commerce, and the quiet tests.",
 };
 
-export default function JournalIndexPage() {
-  const posts = allPosts();
+export const dynamic = "force-dynamic";
+
+export default async function JournalIndexPage() {
+  const posts = await publishedPosts();
   return (
     <div className="shell">
       <header className="page-head">

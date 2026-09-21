@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { AdminClosed } from "@/components/AdminClosed";
 import { products } from "@/config/affiliates";
 import { canSeeShopAdmin } from "@/config/roles";
 import { getViewer } from "@/lib/session";
@@ -8,7 +8,9 @@ export const metadata: Metadata = { title: "Shop console" };
 
 export default async function AdminShopPage() {
   const viewer = await getViewer();
-  if (!canSeeShopAdmin(viewer.role)) notFound();
+  if (!canSeeShopAdmin(viewer.role)) {
+    return <AdminClosed email={viewer.email} desk="The shop console" />;
+  }
 
   return (
     <div className="shell">

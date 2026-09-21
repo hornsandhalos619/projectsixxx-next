@@ -5,12 +5,12 @@ import { housePillars } from "@/config/pillars";
 import { PortalCta } from "@/components/PortalCta";
 import { SampleBadge } from "@/components/SampleBadge";
 import { featuredCollaborators } from "@/lib/artists";
-import { allPosts } from "@/lib/journal";
+import { publishedPosts } from "@/lib/journal";
 import { shopCategories } from "@/config/affiliates";
 import { shopifyUrl } from "@/config/shops";
 
-export default function HomePage() {
-  const posts = allPosts().slice(0, 3);
+export default async function HomePage() {
+  const posts = (await publishedPosts()).slice(0, 3);
   const collabs = featuredCollaborators();
   const shopTeaser = shopCategories.slice(0, 3);
 

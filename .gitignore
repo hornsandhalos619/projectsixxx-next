@@ -2,6 +2,8 @@ node_modules
 .next
 out
 .env*
+!.env.example
+data/*.json
 sample-shots
 .DS_Store
 npm-debug.log*
