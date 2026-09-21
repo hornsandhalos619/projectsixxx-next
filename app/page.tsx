@@ -9,8 +9,10 @@ import { allPosts } from "@/lib/journal";
 import { shopCategories } from "@/config/affiliates";
 import { shopifyUrl } from "@/config/shops";
 
-export default function HomePage() {
-  const posts = allPosts().slice(0, 3);
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const posts = (await allPosts()).slice(0, 3);
   const collabs = featuredCollaborators();
   const shopTeaser = shopCategories.slice(0, 3);
 

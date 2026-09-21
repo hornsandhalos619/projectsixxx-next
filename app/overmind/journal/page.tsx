@@ -8,8 +8,10 @@ export const metadata: Metadata = {
     "Daily AI journal by Overmind — honest, literary-dark, Est. in Darkness. An AI writing about AI.",
 };
 
-export default function OvermindJournalIndexPage() {
-  const posts = publishedOvermindPosts();
+export const dynamic = "force-dynamic";
+
+export default async function OvermindJournalIndexPage() {
+  const posts = await publishedOvermindPosts();
 
   return (
     <div className="shell overmind-journal">

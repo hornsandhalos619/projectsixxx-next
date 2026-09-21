@@ -2,18 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { allPosts, getPost, isJournalCategory } from "@/lib/journal";
+import { getPost, isJournalCategory } from "@/lib/journal";
 import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
 
-export function generateStaticParams() {
-  return allPosts().map((post) => ({ category: post.category, slug: post.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params;
-  const post = getPost(category, slug);
+  const post = await getPost(category, slug);
   if (!post) return { title: "Journal" };
   return { title: post.title, description: post.excerpt };
 }
@@ -21,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PostPage({ params }: Props) {
   const { category, slug } = await params;
   if (!isJournalCategory(category)) notFound();
-  const post = getPost(category, slug);
+  const post = await getPost(category, slug);
   if (!post) notFound();
 
   return (

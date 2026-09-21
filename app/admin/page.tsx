@@ -22,7 +22,7 @@ export default async function AdminHubPage() {
         {canSeeJournalAdmin(viewer.role) ? (
           <Link className="card" href="/admin/journal">
             <h2>Journal</h2>
-            <p className="muted">Blog Admin + Founder</p>
+            <p className="muted">Write, hold, and publish both journal lanes</p>
           </Link>
         ) : null}
         {canSeeShopAdmin(viewer.role) ? (

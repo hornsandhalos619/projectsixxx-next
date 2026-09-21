@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   description: "House writing. Craft, commerce, and the quiet tests.",
 };
 
-export default function JournalIndexPage() {
-  const posts = allPosts();
+export const dynamic = "force-dynamic";
+
+export default async function JournalIndexPage() {
+  const posts = await allPosts();
   return (
     <div className="shell">
       <header className="page-head">

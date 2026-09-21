@@ -1,9 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
 import { journalTaxonomy, type JournalCategory } from "@/config/site";
+import { loadMergedPosts } from "@/lib/journal-store";
+import { readHouseTree } from "@/lib/journal-fs";
+import type { HouseKind, LedgerOrigin, PublishState } from "@/lib/journal-model";
 
-export type PostStatus = "sample" | "house";
+export type PostStatus = HouseKind;
+export type PostVisibility = PublishState;
 
 export type PostMeta = {
   title: string;
@@ -14,52 +15,72 @@ export type PostMeta = {
   category: JournalCategory;
   slug: string;
   status: PostStatus;
+  visibility: PostVisibility;
+  origin: LedgerOrigin;
 };
 
 export type Post = PostMeta & { content: string };
 
-const ROOT = path.join(process.cwd(), "content/journal");
+export type ListPostsOptions = {
+  includeDrafts?: boolean;
+};
 
-function walk(dir: string): string[] {
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const p = path.join(dir, entry.name);
-    if (entry.isDirectory()) return walk(p);
-    if (entry.name.endsWith(".mdx") || entry.name.endsWith(".md")) return [p];
-    return [];
-  });
-}
-
-function parse(file: string): Post {
-  const raw = fs.readFileSync(file, "utf8");
-  const { data, content } = matter(raw);
+function toPost(stored: Awaited<ReturnType<typeof loadMergedPosts>>[number], origin: LedgerOrigin): Post {
   return {
-    title: String(data.title ?? ""),
-    dek: String(data.dek ?? ""),
-    excerpt: String(data.excerpt ?? ""),
-    author: String(data.author ?? "House"),
-    date: String(data.date ?? ""),
-    category: data.category as JournalCategory,
-    slug: String(data.slug ?? path.basename(file, path.extname(file))),
-    status: data.status === "house" ? "house" : "sample",
-    content,
+    title: stored.title,
+    dek: stored.dek ?? "",
+    excerpt: stored.excerpt ?? "",
+    author: stored.author ?? "House",
+    date: stored.date,
+    category: stored.category as JournalCategory,
+    slug: stored.slug,
+    status: stored.kind === "house" ? "house" : "sample",
+    visibility: stored.publishState,
+    origin,
+    content: stored.body,
   };
 }
 
-export function allPosts(): Post[] {
-  return walk(ROOT)
-    .map(parse)
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+function treeKeys(): Set<string> {
+  return new Set(readHouseTree().map((post) => `${post.category}:${post.slug}`));
 }
 
-export function postsIn(category: string): Post[] {
-  return allPosts().filter((p) => p.category === category);
+export async function allPosts(options: ListPostsOptions = {}): Promise<Post[]> {
+  const stored = await loadMergedPosts("house");
+  const tree = treeKeys();
+  const posts = stored.map((post) =>
+    toPost(post, tree.has(`${post.category}:${post.slug}`) ? "tree" : "ledger"),
+  );
+  const visible = options.includeDrafts
+    ? posts
+    : posts.filter((post) => post.visibility === "published");
+  return visible.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getPost(category: string, slug: string): Post | undefined {
-  return allPosts().find((p) => p.category === category && p.slug === slug);
+export async function postsIn(
+  category: string,
+  options: ListPostsOptions = {},
+): Promise<Post[]> {
+  const posts = await allPosts(options);
+  return posts.filter((post) => post.category === category);
+}
+
+export async function getPost(
+  category: string,
+  slug: string,
+  options: ListPostsOptions = {},
+): Promise<Post | undefined> {
+  const posts = await allPosts(options);
+  return posts.find((post) => post.category === category && post.slug === slug);
 }
 
 export function isJournalCategory(value: string): value is JournalCategory {
   return (journalTaxonomy as readonly string[]).includes(value);
+}
+
+export function houseTreeParams(): { category: string; slug: string }[] {
+  return readHouseTree().map((post) => ({
+    category: post.category as string,
+    slug: post.slug,
+  }));
 }

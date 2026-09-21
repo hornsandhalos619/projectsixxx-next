@@ -1,6 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
-import matter from "gray-matter";
+import { loadMergedPosts } from "@/lib/journal-store";
+import { readOvermindTree } from "@/lib/journal-fs";
+import type { LedgerOrigin } from "@/lib/journal-model";
 
 export type OvermindStatus = "draft" | "published";
 
@@ -13,50 +13,66 @@ export type OvermindPostMeta = {
   tags: string[];
   teaser: string;
   status: OvermindStatus;
+  origin: LedgerOrigin;
 };
 
 export type OvermindPost = OvermindPostMeta & { content: string };
 
-const ROOT = path.join(process.cwd(), "content/overmind/journal");
+export type ListOvermindOptions = {
+  includeDrafts?: boolean;
+};
 
-function files(): string[] {
-  if (!fs.existsSync(ROOT)) return [];
-  return fs
-    .readdirSync(ROOT)
-    .filter((name) => name.endsWith(".mdx") || name.endsWith(".md"))
-    .map((name) => path.join(ROOT, name));
-}
-
-function parse(file: string): OvermindPost {
-  const raw = fs.readFileSync(file, "utf8");
-  const { data, content } = matter(raw);
-  const tags = Array.isArray(data.tags)
-    ? data.tags.map((t: unknown) => String(t))
-    : [];
+function toPost(
+  stored: Awaited<ReturnType<typeof loadMergedPosts>>[number],
+  origin: LedgerOrigin,
+): OvermindPost {
   return {
-    title: String(data.title ?? ""),
-    slug: String(data.slug ?? path.basename(file, path.extname(file))),
-    date: String(data.date ?? ""),
+    title: stored.title,
+    slug: stored.slug,
+    date: stored.date,
     author: "Overmind",
     stream: "overmind",
-    tags,
-    teaser: String(data.teaser ?? "").slice(0, 160),
-    status: data.status === "published" ? "published" : "draft",
-    content,
+    tags: stored.tags ?? [],
+    teaser: (stored.teaser ?? "").slice(0, 160),
+    status: stored.publishState,
+    origin,
+    content: stored.body,
   };
 }
 
-export function allOvermindPosts(): OvermindPost[] {
-  return files()
-    .map(parse)
-    .filter((p) => p.stream === "overmind")
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+function treeSlugs(): Set<string> {
+  return new Set(readOvermindTree().map((post) => post.slug));
 }
 
-export function publishedOvermindPosts(): OvermindPost[] {
-  return allOvermindPosts().filter((p) => p.status === "published");
+export async function allOvermindPosts(
+  options: ListOvermindOptions = {},
+): Promise<OvermindPost[]> {
+  const stored = await loadMergedPosts("overmind");
+  const tree = treeSlugs();
+  const posts = stored
+    .filter((post) => post.lane === "overmind")
+    .map((post) => toPost(post, tree.has(post.slug) ? "tree" : "ledger"));
+  const visible = options.includeDrafts
+    ? posts
+    : posts.filter((post) => post.status === "published");
+  return visible.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getOvermindPost(slug: string): OvermindPost | undefined {
-  return allOvermindPosts().find((p) => p.slug === slug);
+export async function publishedOvermindPosts(): Promise<OvermindPost[]> {
+  return allOvermindPosts({ includeDrafts: false });
+}
+
+export async function getOvermindPost(
+  slug: string,
+  options: ListOvermindOptions = {},
+): Promise<OvermindPost | undefined> {
+  const posts = await allOvermindPosts({ includeDrafts: true });
+  const post = posts.find((item) => item.slug === slug);
+  if (!post) return undefined;
+  if (!options.includeDrafts && post.status !== "published") return undefined;
+  return post;
+}
+
+export function overmindTreeParams(): { slug: string }[] {
+  return readOvermindTree().map((post) => ({ slug: post.slug }));
 }
