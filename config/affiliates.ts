@@ -58,7 +58,7 @@ export const shopCategories: {
     dek: "Instruments that earn the night — not costume hardware.",
     seoTitle: "Guitars — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar landing. Live Line 6 Helix LT at zZounds. SAMPLE Ibanez-style pick remains. Est. in Darkness.",
+      "Affiliate guitar landing. Live Line 6 Helix LT and Helix Stadium XL at zZounds. SAMPLE Ibanez-style pick remains. Est. in Darkness.",
   },
   {
     slug: "synths",
@@ -100,6 +100,19 @@ export const products: AffiliateProduct[] = [
       "I owned this for years, cleaner than the full HELIX, less unused ports on the back. It's amazing — hands down one of the greatest tone control units ever made for electric guitar. A wonderful start before you get your hands on the Stadium HX.",
     merchant: "zZounds",
     merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
+    network: "zzounds",
+    status: "live",
+    priceHint: "See zZounds",
+  },
+  {
+    slug: "line-6-stadium-xl",
+    category: "guitars",
+    name: "Line 6 Helix Stadium XL",
+    dek: "This is literally the finest addition to my arsenal ever created.",
+    belief:
+      "This is literally the finest addition to my arsenal ever created. As if the Helix ever came short (which it NEVER DID) the Stadium literally rocks my socks off. Tremendous depth, clarity, punch, everything was refined to the utmost. I play a 9 string and my sound got a little muddy (I admit it) when I play her bottom end. The Stadium took that MUD and turned into clean THUD. It was like night and day. OMGZ. I can't tell you what that does for my tone: My metal is so heavy it's unreal. Crunch... haha.... it's not crunch it's more like Pulp and Mulch. And the funk. Where is Les Claypool. I think he might appreciate this thing more than I do. And that is saying something. From the blackest metal I can summon to the most twinkling footsteps of fairies and the haunting shimmer of ethereal magick, this is the finest tone control I've ever dreamed of. You want it. Trust me. It's worth every penny.",
+    merchant: "zZounds",
+    merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINSTADIUMXL?siid=390641`,
     network: "zzounds",
     status: "live",
     priceHint: "See zZounds",
