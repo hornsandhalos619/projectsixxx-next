@@ -31,7 +31,7 @@ export const artists: Artist[] = [
     role: "House",
     status: "sample",
     mediaPending: true,
-    bio: "The house name, not a legal caption. Project SiXXX holds journal, gallery, portal, library, and shop. This roster card is SAMPLE until the founder sets the public artist line.",
+    bio: "The house name. Project SiXXX holds journal, gallery, portal, library, and shop. This roster card is SAMPLE until the founder sets the public artist line.",
     email: "house@projectsixxx.com",
     social: [{ label: "Site", href: "/" }],
     store: [
@@ -43,7 +43,7 @@ export const artists: Artist[] = [
         title: "Est. in Darkness",
         year: "2026",
         medium: "House mark / void study",
-        caption: "Mood lockup. Not a costume. Media pending.",
+        caption: "Mood lockup. Media pending.",
       },
       {
         title: "Twin Gates",

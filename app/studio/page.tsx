@@ -32,7 +32,7 @@ const adConcepts = [
 const heygenScripts = [
   {
     title: "House open",
-    body: "VO: Project SiXXX is the house. Est. in Darkness. We keep craft before consensus and a portal that is not a merch rack. Visual: void, grain, twin gates. End card: projectsixxx.com",
+    body: "VO: Project SiXXX is the house. Est. in Darkness. We keep craft before consensus and a portal. Visual: void, grain, twin gates. End card: projectsixxx.com",
   },
   {
     title: "Portal invite",

@@ -52,7 +52,7 @@ export default async function ShopCategoryPage({ params }: Props) {
           </div>
           <p className="ftc">
             As an affiliate, the house may earn from qualifying purchases. Empty
-            partner tags still open the merchant. This is not a house sacrament.
+            partner tags still open the merchant.
           </p>
         </article>
       ))}

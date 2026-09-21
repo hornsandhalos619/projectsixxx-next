@@ -122,7 +122,7 @@ export default function ShopPage() {
 
       <section className="section" id="affiliate-shelves" aria-label="Affiliate shelves">
         <p className="kicker">Affiliate shelves</p>
-        <h2>Tools, not relics</h2>
+        <h2>Tools.</h2>
         <div className="grid-2" style={{ marginTop: "1.25rem" }}>
           {shopCategories.map((cat) => (
             <Link className="card void-glass" key={cat.slug} href={`/shop/${cat.slug}`}>

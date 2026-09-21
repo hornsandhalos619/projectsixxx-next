@@ -11,7 +11,7 @@ export default function ContactPage() {
       <header className="page-head">
         <p className="kicker">Contact</p>
         <h1>Write the house</h1>
-        <p className="lede">A form. Not a checkout. We will not invent a charge.</p>
+        <p className="lede">A form. We will not invent a charge.</p>
       </header>
       <form className="form" action="/contact" method="post">
         <label>

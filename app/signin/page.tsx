@@ -19,8 +19,8 @@ export default async function SignInPage({
         <p className="kicker">Threshold</p>
         <h1>Sign in</h1>
         <p className="lede">
-          First signup is a Member. Founder is an allowlist, not a trophy for
-          arriving early. There is no role switcher.
+          First signup is a Member. Founder is an allowlist. There is no role
+          switcher.
         </p>
       </header>
       <SignInForm

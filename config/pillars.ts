@@ -13,7 +13,7 @@ export const housePillars = [
   {
     slug: "film",
     title: "Film",
-    dek: "Moving image with spine — not mood board theater.",
+    dek: "Moving image with spine.",
   },
   {
     slug: "literature",
