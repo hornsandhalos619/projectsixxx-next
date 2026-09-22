@@ -1,5 +1,4 @@
 import {
-  applyGrantedRole,
   founderEmails,
   isGrantableRole,
   roleConsoleLabels,
@@ -10,6 +9,8 @@ import {
 import { localJsonRead, localJsonWrite } from "@/lib/cms/local-json";
 import { detectLiveStore, liveStoreKind } from "@/lib/live";
 import { getSupabase } from "@/lib/supabase";
+
+export { resolveRole } from "@/lib/house/lookup";
 
 export type HouseSeat = {
   email: string;
@@ -30,18 +31,6 @@ const LOCAL_FILE = "house-roles";
 
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
-}
-
-export async function resolveRole(email: string | null | undefined): Promise<Role> {
-  if (!email) return "member";
-  if (roleForEmail(email) === "founder") return "founder";
-  try {
-    const granted = await grantedRoleForEmail(email);
-    return applyGrantedRole(email, granted);
-  } catch (error) {
-    console.error("house role lookup failed", error);
-    return roleForEmail(email);
-  }
 }
 
 export async function grantedRoleForEmail(email: string): Promise<GrantableRole | null> {

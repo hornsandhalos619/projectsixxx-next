@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { localAllowed } from "@/lib/cms/local";
+import { localAllowed } from "@/lib/cms/local-allowed";
 
 function fileFor(name: string): string {
   return path.join(process.cwd(), "data", `${name}.json`);

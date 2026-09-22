@@ -5,7 +5,7 @@ import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
 import type { Role } from "@/config/roles";
 import { resolveDemoIdentity } from "@/lib/auth-demo";
-import { resolveRole } from "@/lib/house/roles";
+import { resolveRole } from "@/lib/house/lookup";
 
 function providers(): Provider[] {
   const list: Provider[] = [];

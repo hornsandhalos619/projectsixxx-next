@@ -1,4 +1,4 @@
-import { localAllowed } from "@/lib/cms/local";
+import { localAllowed } from "@/lib/cms/local-allowed";
 import { supabaseConfigured } from "@/lib/supabase";
 
 export type LiveKind = "supabase" | "local" | "readonly";
