@@ -4,15 +4,22 @@ import { duality, portalArt } from "@/config/duality";
 import { housePillars } from "@/config/pillars";
 import { PortalCta } from "@/components/PortalCta";
 import { SampleBadge } from "@/components/SampleBadge";
-import { featuredCollaborators } from "@/lib/artists";
+import { listFeaturedArtists } from "@/lib/gallery/store";
+import { listHomepageSlots } from "@/lib/homepage/store";
 import { publishedPosts } from "@/lib/journal";
 import { shopCategories } from "@/config/affiliates";
 import { shopifyUrl } from "@/config/shops";
+import { listFeaturedLibrary } from "@/lib/titles/store";
 
 export default async function HomePage() {
   const posts = (await publishedPosts()).slice(0, 3);
-  const collabs = featuredCollaborators();
+  const collabs = await listFeaturedArtists();
   const shopTeaser = shopCategories.slice(0, 3);
+  const slots = await listHomepageSlots();
+  const quote = slots.find((slot) => slot.slot === "quote" && slot.enabled);
+  const excerpt = slots.find((slot) => slot.slot === "excerpt" && slot.enabled);
+  const literatureSlot = slots.find((slot) => slot.slot === "literature" && slot.enabled);
+  const featuredTitles = await listFeaturedLibrary();
 
   return (
     <>
@@ -132,11 +139,60 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {quote ? (
+        <section className="section section--centered">
+          <div className="shell">
+            <p className="kicker">{quote.title || "House line"}</p>
+            <h2 className="display">{quote.body}</h2>
+            {quote.attribution ? <p className="muted">{quote.attribution}</p> : null}
+          </div>
+        </section>
+      ) : null}
+
+      {excerpt || featuredTitles.length || literatureSlot ? (
+        <section className="section">
+          <div className="shell">
+            <p className="kicker">Literature</p>
+            <h2>{literatureSlot?.title || "From the reading room"}</h2>
+            {excerpt ? (
+              <div className="prose" style={{ marginTop: "1rem" }}>
+                <p>{excerpt.body}</p>
+                {excerpt.attribution ? (
+                  excerpt.href ? (
+                    <p className="muted">
+                      <Link href={excerpt.href}>{excerpt.attribution}</Link>
+                    </p>
+                  ) : (
+                    <p className="muted">{excerpt.attribution}</p>
+                  )
+                ) : null}
+              </div>
+            ) : null}
+            {featuredTitles.length ? (
+              <div className="grid-2" style={{ marginTop: "1.25rem" }}>
+                {featuredTitles.map((work) => (
+                  <Link className="card" key={work.slug} href={`/library/${work.slug}`}>
+                    {work.status === "sample" ? <SampleBadge label="SAMPLE" /> : null}
+                    <h3>{work.title}</h3>
+                    <p className="muted">{work.blurb}</p>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+            <div className="cta-row">
+              <Link className="btn btn-house" href={literatureSlot?.href || "/library"}>
+                {literatureSlot?.body || "Library"}
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="section">
         <div className="shell">
           <p className="kicker">Collaborators</p>
           <h2>Featured roster</h2>
-          <p className="muted">SAMPLE slots — media pending. No invented personal history.</p>
+          <p className="muted">Named collaborators the house has featured. No invented personal history.</p>
           <div className="grid-2" style={{ marginTop: "1.25rem" }}>
             {collabs.map((artist) => (
               <Link className="card" key={artist.slug} href={`/gallery/${artist.slug}`}>

@@ -31,7 +31,7 @@ async function requireEditor(): Promise<{ ok: true } | { ok: false; error: strin
     return {
       ok: false,
       error:
-        "Set DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN on Vercel to save entries.",
+        "Set NEXT_PUBLIC_SUPABASE_URL, DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN on Vercel to save entries.",
     };
   }
   return { ok: true };

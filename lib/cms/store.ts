@@ -5,6 +5,12 @@ import { githubConfigured, githubList, githubRemove, githubWrite } from "@/lib/c
 import { localAllowed, localList, localRemove, localWrite } from "@/lib/cms/local";
 import { findRecord, mergeRecords } from "@/lib/cms/merge";
 import { neonConfigured, neonList, neonRemove, neonWrite } from "@/lib/cms/neon";
+import {
+  supabaseListJournal,
+  supabaseRemoveJournal,
+  supabaseWriteJournal,
+} from "@/lib/cms/supabase";
+import { supabaseConfigured } from "@/lib/supabase";
 import type {
   CmsRecord,
   JournalStorageInfo,
@@ -13,6 +19,14 @@ import type {
 } from "@/lib/cms/types";
 
 export function detectStorage(): JournalStorageInfo {
+  if (supabaseConfigured()) {
+    return {
+      kind: "supabase",
+      writable: true,
+      label: "Supabase",
+      hint: "Entries persist in journal_posts via NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+    };
+  }
   if (neonConfigured()) {
     return {
       kind: "neon",
@@ -49,7 +63,7 @@ export function detectStorage(): JournalStorageInfo {
     kind: "readonly",
     writable: false,
     label: "Filesystem seed",
-    hint: "Published MDX under content/ is readable. Set DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN to write from the desk.",
+    hint: "Published MDX under content/ is readable. Set NEXT_PUBLIC_SUPABASE_URL, DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN to write from the desk.",
   };
 }
 
@@ -59,6 +73,7 @@ export function storageKind(): StorageKind {
 
 async function listOverlay(): Promise<CmsRecord[]> {
   const kind = storageKind();
+  if (kind === "supabase") return supabaseListJournal();
   if (kind === "neon") return neonList();
   if (kind === "blob") return blobList();
   if (kind === "github") return githubList();
@@ -88,13 +103,14 @@ export async function getJournalRecord(
 
 export async function saveCmsRecord(record: CmsRecord): Promise<void> {
   const kind = storageKind();
-  if (kind === "neon") await neonWrite(record);
+  if (kind === "supabase") await supabaseWriteJournal(record);
+  else if (kind === "neon") await neonWrite(record);
   else if (kind === "blob") await blobWrite(record);
   else if (kind === "github") await githubWrite(record);
   else if (kind === "local") await localWrite(record);
   else {
     throw new Error(
-      "Journal storage is read-only until DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN is set.",
+      "Journal storage is read-only until NEXT_PUBLIC_SUPABASE_URL, DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN is set.",
     );
   }
   revalidateJournal(record);
@@ -106,13 +122,14 @@ export async function removeCmsRecord(
   category?: string,
 ): Promise<void> {
   const kind = storageKind();
-  if (kind === "neon") await neonRemove(stream, slug);
+  if (kind === "supabase") await supabaseRemoveJournal(stream, slug);
+  else if (kind === "neon") await neonRemove(stream, slug);
   else if (kind === "blob") await blobRemove(stream, slug);
   else if (kind === "github") await githubRemove({ stream, slug, category });
   else if (kind === "local") await localRemove(stream, slug);
   else {
     throw new Error(
-      "Journal storage is read-only until DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN is set.",
+      "Journal storage is read-only until NEXT_PUBLIC_SUPABASE_URL, DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN is set.",
     );
   }
   revalidateJournal({ stream, slug, category, status: "draft" });

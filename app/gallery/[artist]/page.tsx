@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { artistBySlug, artists } from "@/lib/artists";
+import { artists } from "@/lib/artists";
 import { SampleBadge } from "@/components/SampleBadge";
+import { getArtist } from "@/lib/gallery/store";
 
 type Props = { params: Promise<{ artist: string }> };
 
@@ -12,14 +13,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artist: slug } = await params;
-  const artist = artistBySlug(slug);
+  const artist = await getArtist(slug);
   if (!artist) return { title: "Gallery" };
   return { title: artist.name, description: artist.bio };
 }
 
 export default async function ArtistPage({ params }: Props) {
   const { artist: slug } = await params;
-  const artist = artistBySlug(slug);
+  const artist = await getArtist(slug);
   if (!artist) notFound();
 
   return (
@@ -51,7 +52,12 @@ export default async function ArtistPage({ params }: Props) {
           <div className="works">
             {artist.works.map((work) => (
               <figure className="work" key={work.title}>
-                <div className="work-still" />
+                {work.mediaUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={work.mediaUrl} alt="" />
+                ) : (
+                  <div className="work-still" />
+                )}
                 <figcaption>
                   {work.title} · {work.year} · {work.medium}
                   <br />

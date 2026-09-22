@@ -3,7 +3,9 @@ import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
-import { roleForEmail, type Role } from "@/config/roles";
+import type { Role } from "@/config/roles";
+import { resolveDemoIdentity } from "@/lib/auth-demo";
+import { resolveRole } from "@/lib/house/roles";
 
 function providers(): Provider[] {
   const list: Provider[] = [];
@@ -36,16 +38,15 @@ function providers(): Provider[] {
         id: "demo",
         name: "Email",
         credentials: {
-          email: { label: "Email", type: "email" },
+          email: { label: "Username or email", type: "text" },
           password: { label: "Password", type: "password" },
         },
         authorize: async (creds) => {
-          const email = String(creds?.email ?? "")
-            .trim()
-            .toLowerCase();
           const password = String(creds?.password ?? "");
-          if (!email || !password || password !== expected) return null;
-          return { id: email, email, name: email };
+          if (!password || password !== expected) return null;
+          const identity = resolveDemoIdentity(String(creds?.email ?? ""));
+          if (!identity) return null;
+          return identity;
         },
       }),
     );
@@ -61,16 +62,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: providers(),
   callbacks: {
     async jwt({ token, user }) {
+      if (user?.name) token.name = user.name;
       const email =
         user?.email ?? (typeof token.email === "string" ? token.email : null);
       if (email) {
-        token.role = roleForEmail(email);
+        token.role = await resolveRole(email);
         token.email = email;
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.role = (token.role as Role) || roleForEmail(session.user.email);
+      const email = session.user.email ?? (typeof token.email === "string" ? token.email : null);
+      session.user.role = (await resolveRole(email)) || ((token.role as Role) ?? "member");
+      if (typeof token.name === "string" && token.name) {
+        session.user.name = token.name;
+      }
       return session;
     },
   },

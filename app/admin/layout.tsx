@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { AdminClosed } from "@/components/AdminClosed";
+import { notFound, redirect } from "next/navigation";
 import { canSeeAdminHub } from "@/config/roles";
 import { getViewer } from "@/lib/session";
 
@@ -15,7 +14,7 @@ export default async function AdminLayout({
     redirect("/signin?callbackUrl=/admin");
   }
   if (!canSeeAdminHub(viewer.role)) {
-    return <AdminClosed email={viewer.email} desk="House consoles" />;
+    notFound();
   }
   return children;
 }

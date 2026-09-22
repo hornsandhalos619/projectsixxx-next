@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AdminClosed } from "@/components/AdminClosed";
+import { notFound } from "next/navigation";
 import { JournalEditor } from "@/components/JournalEditor";
 import { canSeeJournalAdmin } from "@/config/roles";
 import { detectStorage } from "@/lib/cms/store";
@@ -11,9 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminJournalNewPage() {
   const viewer = await getViewer();
-  if (!canSeeJournalAdmin(viewer.role)) {
-    return <AdminClosed email={viewer.email} desk="The journal console" />;
-  }
+  if (!canSeeJournalAdmin(viewer.role)) notFound();
   const storage = detectStorage();
 
   return (

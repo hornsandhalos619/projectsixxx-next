@@ -4,7 +4,7 @@ export type JournalStream = (typeof JOURNAL_STREAMS)[number];
 export const PUBLISH_STATUSES = ["draft", "published"] as const;
 export type PublishStatus = (typeof PUBLISH_STATUSES)[number];
 
-export type StorageKind = "neon" | "blob" | "github" | "local" | "readonly";
+export type StorageKind = "supabase" | "neon" | "blob" | "github" | "local" | "readonly";
 
 export type CmsRecord = {
   stream: JournalStream;

@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { AdminClosed } from "@/components/AdminClosed";
+import { notFound } from "next/navigation";
+import { HouseRolesForm } from "@/components/HouseRolesForm";
 import { canSeeHouseAdmin } from "@/config/roles";
 import { hornsAndHalosLiveUrl, site } from "@/config/site";
 import { shopifyUrl, spreadshopUrl } from "@/config/shops";
+import { detectLiveStore } from "@/lib/live";
+import { listHouseSeats } from "@/lib/house/roles";
 import { getViewer } from "@/lib/session";
 
 export const metadata: Metadata = { title: "House console" };
+export const dynamic = "force-dynamic";
 
 export default async function AdminHousePage() {
   const viewer = await getViewer();
-  if (!canSeeHouseAdmin(viewer.role)) {
-    return <AdminClosed email={viewer.email} desk="The house console" />;
-  }
+  if (!canSeeHouseAdmin(viewer.role)) notFound();
+
+  const storage = detectLiveStore();
+  const seats = await listHouseSeats();
 
   return (
     <div className="shell">
@@ -19,28 +24,29 @@ export default async function AdminHousePage() {
         <p className="kicker">House console</p>
         <h1>Founder</h1>
         <p className="lede">
-          Roles are assigned here later. Founder is seeded only from
-          FOUNDER_EMAILS. There is no self-serve switcher on this page.
+          Grant and revoke Blog Admin and Shop Admin. Founder is seeded only from
+          FOUNDER_EMAILS — never from this desk.
         </p>
       </header>
 
       <div className="admin-note">
-        <p className="muted">
-          Signed in as {viewer.email}. Blog Admin and Shop Admin will be granted
-          from this desk — not from a public control. Member progression labels
-          (Initiate → Acolyte → Adept → Founder) are display-only and never open
-          consoles.
+        <p>
+          <strong>Storage:</strong> {storage.label}
         </p>
+        <p className="muted">{storage.hint}</p>
       </div>
+
+      <section className="section">
+        <p className="kicker">Seats</p>
+        <HouseRolesForm seats={seats} writable={storage.writable} actorEmail={viewer.email} />
+      </section>
 
       <section className="section">
         <p className="kicker">Site settings</p>
         <h2>Horns &amp; Halos live URL</h2>
         <p className="muted">
-          When set via <code>HORNS_AND_HALOS_URL</code>, all “Enter Horns &amp;
-          Halos” / “Cross the Threshold” CTAs open that URL in a new tab. When
-          empty, CTAs fall back to the internal portal at{" "}
-          <code>{site.portalPath}</code>.
+          Display only. When <code>HORNS_AND_HALOS_URL</code> is set, portal CTAs
+          open that URL. Empty falls back to <code>{site.portalPath}</code>.
         </p>
         <div className="admin-note" style={{ marginTop: "1rem" }}>
           <p>
@@ -57,21 +63,10 @@ export default async function AdminHousePage() {
       </section>
 
       <section className="section">
-        <p className="kicker">Journal desk</p>
-        <div className="admin-note">
-          <p>
-            Write at <a href="/admin/journal">/admin/journal</a>. Storage uses
-            the first set of <code>DATABASE_URL</code> / <code>POSTGRES_URL</code>,{" "}
-            <code>BLOB_READ_WRITE_TOKEN</code>, or <code>GITHUB_TOKEN</code>.
-            Google sign-in needs <code>AUTH_GOOGLE_ID</code>,{" "}
-            <code>AUTH_GOOGLE_SECRET</code>, <code>AUTH_SECRET</code>, and{" "}
-            <code>FOUNDER_EMAILS</code>.
-          </p>
-        </div>
-      </section>
-
-      <section className="section">
         <p className="kicker">Shop outbound</p>
+        <p className="muted">
+          Display only. Values stay in env. No secrets are printed as raw keys.
+        </p>
         <div className="admin-note">
           <p>
             <strong>SHOPIFY_URL:</strong>{" "}

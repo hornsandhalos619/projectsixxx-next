@@ -4,8 +4,11 @@ import { primaryNav, site } from "@/config/site";
 import {
   canSeeAccount,
   canSeeAdminHub,
+  canSeeGalleryAdmin,
+  canSeeHomepageAdmin,
   canSeeHouseAdmin,
   canSeeJournalAdmin,
+  canSeeLibraryAdmin,
   canSeeShopAdmin,
 } from "@/config/roles";
 import { getViewer } from "@/lib/session";
@@ -30,8 +33,17 @@ export async function Header() {
   if (canSeeJournalAdmin(viewer.role)) {
     items.push({ href: "/admin/journal", label: "Journal console" });
   }
+  if (canSeeHomepageAdmin(viewer.role)) {
+    items.push({ href: "/admin/homepage", label: "Homepage" });
+  }
   if (canSeeShopAdmin(viewer.role)) {
     items.push({ href: "/admin/shop", label: "Shop console" });
+  }
+  if (canSeeGalleryAdmin(viewer.role)) {
+    items.push({ href: "/admin/gallery", label: "Gallery console" });
+  }
+  if (canSeeLibraryAdmin(viewer.role)) {
+    items.push({ href: "/admin/library", label: "Library console" });
   }
   if (canSeeHouseAdmin(viewer.role)) {
     items.push({ href: "/admin/house", label: "House" });

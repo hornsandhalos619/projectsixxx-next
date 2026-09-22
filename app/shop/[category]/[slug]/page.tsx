@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { outboundUrl, productBody, productBySlugs, products } from "@/config/affiliates";
+import { outboundUrl, productBody, products } from "@/config/affiliates";
+import { getAffiliateProduct } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
 import { SampleBadge } from "@/components/SampleBadge";
 
@@ -12,14 +13,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params;
-  const product = productBySlugs(category, slug);
+  const product = await getAffiliateProduct(category, slug);
   if (!product) return { title: "Shop" };
   return { title: product.name, description: product.dek };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { category, slug } = await params;
-  const product = productBySlugs(category, slug);
+  const product = await getAffiliateProduct(category, slug);
   if (!product) notFound();
 
   return (
@@ -42,7 +43,7 @@ export default async function ProductPage({ params }: Props) {
         <a
           className="btn btn-ember"
           href={outboundUrl(product)}
-          rel="sponsored noopener noreferrer"
+          rel="sponsored nofollow noopener noreferrer"
           target="_blank"
         >
           Continue to {product.merchant}

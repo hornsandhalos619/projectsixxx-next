@@ -7,10 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "npx --yes tsx lib/cms/merge.test.ts"
+    "test": "npx --yes tsx lib/cms/merge.test.ts && npx --yes tsx lib/auth-demo.test.ts && npx --yes tsx lib/house/roles.test.ts",
+    "seed": "npx --yes tsx scripts/seed-cms.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "@supabase/supabase-js": "^2.116.0",
     "@vercel/blob": "^2.8.0",
     "gray-matter": "^4.0.3",
     "next": "^15.5.2",

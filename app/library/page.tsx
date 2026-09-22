@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { allLibraryWorks } from "@/lib/library";
 import { SampleBadge } from "@/components/SampleBadge";
+import { listLibraryTitles } from "@/lib/titles/store";
 
 export const metadata: Metadata = {
   title: "Library",
   description: "On-site e-book store and reading library. SAMPLE titles. No fake payments.",
 };
 
-export default function LibraryIndexPage() {
-  const works = allLibraryWorks();
+export const dynamic = "force-dynamic";
+
+export default async function LibraryIndexPage() {
+  const works = await listLibraryTitles();
   return (
     <div className="shell">
       <header className="page-head">
