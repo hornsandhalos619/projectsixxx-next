@@ -62,15 +62,22 @@ export function SignInForm({
       {demo ? (
         <form onSubmit={onDemo} className="form">
           <label>
-            Email
-            <input type="email" name="email" required autoComplete="email" />
+            Username or email
+            <input
+              type="text"
+              name="email"
+              required
+              autoComplete="username"
+              inputMode="text"
+              spellCheck={false}
+            />
           </label>
           <label>
             Password
             <input type="password" name="password" required autoComplete="current-password" />
           </label>
           <button className="btn btn-house" type="submit">
-            Continue with email
+            Continue with house key
           </button>
         </form>
       ) : null}

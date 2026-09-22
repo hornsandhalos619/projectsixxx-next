@@ -15,7 +15,7 @@ export function publicProviders(): PublicProvider[] {
     list.push({ id: "nodemailer", label: "Continue with email" });
   }
   if (process.env.AUTH_DEMO === "1" && process.env.AUTH_DEMO_PASSWORD) {
-    list.push({ id: "demo", label: "Continue with email" });
+    list.push({ id: "demo", label: "Continue with house key" });
   }
   return list;
 }

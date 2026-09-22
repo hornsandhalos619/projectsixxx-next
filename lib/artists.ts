@@ -5,6 +5,7 @@ export type Work = {
   year: string;
   medium: string;
   caption: string;
+  mediaUrl?: string;
 };
 
 export type Artist = {
@@ -18,6 +19,8 @@ export type Artist = {
   store: { label: string; href: string }[];
   works: Work[];
   mediaPending?: boolean;
+  featured?: boolean;
+  featuredRank?: number;
 };
 
 /**
@@ -59,6 +62,7 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    featured: true,
     bio: "Named collaborator slot for Christian Boye Larsen. SAMPLE — media pending. No invented biography. Page expands when the house lands approved stills and a founder-blessed credit line.",
     email: "",
     social: [],
@@ -144,8 +148,11 @@ export function artistBySlug(slug: string) {
   return artists.find((a) => a.slug === slug);
 }
 
+export function isFeaturedArtist(artist: Artist): boolean {
+  if (typeof artist.featured === "boolean") return artist.featured;
+  return artist.role === "Collaborator" && !artist.slug.startsWith("slot-open");
+}
+
 export function featuredCollaborators() {
-  return artists.filter(
-    (a) => a.role === "Collaborator" && !a.slug.startsWith("slot-open"),
-  );
+  return artists.filter(isFeaturedArtist);
 }

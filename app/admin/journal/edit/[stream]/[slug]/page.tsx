@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AdminClosed } from "@/components/AdminClosed";
 import { JournalDeleteButton, JournalEditor } from "@/components/JournalEditor";
 import { canSeeJournalAdmin } from "@/config/roles";
 import { detectStorage, getJournalRecord, publicHref } from "@/lib/cms/store";
@@ -18,9 +17,7 @@ type Props = {
 
 export default async function AdminJournalEditPage({ params, searchParams }: Props) {
   const viewer = await getViewer();
-  if (!canSeeJournalAdmin(viewer.role)) {
-    return <AdminClosed email={viewer.email} desk="The journal console" />;
-  }
+  if (!canSeeJournalAdmin(viewer.role)) notFound();
 
   const { stream, slug } = await params;
   const { saved } = await searchParams;

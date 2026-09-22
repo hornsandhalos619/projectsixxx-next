@@ -44,8 +44,9 @@ export function JournalEditor({
       ) : null}
       {!writable ? (
         <p className="admin-banner">
-          This deployment can list seed MDX. Set DATABASE_URL, BLOB_READ_WRITE_TOKEN,
-          or GITHUB_TOKEN to create and edit from the desk.
+          This deployment can list seed MDX. Set NEXT_PUBLIC_SUPABASE_URL,
+          DATABASE_URL, BLOB_READ_WRITE_TOKEN, or GITHUB_TOKEN to create and
+          edit from the desk.
         </p>
       ) : null}
 

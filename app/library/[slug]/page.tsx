@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { allLibraryWorks, libraryBySlug } from "@/lib/library";
+import { allLibraryWorks } from "@/lib/library";
 import { SampleBadge } from "@/components/SampleBadge";
+import { getLibraryTitle } from "@/lib/titles/store";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -12,14 +13,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const work = libraryBySlug(slug);
+  const work = await getLibraryTitle(slug);
   if (!work) return { title: "Library" };
   return { title: work.title, description: work.dek };
 }
 
 export default async function LibraryWorkPage({ params }: Props) {
   const { slug } = await params;
-  const work = libraryBySlug(slug);
+  const work = await getLibraryTitle(slug);
   if (!work) notFound();
 
   return (

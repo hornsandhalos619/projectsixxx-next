@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { artists } from "@/lib/artists";
 import { SampleBadge } from "@/components/SampleBadge";
+import { listArtists } from "@/lib/gallery/store";
 
 export const metadata: Metadata = {
   title: "Gallery",
   description: "House roster and named collaborator slots. SAMPLE until media lands.",
 };
 
-export default function GalleryPage() {
+export const dynamic = "force-dynamic";
+
+export default async function GalleryPage() {
+  const artists = await listArtists();
   return (
     <div className="shell">
       <header className="page-head">

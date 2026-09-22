@@ -12,12 +12,16 @@ export type LibraryWork = {
   blurb: string;
   /** On-site sample reader body (plain paragraphs). No payments. */
   sample: string[];
+  featured?: boolean;
+  featuredRank?: number;
 };
 
 /** On-site e-book / reading library. SAMPLE titles only — no fake checkout. */
 export const libraryWorks: LibraryWork[] = [
   {
     slug: "est-in-darkness",
+    featured: true,
+    featuredRank: 1,
     title: "Est. in Darkness",
     dek: "A house pamphlet on mood, craft, and the date we keep.",
     author: "House",
@@ -33,6 +37,8 @@ export const libraryWorks: LibraryWork[] = [
   },
   {
     slug: "twin-gates",
+    featured: true,
+    featuredRank: 2,
     title: "Twin Gates",
     dek: "Notes on Horns and Halos as architecture and light.",
     author: "House",

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categoryBySlug, outboundUrl, productBody, productsIn, shopCategories } from "@/config/affiliates";
+import { categoryBySlug, outboundUrl, productBody, shopCategories } from "@/config/affiliates";
+import { productsInCategory } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
 import { SampleBadge } from "@/components/SampleBadge";
 
@@ -22,7 +23,7 @@ export default async function ShopCategoryPage({ params }: Props) {
   const { category } = await params;
   const cat = categoryBySlug(category);
   if (!cat) notFound();
-  const items = productsIn(category);
+  const items = await productsInCategory(category);
 
   return (
     <div className="shell">
@@ -44,7 +45,7 @@ export default async function ShopCategoryPage({ params }: Props) {
             <a
               className="btn btn-ember"
               href={outboundUrl(product)}
-              rel="sponsored noopener noreferrer"
+              rel="sponsored nofollow noopener noreferrer"
               target="_blank"
             >
               View at {product.merchant}

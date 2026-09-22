@@ -1,13 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
+import { localAllowed } from "@/lib/cms/local-allowed";
 import { recordFromUnknown } from "@/lib/cms/serialize";
 import type { CmsRecord, JournalStream } from "@/lib/cms/types";
 
 const FILE = path.join(process.cwd(), "data", "journal-cms.json");
 
-export function localAllowed(): boolean {
-  return process.env.VERCEL !== "1";
-}
+export { localAllowed };
 
 function readFile(): CmsRecord[] {
   if (!fs.existsSync(FILE)) return [];

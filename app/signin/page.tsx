@@ -20,7 +20,7 @@ export default async function SignInPage({
         <h1>Sign in</h1>
         <p className="lede">
           First signup is a Member. Founder is seeded only through FOUNDER_EMAILS.
-          There is no role switcher.
+          There is no role switcher. The house key accepts a username or email.
         </p>
       </header>
       <SignInForm
