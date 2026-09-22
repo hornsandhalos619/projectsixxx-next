@@ -35,16 +35,6 @@ export default async function HomePage() {
               width={720}
               height={720}
             />
-            {/* Companion wax-seal 6 — secondary to Outerwright mark; does not replace */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="hero-wax-seal"
-              src="/brand/wax-seal-6.png"
-              alt=""
-              width={120}
-              height={120}
-              aria-hidden
-            />
           </div>
           <p className="kicker">The house</p>
           <h1 className="display visually-hidden">Project SiXXX</h1>

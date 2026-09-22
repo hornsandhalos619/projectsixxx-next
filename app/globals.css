@@ -1165,23 +1165,9 @@ html:has(.portal-root) .wordmark span { color: var(--silver); }
 
 .logo-bed .hero-logo,
 .logo-bed .logo-bed-title,
-.logo-bed > .kicker,
-.logo-bed .hero-wax-seal {
+.logo-bed > .kicker {
   position: relative;
   z-index: 2;
-}
-
-/* Companion wax-seal 6 — secondary beside/below mark; clear space; once only */
-.logo-bed--home .hero-wax-seal {
-  display: block;
-  width: clamp(3.75rem, 18%, 5.5rem);
-  max-width: 100%;
-  height: auto;
-  margin: 0.85rem auto 0;
-  opacity: 1;
-  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55));
-  pointer-events: none;
-  flex-shrink: 0;
 }
 
 .logo-bed--home {
