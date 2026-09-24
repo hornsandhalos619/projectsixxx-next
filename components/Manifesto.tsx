@@ -62,7 +62,12 @@ export function Manifesto() {
           <div className="manifesto-corner manifesto-corner--tr" aria-hidden />
           <div className="manifesto-corner manifesto-corner--bl" aria-hidden />
           <div className="manifesto-corner manifesto-corner--br" aria-hidden />
-          <div className="manifesto-ornate" aria-hidden />
+          <div className="manifesto-ornate" aria-hidden>
+            <span className="manifesto-star manifesto-star--tl" />
+            <span className="manifesto-star manifesto-star--tr" />
+            <span className="manifesto-star manifesto-star--bl" />
+            <span className="manifesto-star manifesto-star--br" />
+          </div>
           <h2 id="manifesto-heading">{manifestoTitle}</h2>
           <p className="manifesto-rule">Est. in Darkness</p>
           <div className="manifesto-prose">
