@@ -32,12 +32,24 @@ export function stripTrailingSlash(url: string): string {
   return url.replace(/\/+$/, "");
 }
 
+function vercelHttpsOrigin(): string | undefined {
+  const vercelHost = firstEnv("VERCEL_URL");
+  if (!vercelHost) return undefined;
+  const host = vercelHost.replace(/^https?:\/\//, "");
+  return `https://${host}`;
+}
+
 /**
- * Canonical Auth.js origin. Production falls back to the house domain
- * when AUTH_URL / NEXTAUTH_URL are empty so Google callback stays on
- * https://projectsixxx.com/api/auth/callback/google.
+ * Canonical Auth.js origin. Production uses AUTH_URL or the house domain
+ * so Google callback stays on https://projectsixxx.com/api/auth/callback/google.
+ * Preview uses the preview host so a production AUTH_URL on all Vercel envs
+ * cannot send preview Google back to the apex.
  */
 export function resolveAuthUrl(): string | undefined {
+  if (process.env.VERCEL_ENV === "preview") {
+    return vercelHttpsOrigin();
+  }
+
   const explicit = firstEnv("AUTH_URL", "NEXTAUTH_URL");
   if (explicit) return stripTrailingSlash(explicit);
 
@@ -45,22 +57,14 @@ export function resolveAuthUrl(): string | undefined {
     return stripTrailingSlash(site.url);
   }
 
-  const vercelHost = firstEnv("VERCEL_URL");
-  if (vercelHost) {
-    const host = vercelHost.replace(/^https?:\/\//, "");
-    return `https://${host}`;
-  }
-
-  return undefined;
+  return vercelHttpsOrigin();
 }
 
-/** Write AUTH_URL when Auth.js would otherwise infer the wrong host. */
+/** Align AUTH_URL with the host Auth.js should advertise to Google. */
 export function ensureAuthUrl(): string | undefined {
   const url = resolveAuthUrl();
-  if (url && !process.env.AUTH_URL?.trim()) {
+  if (url) {
     process.env.AUTH_URL = url;
   }
-  return process.env.AUTH_URL?.trim()
-    ? stripTrailingSlash(process.env.AUTH_URL)
-    : url;
+  return url;
 }

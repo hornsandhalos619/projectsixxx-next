@@ -78,12 +78,15 @@ assert.equal(ensureAuthUrl(), "https://projectsixxx.com");
 assert.equal(process.env.AUTH_URL, "https://projectsixxx.com");
 
 resetEnv();
+process.env.AUTH_URL = "https://projectsixxx.com";
 process.env.VERCEL_ENV = "preview";
 process.env.VERCEL_URL = "projectsixxx-next-git-preview.vercel.app";
 assert.equal(
   resolveAuthUrl(),
   "https://projectsixxx-next-git-preview.vercel.app",
 );
+assert.equal(ensureAuthUrl(), "https://projectsixxx-next-git-preview.vercel.app");
+assert.equal(process.env.AUTH_URL, "https://projectsixxx-next-git-preview.vercel.app");
 
 resetEnv();
 console.log("auth env + public providers ok");
