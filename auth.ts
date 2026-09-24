@@ -5,16 +5,24 @@ import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
 import type { Role } from "@/config/roles";
 import { resolveDemoIdentity } from "@/lib/auth-demo";
+import {
+  ensureAuthUrl,
+  googleOAuthEnv,
+  houseKeyPassword,
+} from "@/lib/auth-env";
 import { resolveRole } from "@/lib/house/lookup";
+
+ensureAuthUrl();
 
 function providers(): Provider[] {
   const list: Provider[] = [];
+  const google = googleOAuthEnv();
 
-  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+  if (google) {
     list.push(
       Google({
-        clientId: process.env.AUTH_GOOGLE_ID,
-        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+        clientId: google.clientId,
+        clientSecret: google.clientSecret,
       }),
     );
   }
@@ -31,12 +39,12 @@ function providers(): Provider[] {
   // Email (Nodemailer) is declared in .env.example and the sign-in UI.
   // It is not imported here so empty placeholders cannot pull Node SMTP into the bundle.
 
-  if (process.env.AUTH_DEMO === "1" && process.env.AUTH_DEMO_PASSWORD) {
-    const expected = process.env.AUTH_DEMO_PASSWORD;
+  const expected = houseKeyPassword();
+  if (expected) {
     list.push(
       Credentials({
-        id: "demo",
-        name: "Email",
+        id: "credentials",
+        name: "House key",
         credentials: {
           email: { label: "Username or email", type: "text" },
           password: { label: "Password", type: "password" },

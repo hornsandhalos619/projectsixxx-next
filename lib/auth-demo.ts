@@ -7,8 +7,8 @@ export type DemoIdentity = {
 };
 
 /**
- * AUTH_DEMO login. Exact id `6` maps to the first FOUNDER_EMAILS entry.
- * Founder emails and other emails still work; `6` is an alias, not an OAuth id.
+ * House-key login. Exact id `6` maps to the first FOUNDER_EMAILS entry.
+ * Founder emails and other emails still work; `6` is an alias for the first founder seat.
  */
 export function resolveDemoIdentity(loginId: string): DemoIdentity | null {
   const raw = String(loginId ?? "").trim();

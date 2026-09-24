@@ -11,14 +11,14 @@ export function SignInForm({
   providers: PublicProvider[];
   callbackUrl: string;
 }) {
-  const demo = providers.find((p) => p.id === "demo");
+  const houseKey = providers.find((p) => p.id === "credentials");
   const oauth = providers.filter((p) => p.id === "google" || p.id === "twitter");
   const email = providers.find((p) => p.id === "nodemailer");
 
-  async function onDemo(event: FormEvent<HTMLFormElement>) {
+  async function onHouseKey(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    await signIn("demo", {
+    await signIn("credentials", {
       email: String(data.get("email") ?? ""),
       password: String(data.get("password") ?? ""),
       callbackUrl,
@@ -59,8 +59,8 @@ export function SignInForm({
         </form>
       ) : null}
 
-      {demo ? (
-        <form onSubmit={onDemo} className="form">
+      {houseKey ? (
+        <form onSubmit={onHouseKey} className="form">
           <label>
             Username or email
             <input
