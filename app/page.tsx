@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/config/site";
 import { duality, portalArt } from "@/config/duality";
 import { housePillars } from "@/config/pillars";
+import { Manifesto } from "@/components/Manifesto";
 import { PortalCta } from "@/components/PortalCta";
 import { SampleBadge } from "@/components/SampleBadge";
 import { listFeaturedArtists } from "@/lib/gallery/store";
@@ -93,6 +94,8 @@ export default async function HomePage() {
           <p className="hint">{duality.halosStandalone}</p>
         </PortalCta>
       </section>
+
+      <Manifesto />
 
       <section className="strips" aria-label="House surfaces">
         <div className="shell">
@@ -297,23 +300,7 @@ export default async function HomePage() {
 
       <section className="section">
         <div className="shell">
-          <p className="kicker">Manifesto</p>
-          <h2>Est. in Darkness is a date, not a filter.</h2>
-          <div className="prose prose--centered">
-            <p>
-              We do not steal sacred marks. We do not dress the house as a devil
-              or a saint. Atmosphere sits over a clean information architecture —
-              haunting skin, sterile bones.
-            </p>
-            <p>
-              Fine is a cut: craft before consensus, commerce as weather, the
-              quiet tests that survive a name going blank. If it needs a costume
-              to be believed, it does not make the night.
-            </p>
-          </div>
-          <p className="kicker" style={{ marginTop: "2rem" }}>
-            Seven pillars
-          </p>
+          <h2>Seven pillars</h2>
           <div className="pillars pillars-seven">
             {housePillars.map((pillar) => (
               <article className="pillar" key={pillar.slug}>

@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "npx --yes tsx lib/cms/merge.test.ts && npx --yes tsx lib/auth-demo.test.ts && npx --yes tsx lib/house/roles.test.ts",
+    "test": "npx --yes tsx lib/cms/merge.test.ts && npx --yes tsx lib/auth-demo.test.ts && npx --yes tsx lib/house/roles.test.ts && npx --yes tsx lib/manifesto.test.ts",
     "seed": "npx --yes tsx scripts/seed-cms.ts"
   },
   "dependencies": {
