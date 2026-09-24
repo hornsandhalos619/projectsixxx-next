@@ -30,26 +30,45 @@ Set these in the Vercel project. Values stay in the dashboard. This list is name
 
 ### Auth (required for `/admin`)
 
-| Name | Why |
-| --- | --- |
-| `AUTH_SECRET` | NextAuth session signing |
-| `AUTH_URL` | Canonical origin, `https://projectsixxx.com` in production |
-| `AUTH_GOOGLE_ID` | Google OAuth client id (preferred founder path) |
-| `AUTH_GOOGLE_SECRET` | Google OAuth client secret |
-| `FOUNDER_EMAILS` | Comma-separated allowlist. First entry is the `6` demo alias target. |
-
-Google Cloud redirect URI: `https://projectsixxx.com/api/auth/callback/google` (plus each preview origin you use). After changing `FOUNDER_EMAILS`, sign out and sign in again.
-
-### Emergency demo sign-in
+Set these on the Vercel project for Production and Preview. Values stay in the dashboard.
 
 | Name | Why |
 | --- | --- |
-| `AUTH_DEMO` | Set `1` to enable the credentials provider |
-| `AUTH_DEMO_PASSWORD` | Shared password. Empty in `.env.example`. Seat the value on Vercel only. |
+| `AUTH_SECRET` | NextAuth session signing. Generate with `openssl rand -base64 32`. |
+| `AUTH_URL` | Production: `https://projectsixxx.com`. Preview: leave unset so Auth.js uses the preview host, or set the preview origin. |
+| `AUTH_GOOGLE_ID` | Google OAuth client id (`GOOGLE_CLIENT_ID` is also read) |
+| `AUTH_GOOGLE_SECRET` | Google OAuth client secret (`GOOGLE_CLIENT_SECRET` is also read) |
+| `FOUNDER_EMAILS` | Comma-separated allowlist. First entry is the `6` house-key alias target. |
+| `FOUNDER_PASSWORD` | House-key password. Presence of this value registers the credentials provider. |
 
-When `AUTH_DEMO=1`, `/signin` accepts a username or email (not email-only). Login id `6` maps to the first `FOUNDER_EMAILS` address, display name `6`, role via `roleForEmail`. A founder email with the same password also works. Google OAuth stays when those keys are set.
+`AUTH_DEMO_PASSWORD` is still read when `FOUNDER_PASSWORD` is empty. After changing `FOUNDER_EMAILS`, sign out and sign in again.
+
+House-key login accepts username `6` or any email. `6` maps to the first `FOUNDER_EMAILS` address, display name `6`, role via `roleForEmail`. A founder email with the same password also works. Founder role seeds from `FOUNDER_EMAILS` after sign-in. First signup is Member.
 
 Optional: `AUTH_TWITTER_ID`, `AUTH_TWITTER_SECRET`.
+
+### Google Cloud Console (OAuth 2.0 Web client)
+
+Create a **Web application** client. Authorized JavaScript origins and redirect URIs must match the house origin Auth.js sends.
+
+**Production**
+
+- Authorized JavaScript origins: `https://projectsixxx.com`
+- Authorized redirect URI: `https://projectsixxx.com/api/auth/callback/google`
+
+**Local (`next dev`)**
+
+- Authorized JavaScript origins: `http://localhost:3000`
+- Authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+
+**Preview (each Vercel preview origin you use)**
+
+- Authorized JavaScript origins: `https://<preview>.vercel.app`
+- Authorized redirect URI: `https://<preview>.vercel.app/api/auth/callback/google`
+
+`www.projectsixxx.com` already 308s to the apex. Keep Console entries on `https://projectsixxx.com`.
+
+After saving Console URIs, wait a few minutes, then sign in from `/signin` with **Continue with Google**. The live POST uses `redirect_uri=https://projectsixxx.com/api/auth/callback/google`.
 
 ### Live-edit store (preferred)
 
@@ -87,12 +106,22 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 
 ```bash
 cp .env.example .env.local
-# set AUTH_SECRET, AUTH_DEMO=1, AUTH_DEMO_PASSWORD, FOUNDER_EMAILS
+# set AUTH_SECRET, FOUNDER_PASSWORD, FOUNDER_EMAILS
+# optional: AUTH_GOOGLE_ID + AUTH_GOOGLE_SECRET for Google
 npm install
 npm run dev
 ```
 
 Sign in at `/signin` as `6` or the founder email, then open `/admin`.
+
+When `FOUNDER_PASSWORD` (or `AUTH_DEMO_PASSWORD`) and Google keys are set, `GET /api/auth/providers` includes both:
+
+```json
+{
+  "google": { "id": "google", "name": "Google", "type": "oidc" },
+  "credentials": { "id": "credentials", "name": "House key", "type": "credentials" }
+}
+```
 
 ```bash
 npm test

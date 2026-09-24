@@ -1,11 +1,13 @@
+import { googleOAuthEnv, houseKeyEnabled } from "@/lib/auth-env";
+
 export type PublicProvider = {
-  id: "google" | "twitter" | "nodemailer" | "demo";
+  id: "google" | "twitter" | "nodemailer" | "credentials";
   label: string;
 };
 
 export function publicProviders(): PublicProvider[] {
   const list: PublicProvider[] = [];
-  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+  if (googleOAuthEnv()) {
     list.push({ id: "google", label: "Continue with Google" });
   }
   if (process.env.AUTH_TWITTER_ID && process.env.AUTH_TWITTER_SECRET) {
@@ -14,8 +16,8 @@ export function publicProviders(): PublicProvider[] {
   if (process.env.AUTH_EMAIL_SERVER && process.env.AUTH_EMAIL_FROM) {
     list.push({ id: "nodemailer", label: "Continue with email" });
   }
-  if (process.env.AUTH_DEMO === "1" && process.env.AUTH_DEMO_PASSWORD) {
-    list.push({ id: "demo", label: "Continue with house key" });
+  if (houseKeyEnabled()) {
+    list.push({ id: "credentials", label: "Continue with house key" });
   }
   return list;
 }
