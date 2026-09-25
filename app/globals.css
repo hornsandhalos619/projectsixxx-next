@@ -1892,61 +1892,268 @@ a.card:focus-visible,
   border-radius: var(--radius);
 }
 
-/* Manifesto — house prose after the duality beat */
+/* Manifesto — parchment scroll. Type is scoped here (IM Fell / Cinzel Decorative / Great Vibes). */
 .manifesto {
-  padding: 5.75rem 0 5rem;
+  --manifesto-ink: #1a120c;
+  --manifesto-ink-soft: #3a2a1c;
+  --manifesto-crimson: #6b1d1d;
+  --manifesto-gold: #8a6a3a;
+  --manifesto-parchment: #e8d9b8;
+  --manifesto-parchment-deep: #d4c19a;
+  padding: 5.75rem 1.25rem 5rem;
   border-top: 1px solid var(--hairline);
+  background: #0a0806;
+  text-align: left;
+}
+
+.manifesto-stage {
+  width: min(820px, 100%);
+  margin: 0 auto;
+}
+
+.manifesto-scroll {
+  position: relative;
   background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--obsidian) 92%, var(--crimson-deep)) 0%,
-      var(--void) 48%,
-      var(--void) 100%
+    radial-gradient(ellipse at 20% 10%, rgba(255, 255, 255, 0.18), transparent 45%),
+    radial-gradient(ellipse at 80% 90%, rgba(90, 60, 20, 0.12), transparent 40%),
+    linear-gradient(180deg, #f0e4c8 0%, var(--manifesto-parchment) 35%, var(--manifesto-parchment-deep) 100%);
+  color: var(--manifesto-ink);
+  border: 3px solid #5c4328;
+  box-shadow:
+    0 0 0 1px #c9a56a,
+    0 0 0 8px #2a1c10,
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    inset 0 0 80px rgba(90, 60, 20, 0.12);
+  padding: 56px 52px 64px;
+}
+
+.manifesto-scroll::before,
+.manifesto-scroll::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  height: 18px;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 10px,
+      var(--manifesto-gold) 10px 12px,
+      transparent 12px 22px,
+      var(--manifesto-crimson) 22px 24px
     );
+  opacity: 0.55;
+}
+
+.manifesto-scroll::before {
+  top: 18px;
+}
+
+.manifesto-scroll::after {
+  bottom: 18px;
+}
+
+.manifesto-ornate {
+  position: absolute;
+  inset: 28px;
+  border: 1px solid rgba(90, 60, 30, 0.62);
+  pointer-events: none;
+}
+
+.manifesto-star {
+  position: absolute;
+  color: var(--manifesto-crimson);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.manifesto-star::before {
+  content: "✦";
+}
+
+.manifesto-star--tl {
+  top: -8px;
+  left: -6px;
+}
+
+.manifesto-star--tr {
+  top: -8px;
+  right: -6px;
+}
+
+.manifesto-star--bl {
+  bottom: -8px;
+  left: -6px;
+}
+
+.manifesto-star--br {
+  bottom: -8px;
+  right: -6px;
+}
+
+.manifesto-corner {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-color: var(--manifesto-gold);
+  opacity: 1;
+}
+
+.manifesto-corner--tl {
+  top: 10px;
+  left: 10px;
+  border-top: 3px solid;
+  border-left: 3px solid;
+}
+
+.manifesto-corner--tr {
+  top: 10px;
+  right: 10px;
+  border-top: 3px solid;
+  border-right: 3px solid;
+}
+
+.manifesto-corner--bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 3px solid;
+  border-left: 3px solid;
+}
+
+.manifesto-corner--br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 3px solid;
+  border-right: 3px solid;
 }
 
 .manifesto h2 {
-  font-weight: 300;
-  font-size: clamp(2.25rem, 4.8vw, 4rem);
-  letter-spacing: 0.16em;
+  margin: 0 0 8px;
+  text-align: center;
+  font-family: var(--font-manifesto-cinzel), "Cinzel Decorative", serif;
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 42px);
+  letter-spacing: 0.12em;
+  text-transform: none;
+  color: var(--manifesto-crimson);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.manifesto h2::after {
+  content: none;
+  display: none;
+}
+
+.manifesto-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 28px;
+  color: var(--manifesto-gold);
+  font-family: var(--font-manifesto-fell), "IM Fell English", Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--bone);
-  margin-bottom: 2.35rem;
+  text-align: center;
+}
+
+.manifesto-rule::before,
+.manifesto-rule::after {
+  content: "";
+  height: 1px;
+  width: 72px;
+  background: linear-gradient(90deg, transparent, var(--manifesto-gold), transparent);
 }
 
 .manifesto-prose {
-  max-width: 38rem;
-  font-family: var(--font-ui);
-  font-size: clamp(1.05rem, 1.45vw, 1.2rem);
+  max-width: none;
+  font-family: var(--font-manifesto-fell), "IM Fell English", var(--font-cormorant), Georgia, serif;
+  font-size: clamp(18px, 2.4vw, 22px);
   font-weight: 400;
-  line-height: 1.75;
-  color: var(--bone);
-  font-variant-numeric: lining-nums;
+  line-height: 1.65;
+  color: var(--manifesto-ink);
 }
 
-.manifesto-prose p + p {
-  margin-top: 1.4rem;
+.manifesto-prose p {
+  margin: 0 0 1.05em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.manifesto-prose p:last-child {
+  margin-bottom: 0;
 }
 
 .manifesto-prose strong {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
   font-weight: 600;
-  color: var(--bone);
+  color: var(--manifesto-ink-soft);
+  letter-spacing: 0.02em;
 }
 
-.manifesto-axiom,
+.manifesto-lead {
+  font-size: 1.12em;
+  text-align: center;
+  font-style: italic;
+}
+
+.manifesto-lead::first-letter {
+  font-family: var(--font-manifesto-cinzel), "Cinzel Decorative", serif;
+  font-style: normal;
+  font-size: 2.4em;
+  float: left;
+  line-height: 0.85;
+  padding: 0.08em 0.08em 0 0;
+  color: var(--manifesto-crimson);
+}
+
+.manifesto-axiom {
+  text-align: center;
+  font-family: var(--font-manifesto-script), "Great Vibes", cursive;
+  font-size: 1.55em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--manifesto-crimson);
+  margin: 1.2em 0;
+}
+
 .manifesto-welcome {
-  font-family: var(--font-display);
+  text-align: center;
+  font-family: var(--font-manifesto-fell), "IM Fell English", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  color: var(--bone);
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
+  color: var(--manifesto-ink);
+  margin-top: 1.4em;
 }
 
 .manifesto-prose .manifesto-sign {
-  margin-top: 2.35rem;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.05rem;
-  letter-spacing: 0.04em;
-  color: var(--ash);
+  margin-top: 1.6em;
+  text-align: center;
+  font-family: var(--font-manifesto-script), "Great Vibes", cursive;
+  font-style: normal;
+  font-size: 1.7em;
+  letter-spacing: 0;
+  color: var(--manifesto-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .manifesto-scroll {
+    padding: 40px 22px 48px;
+  }
+
+  .manifesto-rule::before,
+  .manifesto-rule::after {
+    width: 36px;
+  }
+
+  .manifesto-prose .manifesto-sign {
+    font-size: 1.35em;
+  }
 }
