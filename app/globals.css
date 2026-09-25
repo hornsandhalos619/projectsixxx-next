@@ -1900,8 +1900,8 @@ a.card:focus-visible,
   --manifesto-gold: #8a6a3a;
   --manifesto-parchment: #ead9b4;
   --manifesto-parchment-deep: #c9a56a;
-  --manifesto-ease: cubic-bezier(0.16, 0.84, 0.28, 1);
-  --manifesto-unroll: 2.15s;
+  --manifesto-ease: cubic-bezier(0.28, 0.08, 0.22, 1);
+  --manifesto-unroll: 2.25s;
   padding: 5.75rem 1.25rem 5rem;
   border-top: 1px solid var(--hairline);
   background: #0a0806;
