@@ -11,9 +11,11 @@ const layoutSource = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "../app/layout.tsx"),
   "utf8",
 );
-assert.match(
-  layoutSource,
-  /verification:\s*\{\s*google:\s*"gyXQTr7AzMIDkSVuWKw23dD_1QyqJ_fduppUTNMDo14"\s*\}/,
+assert.ok(
+  /verification:\s*\{[\s\S]*google:\s*"gyXQTr7AzMIDkSVuWKw23dD_1QyqJ_fduppUTNMDo14"/.test(
+    layoutSource,
+  ),
+  "root layout must export the Search Console google verification token",
 );
 assert.ok(
   layoutSource.includes('from "@vercel/analytics/next"'),
