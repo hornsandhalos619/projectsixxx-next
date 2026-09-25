@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
         destination: "/overmind/journal/:path*",
         permanent: true,
       },
+      {
+        source: "/login",
+        destination: "/signin",
+        permanent: true,
+      },
     ];
   },
 };

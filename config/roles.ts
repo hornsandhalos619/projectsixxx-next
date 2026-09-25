@@ -52,7 +52,7 @@ export function isGrantableRole(value: string): value is GrantableRole {
 
 export function roleForEmail(email: string | null | undefined): Role {
   if (!email) return "member";
-  if (founderEmails().includes(email.toLowerCase())) return "founder";
+  if (founderEmails().includes(email.trim().toLowerCase())) return "founder";
   return "member";
 }
 

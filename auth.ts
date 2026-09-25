@@ -5,16 +5,20 @@ import Google from "next-auth/providers/google";
 import Twitter from "next-auth/providers/twitter";
 import type { Role } from "@/config/roles";
 import { resolveDemoIdentity } from "@/lib/auth-demo";
+import { ensureAuthUrl, googleOAuthEnv } from "@/lib/auth-env";
 import { resolveRole } from "@/lib/house/lookup";
+
+ensureAuthUrl();
 
 function providers(): Provider[] {
   const list: Provider[] = [];
+  const google = googleOAuthEnv();
 
-  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+  if (google) {
     list.push(
       Google({
-        clientId: process.env.AUTH_GOOGLE_ID,
-        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+        clientId: google.clientId,
+        clientSecret: google.clientSecret,
       }),
     );
   }
@@ -57,8 +61,8 @@ function providers(): Provider[] {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
-  secret: process.env.AUTH_SECRET || "projectsixxx-build-placeholder",
-  pages: { signIn: "/signin" },
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || "projectsixxx-build-placeholder",
+  pages: { signIn: "/signin", error: "/signin" },
   providers: providers(),
   callbacks: {
     async jwt({ token, user }) {
@@ -66,14 +70,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const email =
         user?.email ?? (typeof token.email === "string" ? token.email : null);
       if (email) {
-        token.role = await resolveRole(email);
-        token.email = email;
+        const normalized = email.trim().toLowerCase();
+        token.role = await resolveRole(normalized);
+        token.email = normalized;
       }
       return token;
     },
     async session({ session, token }) {
-      const email = session.user.email ?? (typeof token.email === "string" ? token.email : null);
-      session.user.role = (await resolveRole(email)) || ((token.role as Role) ?? "member");
+      const email = typeof token.email === "string" ? token.email : session.user.email;
+      if (email) session.user.email = email.trim().toLowerCase();
+      session.user.role = (await resolveRole(session.user.email)) || ((token.role as Role) ?? "member");
       if (typeof token.name === "string" && token.name) {
         session.user.name = token.name;
       }
