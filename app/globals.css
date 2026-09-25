@@ -1892,18 +1892,21 @@ a.card:focus-visible,
   border-radius: var(--radius);
 }
 
-/* Manifesto — parchment scroll. Type is scoped here (IM Fell / Cinzel Decorative / Great Vibes). */
+/* Manifesto — aged parchment scroll. Type is scoped here (IM Fell / Cinzel Decorative / Great Vibes). */
 .manifesto {
-  --manifesto-ink: #1a120c;
-  --manifesto-ink-soft: #3a2a1c;
+  --manifesto-ink: #16100b;
+  --manifesto-ink-soft: #2c1d12;
   --manifesto-crimson: #6b1d1d;
   --manifesto-gold: #8a6a3a;
-  --manifesto-parchment: #e8d9b8;
-  --manifesto-parchment-deep: #d4c19a;
+  --manifesto-parchment: #ead9b4;
+  --manifesto-parchment-deep: #c9a56a;
+  --manifesto-ease: cubic-bezier(0.16, 0.84, 0.28, 1);
+  --manifesto-unroll: 2.15s;
   padding: 5.75rem 1.25rem 5rem;
   border-top: 1px solid var(--hairline);
   background: #0a0806;
   text-align: left;
+  scroll-margin-top: 5rem;
 }
 
 .manifesto-stage {
@@ -1911,20 +1914,150 @@ a.card:focus-visible,
   margin: 0 auto;
 }
 
+.manifesto-rig {
+  position: relative;
+  padding: 0 10px;
+}
+
+.manifesto-pole {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  margin-inline: -16px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.manifesto-pole--top {
+  margin-bottom: -8px;
+}
+
+.manifesto-pole__shaft {
+  flex: 1;
+  height: 14px;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 9px,
+      rgba(48, 26, 10, 0.12) 9px 10px,
+      transparent 10px 21px,
+      rgba(255, 236, 196, 0.08) 21px 22px
+    ),
+    linear-gradient(
+      180deg,
+      #3d2614 0%,
+      #b08955 16%,
+      #e6d2a4 34%,
+      #8b5a32 52%,
+      #3a2210 78%,
+      #120a05 100%
+    );
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 244, 214, 0.42),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.38);
+}
+
+.manifesto-pole__knob {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #f4ead2 0%, #d2be90 38%, #8a7048 72%, #2a1c10 100%);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.45),
+    inset 0 2px 2px rgba(255, 255, 255, 0.32),
+    inset 0 -2px 3px rgba(40, 24, 10, 0.35);
+}
+
+.manifesto-reveal {
+  position: relative;
+  max-height: 58px;
+  overflow: hidden;
+  transform-origin: top center;
+  transition: max-height var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-reveal {
+  max-height: var(--manifesto-reveal, 2400px);
+}
+
+.manifesto-rig[data-instant="true"] .manifesto-reveal {
+  max-height: none;
+  transition: none;
+}
+
 .manifesto-scroll {
   position: relative;
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(255, 255, 255, 0.18), transparent 45%),
-    radial-gradient(ellipse at 80% 90%, rgba(90, 60, 20, 0.12), transparent 40%),
-    linear-gradient(180deg, #f0e4c8 0%, var(--manifesto-parchment) 35%, var(--manifesto-parchment-deep) 100%);
+  isolation: isolate;
   color: var(--manifesto-ink);
-  border: 3px solid #5c4328;
+  background-color: #e4cf9e;
+  background-image:
+    repeating-linear-gradient(
+      116deg,
+      transparent 0 17px,
+      rgba(70, 42, 16, 0.028) 18px,
+      transparent 20px 41px
+    ),
+    repeating-linear-gradient(
+      8deg,
+      transparent 0 23px,
+      rgba(255, 248, 230, 0.05) 24px,
+      transparent 26px 54px
+    ),
+    radial-gradient(ellipse 80% 55% at 18% 8%, #f6ebcf 0%, transparent 58%),
+    radial-gradient(ellipse 70% 50% at 88% 92%, #c49a5a 0%, transparent 62%),
+    radial-gradient(ellipse 60% 40% at 70% 24%, rgba(248, 236, 204, 0.55), transparent 70%),
+    linear-gradient(168deg, #f0e2c0 0%, var(--manifesto-parchment) 38%, #d4b37a 100%);
+  border: 1px solid rgba(92, 64, 32, 0.38);
   box-shadow:
-    0 0 0 1px #c9a56a,
-    0 0 0 8px #2a1c10,
-    0 24px 60px rgba(0, 0, 0, 0.55),
-    inset 0 0 80px rgba(90, 60, 20, 0.12);
-  padding: 56px 52px 64px;
+    inset 0 0 0 1px rgba(255, 244, 214, 0.18),
+    0 18px 40px rgba(0, 0, 0, 0.42);
+  padding: 56px 52px 70px;
+}
+
+.manifesto-texture,
+.manifesto-foxing,
+.manifesto-cracks,
+.manifesto-burn {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.manifesto-texture {
+  background-image: url("/textures/manifesto-fiber.svg");
+  background-size: 256px 256px;
+  mix-blend-mode: multiply;
+  opacity: 0.32;
+}
+
+.manifesto-foxing {
+  background-image:
+    radial-gradient(ellipse 90px 56px at 14% 16%, rgba(132, 72, 28, 0.13), transparent 72%),
+    radial-gradient(ellipse 70px 48px at 86% 22%, rgba(110, 58, 22, 0.1), transparent 70%),
+    radial-gradient(ellipse 120px 70px at 72% 78%, rgba(150, 88, 36, 0.11), transparent 74%),
+    radial-gradient(ellipse 64px 40px at 24% 68%, rgba(92, 48, 20, 0.09), transparent 70%),
+    radial-gradient(ellipse 50px 34px at 48% 42%, rgba(160, 100, 40, 0.07), transparent 68%),
+    radial-gradient(ellipse 40px 28px at 62% 12%, rgba(80, 40, 16, 0.08), transparent 70%);
+  mix-blend-mode: multiply;
+}
+
+.manifesto-cracks {
+  background: url("/textures/manifesto-cracks.svg") center / 100% 100% no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+}
+
+.manifesto-burn {
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(62, 34, 12, 0.2) 100%),
+    linear-gradient(180deg, rgba(48, 26, 10, 0.16), transparent 12%, transparent 88%, rgba(40, 22, 8, 0.22));
+  box-shadow: inset 0 0 72px 18px rgba(56, 30, 10, 0.16);
 }
 
 .manifesto-scroll::before,
@@ -1934,6 +2067,7 @@ a.card:focus-visible,
   left: 18px;
   right: 18px;
   height: 18px;
+  z-index: 1;
   pointer-events: none;
   background-image:
     repeating-linear-gradient(
@@ -1954,10 +2088,18 @@ a.card:focus-visible,
   bottom: 18px;
 }
 
+.manifesto-ornate,
+.manifesto-corner,
+.manifesto-body {
+  position: relative;
+  z-index: 1;
+}
+
 .manifesto-ornate {
   position: absolute;
   inset: 28px;
-  border: 1px solid rgba(90, 60, 30, 0.62);
+  z-index: 1;
+  border: 1px solid rgba(90, 60, 30, 0.55);
   pointer-events: none;
 }
 
@@ -1966,7 +2108,7 @@ a.card:focus-visible,
   color: var(--manifesto-crimson);
   font-size: 14px;
   line-height: 1;
-  opacity: 0.8;
+  opacity: 0.86;
 }
 
 .manifesto-star::before {
@@ -2029,6 +2171,111 @@ a.card:focus-visible,
   border-right: 3px solid;
 }
 
+.manifesto-leading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.manifesto-leading::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: -14px;
+  height: 18px;
+  background: linear-gradient(180deg, transparent, rgba(36, 20, 8, 0.32));
+  opacity: 1;
+  transition: opacity 0.5s 1.5s linear;
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-leading::before {
+  opacity: 0;
+}
+
+.manifesto-curl {
+  position: relative;
+  height: 38px;
+  margin: 0 12px -10px;
+  transform-origin: top center;
+  transform: perspective(260px) rotateX(-32deg);
+  transition:
+    height var(--manifesto-unroll) var(--manifesto-ease),
+    opacity 0.5s 1.55s linear,
+    transform var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-curl {
+  height: 0;
+  opacity: 0;
+  transform: perspective(260px) rotateX(-8deg);
+}
+
+.manifesto-curl__lip {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  z-index: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #b89258, #f3e6c4, #b89258);
+  box-shadow: 0 1px 2px rgba(255, 250, 230, 0.35);
+}
+
+.manifesto-curl__barrel {
+  display: block;
+  height: 100%;
+  border-radius: 42% / 50%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 11px,
+      rgba(40, 22, 8, 0.08) 11px 12px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(32, 18, 8, 0.4) 0%,
+      rgba(255, 244, 214, 0.5) 14%,
+      #e6d3a8 28%,
+      #c4a06a 48%,
+      #8a6234 66%,
+      #3a2412 84%,
+      #120a04 100%
+    );
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.45),
+    inset 0 2px 3px rgba(255, 250, 230, 0.42),
+    inset 0 -8px 10px rgba(0, 0, 0, 0.38);
+}
+
+.manifesto-leading .manifesto-pole {
+  margin-inline: 0;
+}
+
+.manifesto-contact {
+  height: 26px;
+  margin: -2px 36px 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.58), transparent 72%);
+  filter: blur(9px);
+  opacity: 0.28;
+  transform: scaleX(0.62);
+  transition:
+    opacity var(--manifesto-unroll) var(--manifesto-ease),
+    transform var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-contact {
+  opacity: 0.72;
+  transform: scaleX(1);
+}
+
 .manifesto h2 {
   margin: 0 0 8px;
   text-align: center;
@@ -2038,7 +2285,7 @@ a.card:focus-visible,
   letter-spacing: 0.12em;
   text-transform: none;
   color: var(--manifesto-crimson);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 248, 230, 0.28);
 }
 
 .manifesto h2::after {
@@ -2145,7 +2392,11 @@ a.card:focus-visible,
 
 @media (max-width: 640px) {
   .manifesto-scroll {
-    padding: 40px 22px 48px;
+    padding: 40px 22px 56px;
+  }
+
+  .manifesto-pole {
+    margin-inline: -8px;
   }
 
   .manifesto-rule::before,
@@ -2155,5 +2406,28 @@ a.card:focus-visible,
 
   .manifesto-prose .manifesto-sign {
     font-size: 1.35em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-reveal,
+  .manifesto-curl,
+  .manifesto-contact,
+  .manifesto-leading::before {
+    transition: none !important;
+  }
+
+  .manifesto-reveal {
+    max-height: none !important;
+  }
+
+  .manifesto-curl {
+    height: 0 !important;
+    opacity: 0 !important;
+  }
+
+  .manifesto-contact {
+    opacity: 0.72;
+    transform: scaleX(1);
   }
 }
