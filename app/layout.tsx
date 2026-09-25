@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, IBM_Plex_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/config/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -57,6 +58,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   );
