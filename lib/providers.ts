@@ -1,23 +1,13 @@
-import { googleOAuthEnv } from "@/lib/auth-env";
-
 export type PublicProvider = {
-  id: "google" | "twitter" | "nodemailer" | "demo";
+  id: "credentials";
   label: string;
 };
 
+/** Visible house login. Google is not advertised. X is a later PR. */
 export function publicProviders(): PublicProvider[] {
-  const list: PublicProvider[] = [];
-  if (googleOAuthEnv()) {
-    list.push({ id: "google", label: "Continue with Google" });
-  }
-  if (process.env.AUTH_TWITTER_ID && process.env.AUTH_TWITTER_SECRET) {
-    list.push({ id: "twitter", label: "Continue with X" });
-  }
-  if (process.env.AUTH_EMAIL_SERVER && process.env.AUTH_EMAIL_FROM) {
-    list.push({ id: "nodemailer", label: "Continue with email" });
-  }
-  if (process.env.AUTH_DEMO === "1" && process.env.AUTH_DEMO_PASSWORD) {
-    list.push({ id: "demo", label: "Continue with house key" });
-  }
-  return list;
+  return [{ id: "credentials", label: "Continue with house key" }];
+}
+
+export function advertisedProviderIds(): string[] {
+  return publicProviders().map((provider) => provider.id);
 }
