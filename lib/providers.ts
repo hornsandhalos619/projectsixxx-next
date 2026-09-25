@@ -1,3 +1,5 @@
+import { googleOAuthEnv } from "@/lib/auth-env";
+
 export type PublicProvider = {
   id: "google" | "twitter" | "nodemailer" | "demo";
   label: string;
@@ -5,7 +7,7 @@ export type PublicProvider = {
 
 export function publicProviders(): PublicProvider[] {
   const list: PublicProvider[] = [];
-  if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
+  if (googleOAuthEnv()) {
     list.push({ id: "google", label: "Continue with Google" });
   }
   if (process.env.AUTH_TWITTER_ID && process.env.AUTH_TWITTER_SECRET) {

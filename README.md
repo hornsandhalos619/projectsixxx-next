@@ -30,15 +30,41 @@ Set these in the Vercel project. Values stay in the dashboard. This list is name
 
 ### Auth (required for `/admin`)
 
+Set these on the Vercel project for Production (and Preview if you sign in there). Values stay in the dashboard.
+
 | Name | Why |
 | --- | --- |
-| `AUTH_SECRET` | NextAuth session signing |
-| `AUTH_URL` | Canonical origin, `https://projectsixxx.com` in production |
-| `AUTH_GOOGLE_ID` | Google OAuth client id (preferred founder path) |
-| `AUTH_GOOGLE_SECRET` | Google OAuth client secret |
-| `FOUNDER_EMAILS` | Comma-separated allowlist. First entry is the `6` demo alias target. |
+| `AUTH_SECRET` | Auth.js session signing. Generate with `openssl rand -base64 32`. `NEXTAUTH_SECRET` is also read. |
+| `AUTH_URL` | Production: `https://projectsixxx.com`. Preview: leave unset so Auth.js uses the preview host. |
+| `AUTH_TRUST_HOST` | `true` on Vercel. The app also sets `trustHost: true`. |
+| `AUTH_GOOGLE_ID` | Google OAuth client id (`GOOGLE_CLIENT_ID` is also read) |
+| `AUTH_GOOGLE_SECRET` | Google OAuth client secret (`GOOGLE_CLIENT_SECRET` is also read) |
+| `FOUNDER_EMAILS` | Comma-separated allowlist, case-insensitive. First entry is the `6` demo alias target. Include `hornsandhalos619@gmail.com`. |
 
-Google Cloud redirect URI: `https://projectsixxx.com/api/auth/callback/google` (plus each preview origin you use). After changing `FOUNDER_EMAILS`, sign out and sign in again.
+After changing `FOUNDER_EMAILS`, sign out and sign in again so the session re-seeds Founder.
+
+### Google Cloud Console (OAuth 2.0 Web client)
+
+Create a **Web application** client. Origins and redirect URIs must match the house origin Auth.js sends.
+
+**Production**
+
+- Authorized JavaScript origins: `https://projectsixxx.com`
+- Authorized redirect URI: `https://projectsixxx.com/api/auth/callback/google`
+
+**Local (`next dev`)**
+
+- Authorized JavaScript origins: `http://localhost:3000`
+- Authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+
+**Preview** (each Vercel preview origin you use)
+
+- Authorized JavaScript origins: `https://<preview>.vercel.app`
+- Authorized redirect URI: `https://<preview>.vercel.app/api/auth/callback/google`
+
+`www.projectsixxx.com` already 308s to the apex. Keep Console entries on `https://projectsixxx.com`.
+
+House login is **Continue with Google** on `/signin`. `/login` permanently redirects to `/signin`. A GET to `/api/auth/signin/google` lands on `/signin`; the button POSTs through Auth.js and sends the browser to Google with `redirect_uri=https://projectsixxx.com/api/auth/callback/google`.
 
 ### Emergency demo sign-in
 

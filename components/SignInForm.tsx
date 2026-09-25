@@ -2,6 +2,7 @@
 
 import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
+import { startOAuthSignIn } from "@/lib/auth-actions";
 import type { PublicProvider } from "@/lib/providers";
 
 export function SignInForm({
@@ -37,14 +38,13 @@ export function SignInForm({
   return (
     <div className="form">
       {oauth.map((p) => (
-        <button
-          key={p.id}
-          type="button"
-          className="btn btn-silver"
-          onClick={() => signIn(p.id, { callbackUrl })}
-        >
-          {p.label}
-        </button>
+        <form key={p.id} action={startOAuthSignIn}>
+          <input type="hidden" name="provider" value={p.id} />
+          <input type="hidden" name="callbackUrl" value={callbackUrl} />
+          <button type="submit" className="btn btn-silver">
+            {p.label}
+          </button>
+        </form>
       ))}
 
       {email ? (
