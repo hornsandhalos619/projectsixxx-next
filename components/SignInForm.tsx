@@ -1,8 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
-import { registerHouseAccount } from "@/lib/auth-actions";
+import { registerHouseAccount, signInHouseAccount } from "@/lib/auth-actions";
 
 export function SignInForm({
   callbackUrl,
@@ -18,11 +17,8 @@ export function SignInForm({
     event.preventDefault();
     setPending("in");
     const data = new FormData(event.currentTarget);
-    await signIn("credentials", {
-      email: String(data.get("email") ?? ""),
-      password: String(data.get("password") ?? ""),
-      callbackUrl,
-    });
+    data.set("callbackUrl", callbackUrl);
+    await signInHouseAccount(data);
     setPending(null);
   }
 

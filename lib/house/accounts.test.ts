@@ -112,6 +112,7 @@ async function main() {
   assert.ok(authSource.includes("providers/credentials"));
   assert.equal(signInSource.toLowerCase().includes("google"), false);
   assert.equal(signInSource.toLowerCase().includes("twitter"), false);
+  assert.ok(signInSource.includes("signInHouseAccount"));
 
   console.log("house accounts + credentials providers ok");
 }
