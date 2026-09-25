@@ -1,8 +1,24 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { journalTaxonomy, site } from "../config/site";
 import { shopCategories } from "../config/affiliates";
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
+
+const layoutSource = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "../app/layout.tsx"),
+  "utf8",
+);
+assert.match(
+  layoutSource,
+  /verification:\s*\{\s*google:\s*"gyXQTr7AzMIDkSVuWKw23dD_1QyqJ_fduppUTNMDo14"\s*\}/,
+);
+assert.ok(
+  layoutSource.includes('from "@vercel/analytics/next"'),
+  "house layout must keep the Vercel Analytics mount",
+);
 
 const robotsDoc = robots();
 assert.equal(site.url, "https://projectsixxx.com");
