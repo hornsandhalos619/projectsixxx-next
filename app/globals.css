@@ -1892,61 +1892,544 @@ a.card:focus-visible,
   border-radius: var(--radius);
 }
 
-/* Manifesto — house prose after the duality beat */
+/* Manifesto — aged parchment scroll. Type is scoped here (IM Fell / Cinzel Decorative / Great Vibes). */
 .manifesto {
-  padding: 5.75rem 0 5rem;
+  --manifesto-ink: #16100b;
+  --manifesto-ink-soft: #2c1d12;
+  --manifesto-crimson: #6b1d1d;
+  --manifesto-gold: #8a6a3a;
+  --manifesto-parchment: #ead9b4;
+  --manifesto-parchment-deep: #c9a56a;
+  --manifesto-ease: cubic-bezier(0.28, 0.08, 0.22, 1);
+  --manifesto-unroll: 2.25s;
+  padding: 5.75rem 1.25rem 5rem;
   border-top: 1px solid var(--hairline);
+  background: #0a0806;
+  text-align: left;
+  scroll-margin-top: 5rem;
+}
+
+.manifesto-stage {
+  width: min(820px, 100%);
+  margin: 0 auto;
+}
+
+.manifesto-rig {
+  position: relative;
+  padding: 0 10px;
+}
+
+.manifesto-pole {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  margin-inline: -16px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.manifesto-pole--top {
+  margin-bottom: -8px;
+}
+
+.manifesto-pole__shaft {
+  flex: 1;
+  height: 14px;
+  border-radius: 7px;
   background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 9px,
+      rgba(48, 26, 10, 0.12) 9px 10px,
+      transparent 10px 21px,
+      rgba(255, 236, 196, 0.08) 21px 22px
+    ),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--obsidian) 92%, var(--crimson-deep)) 0%,
-      var(--void) 48%,
-      var(--void) 100%
+      #3d2614 0%,
+      #b08955 16%,
+      #e6d2a4 34%,
+      #8b5a32 52%,
+      #3a2210 78%,
+      #120a05 100%
     );
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 244, 214, 0.42),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.38);
+}
+
+.manifesto-pole__knob {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #f4ead2 0%, #d2be90 38%, #8a7048 72%, #2a1c10 100%);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.45),
+    inset 0 2px 2px rgba(255, 255, 255, 0.32),
+    inset 0 -2px 3px rgba(40, 24, 10, 0.35);
+}
+
+.manifesto-reveal {
+  position: relative;
+  max-height: 58px;
+  overflow: hidden;
+  transform-origin: top center;
+  transition: max-height var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-reveal {
+  max-height: var(--manifesto-reveal, 2400px);
+}
+
+.manifesto-rig[data-instant="true"] .manifesto-reveal {
+  max-height: none;
+  transition: none;
+}
+
+.manifesto-scroll {
+  position: relative;
+  isolation: isolate;
+  color: var(--manifesto-ink);
+  background-color: #e4cf9e;
+  background-image:
+    repeating-linear-gradient(
+      116deg,
+      transparent 0 17px,
+      rgba(70, 42, 16, 0.045) 18px,
+      transparent 20px 41px
+    ),
+    repeating-linear-gradient(
+      8deg,
+      transparent 0 23px,
+      rgba(255, 248, 230, 0.07) 24px,
+      transparent 26px 54px
+    ),
+    radial-gradient(ellipse 80% 55% at 18% 8%, #f6ebcf 0%, transparent 58%),
+    radial-gradient(ellipse 70% 50% at 88% 92%, #b88948 0%, transparent 62%),
+    radial-gradient(ellipse 55% 38% at 8% 88%, rgba(120, 68, 24, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 70% 24%, rgba(248, 236, 204, 0.5), transparent 70%),
+    linear-gradient(168deg, #f0e2c0 0%, var(--manifesto-parchment) 38%, #c9a05c 100%);
+  border: 1px solid rgba(92, 64, 32, 0.38);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 244, 214, 0.18),
+    0 18px 40px rgba(0, 0, 0, 0.42);
+  padding: 56px 52px 70px;
+}
+
+.manifesto-texture,
+.manifesto-foxing,
+.manifesto-cracks,
+.manifesto-burn {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.manifesto-texture {
+  background-image: url("/textures/manifesto-fiber.svg");
+  background-size: 220px 220px;
+  mix-blend-mode: multiply;
+  opacity: 0.46;
+}
+
+.manifesto-foxing {
+  background-image:
+    radial-gradient(ellipse 110px 70px at 14% 16%, rgba(132, 72, 28, 0.2), transparent 72%),
+    radial-gradient(ellipse 80px 54px at 86% 22%, rgba(110, 58, 22, 0.16), transparent 70%),
+    radial-gradient(ellipse 140px 84px at 72% 78%, rgba(150, 88, 36, 0.18), transparent 74%),
+    radial-gradient(ellipse 74px 46px at 24% 68%, rgba(92, 48, 20, 0.15), transparent 70%),
+    radial-gradient(ellipse 56px 38px at 48% 42%, rgba(160, 100, 40, 0.12), transparent 68%),
+    radial-gradient(ellipse 48px 32px at 62% 12%, rgba(80, 40, 16, 0.14), transparent 70%),
+    radial-gradient(ellipse 36px 24px at 38% 86%, rgba(100, 52, 18, 0.14), transparent 70%);
+  mix-blend-mode: multiply;
+}
+
+.manifesto-cracks {
+  background: url("/textures/manifesto-cracks.svg") center / 100% 100% no-repeat;
+  opacity: 0.72;
+  mix-blend-mode: multiply;
+}
+
+.manifesto-burn {
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 48%, rgba(62, 34, 12, 0.28) 100%),
+    linear-gradient(180deg, rgba(48, 26, 10, 0.22), transparent 11%, transparent 86%, rgba(40, 22, 8, 0.28));
+  box-shadow: inset 0 0 80px 22px rgba(56, 30, 10, 0.2);
+}
+
+.manifesto-scroll::before,
+.manifesto-scroll::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  height: 18px;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 10px,
+      var(--manifesto-gold) 10px 12px,
+      transparent 12px 22px,
+      var(--manifesto-crimson) 22px 24px
+    );
+  opacity: 0.55;
+}
+
+.manifesto-scroll::before {
+  top: 18px;
+}
+
+.manifesto-scroll::after {
+  bottom: 18px;
+}
+
+.manifesto-ornate,
+.manifesto-corner,
+.manifesto-body {
+  position: relative;
+  z-index: 1;
+}
+
+.manifesto-ornate {
+  position: absolute;
+  inset: 28px;
+  z-index: 1;
+  border: 1px solid rgba(90, 60, 30, 0.55);
+  pointer-events: none;
+}
+
+.manifesto-star {
+  position: absolute;
+  color: var(--manifesto-crimson);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.86;
+}
+
+.manifesto-star::before {
+  content: "✦";
+}
+
+.manifesto-star--tl {
+  top: -8px;
+  left: -6px;
+}
+
+.manifesto-star--tr {
+  top: -8px;
+  right: -6px;
+}
+
+.manifesto-star--bl {
+  bottom: -8px;
+  left: -6px;
+}
+
+.manifesto-star--br {
+  bottom: -8px;
+  right: -6px;
+}
+
+.manifesto-corner {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-color: var(--manifesto-gold);
+  opacity: 1;
+}
+
+.manifesto-corner--tl {
+  top: 10px;
+  left: 10px;
+  border-top: 3px solid;
+  border-left: 3px solid;
+}
+
+.manifesto-corner--tr {
+  top: 10px;
+  right: 10px;
+  border-top: 3px solid;
+  border-right: 3px solid;
+}
+
+.manifesto-corner--bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 3px solid;
+  border-left: 3px solid;
+}
+
+.manifesto-corner--br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 3px solid;
+  border-right: 3px solid;
+}
+
+.manifesto-leading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.manifesto-leading::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: -14px;
+  height: 18px;
+  background: linear-gradient(180deg, transparent, rgba(36, 20, 8, 0.32));
+  opacity: 1;
+  transition: opacity 0.5s 1.5s linear;
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-leading::before {
+  opacity: 0;
+}
+
+.manifesto-curl {
+  position: relative;
+  height: 38px;
+  margin: 0 12px -10px;
+  transform-origin: top center;
+  transform: perspective(260px) rotateX(-32deg);
+  transition:
+    height var(--manifesto-unroll) var(--manifesto-ease),
+    opacity 0.5s 1.55s linear,
+    transform var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-curl {
+  height: 0;
+  opacity: 0;
+  transform: perspective(260px) rotateX(-8deg);
+}
+
+.manifesto-curl__lip {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  z-index: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #b89258, #f3e6c4, #b89258);
+  box-shadow: 0 1px 2px rgba(255, 250, 230, 0.35);
+}
+
+.manifesto-curl__barrel {
+  display: block;
+  height: 100%;
+  border-radius: 42% / 50%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 11px,
+      rgba(40, 22, 8, 0.08) 11px 12px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(32, 18, 8, 0.4) 0%,
+      rgba(255, 244, 214, 0.5) 14%,
+      #e6d3a8 28%,
+      #c4a06a 48%,
+      #8a6234 66%,
+      #3a2412 84%,
+      #120a04 100%
+    );
+  box-shadow:
+    0 10px 18px rgba(0, 0, 0, 0.45),
+    inset 0 2px 3px rgba(255, 250, 230, 0.42),
+    inset 0 -8px 10px rgba(0, 0, 0, 0.38);
+}
+
+.manifesto-leading .manifesto-pole {
+  margin-inline: 0;
+}
+
+.manifesto-contact {
+  height: 26px;
+  margin: -2px 36px 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.58), transparent 72%);
+  filter: blur(9px);
+  opacity: 0.28;
+  transform: scaleX(0.62);
+  transition:
+    opacity var(--manifesto-unroll) var(--manifesto-ease),
+    transform var(--manifesto-unroll) var(--manifesto-ease);
+}
+
+.manifesto-rig[data-unrolled="true"] .manifesto-contact {
+  opacity: 0.72;
+  transform: scaleX(1);
 }
 
 .manifesto h2 {
-  font-weight: 300;
-  font-size: clamp(2.25rem, 4.8vw, 4rem);
-  letter-spacing: 0.16em;
+  margin: 0 0 8px;
+  text-align: center;
+  font-family: var(--font-manifesto-cinzel), "Cinzel Decorative", serif;
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 42px);
+  letter-spacing: 0.12em;
+  text-transform: none;
+  color: var(--manifesto-crimson);
+  text-shadow: 0 1px 0 rgba(255, 248, 230, 0.28);
+}
+
+.manifesto h2::after {
+  content: none;
+  display: none;
+}
+
+.manifesto-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 28px;
+  color: var(--manifesto-gold);
+  font-family: var(--font-manifesto-fell), "IM Fell English", Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--bone);
-  margin-bottom: 2.35rem;
+  text-align: center;
+}
+
+.manifesto-rule::before,
+.manifesto-rule::after {
+  content: "";
+  height: 1px;
+  width: 72px;
+  background: linear-gradient(90deg, transparent, var(--manifesto-gold), transparent);
 }
 
 .manifesto-prose {
-  max-width: 38rem;
-  font-family: var(--font-ui);
-  font-size: clamp(1.05rem, 1.45vw, 1.2rem);
+  max-width: none;
+  font-family: var(--font-manifesto-fell), "IM Fell English", var(--font-cormorant), Georgia, serif;
+  font-size: clamp(18px, 2.4vw, 22px);
   font-weight: 400;
-  line-height: 1.75;
-  color: var(--bone);
-  font-variant-numeric: lining-nums;
+  line-height: 1.65;
+  color: var(--manifesto-ink);
 }
 
-.manifesto-prose p + p {
-  margin-top: 1.4rem;
+.manifesto-prose p {
+  margin: 0 0 1.05em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.manifesto-prose p:last-child {
+  margin-bottom: 0;
 }
 
 .manifesto-prose strong {
+  font-family: var(--font-cormorant), "Cormorant Garamond", serif;
   font-weight: 600;
-  color: var(--bone);
+  color: var(--manifesto-ink-soft);
+  letter-spacing: 0.02em;
 }
 
-.manifesto-axiom,
+.manifesto-lead {
+  font-size: 1.12em;
+  text-align: center;
+  font-style: italic;
+}
+
+.manifesto-lead::first-letter {
+  font-family: var(--font-manifesto-cinzel), "Cinzel Decorative", serif;
+  font-style: normal;
+  font-size: 2.4em;
+  float: left;
+  line-height: 0.85;
+  padding: 0.08em 0.08em 0 0;
+  color: var(--manifesto-crimson);
+}
+
+.manifesto-axiom {
+  text-align: center;
+  font-family: var(--font-manifesto-script), "Great Vibes", cursive;
+  font-size: 1.55em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  color: var(--manifesto-crimson);
+  margin: 1.2em 0;
+}
+
 .manifesto-welcome {
-  font-family: var(--font-display);
+  text-align: center;
+  font-family: var(--font-manifesto-fell), "IM Fell English", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  color: var(--bone);
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
+  color: var(--manifesto-ink);
+  margin-top: 1.4em;
 }
 
 .manifesto-prose .manifesto-sign {
-  margin-top: 2.35rem;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.05rem;
-  letter-spacing: 0.04em;
-  color: var(--ash);
+  margin-top: 1.6em;
+  text-align: center;
+  font-family: var(--font-manifesto-script), "Great Vibes", cursive;
+  font-style: normal;
+  font-size: 1.7em;
+  letter-spacing: 0;
+  color: var(--manifesto-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .manifesto-scroll {
+    padding: 40px 22px 56px;
+  }
+
+  .manifesto-pole {
+    margin-inline: -8px;
+  }
+
+  .manifesto-rule::before,
+  .manifesto-rule::after {
+    width: 36px;
+  }
+
+  .manifesto-prose .manifesto-sign {
+    font-size: 1.35em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-reveal,
+  .manifesto-curl,
+  .manifesto-contact,
+  .manifesto-leading::before {
+    transition: none !important;
+  }
+
+  .manifesto-reveal {
+    max-height: none !important;
+  }
+
+  .manifesto-curl {
+    height: 0 !important;
+    opacity: 0 !important;
+  }
+
+  .manifesto-contact {
+    opacity: 0.72;
+    transform: scaleX(1);
+  }
 }
