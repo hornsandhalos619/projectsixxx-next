@@ -620,6 +620,16 @@ select {
   margin: 2rem 0;
 }
 
+.auth-stack {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 28rem;
+}
+
+.auth-stack .rule {
+  margin: 1.25rem 0;
+}
+
 .form {
   display: grid;
   gap: 0.85rem;

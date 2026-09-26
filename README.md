@@ -32,50 +32,32 @@ Set these in the Vercel project. Values stay in the dashboard. This list is name
 
 Set these on the Vercel project for Production (and Preview if you sign in there). Values stay in the dashboard.
 
+House login is self-managed credentials only: username or email + password on `/signin`. `/login` permanently redirects to `/signin`. First signup is a Member. Founder is seeded only through `FOUNDER_EMAILS` (case-insensitive). There is no role switcher and no self-serve Founder.
+
 | Name | Why |
 | --- | --- |
 | `AUTH_SECRET` | Auth.js session signing. Generate with `openssl rand -base64 32`. `NEXTAUTH_SECRET` is also read. |
 | `AUTH_URL` | Production: `https://projectsixxx.com`. Preview: leave unset so Auth.js uses the preview host. |
 | `AUTH_TRUST_HOST` | `true` on Vercel. The app also sets `trustHost: true`. |
-| `AUTH_GOOGLE_ID` | Google OAuth client id (`GOOGLE_CLIENT_ID` is also read) |
-| `AUTH_GOOGLE_SECRET` | Google OAuth client secret (`GOOGLE_CLIENT_SECRET` is also read) |
-| `FOUNDER_EMAILS` | Comma-separated allowlist, case-insensitive. First entry is the `6` demo alias target. Include `hornsandhalos619@gmail.com`. |
+| `FOUNDER_EMAILS` | Comma-separated allowlist, case-insensitive. Include `hornsandhalos619@gmail.com`. After sign-in, that address lands as Founder on `/account`. |
 
-After changing `FOUNDER_EMAILS`, sign out and sign in again so the session re-seeds Founder.
-
-### Google Cloud Console (OAuth 2.0 Web client)
-
-Create a **Web application** client. Origins and redirect URIs must match the house origin Auth.js sends.
-
-**Production**
-
-- Authorized JavaScript origins: `https://projectsixxx.com`
-- Authorized redirect URI: `https://projectsixxx.com/api/auth/callback/google`
-
-**Local (`next dev`)**
-
-- Authorized JavaScript origins: `http://localhost:3000`
-- Authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
-
-**Preview** (each Vercel preview origin you use)
-
-- Authorized JavaScript origins: `https://<preview>.vercel.app`
-- Authorized redirect URI: `https://<preview>.vercel.app/api/auth/callback/google`
-
-`www.projectsixxx.com` already 308s to the apex. Keep Console entries on `https://projectsixxx.com`.
-
-House login is **Continue with Google** on `/signin`. `/login` permanently redirects to `/signin`. A GET to `/api/auth/signin/google` lands on `/signin`; the button POSTs through Auth.js and sends the browser to Google with `redirect_uri=https://projectsixxx.com/api/auth/callback/google`.
-
-### Emergency demo sign-in
+Production also needs a durable house-accounts store (passwords are bcrypt-hashed; never commit them):
 
 | Name | Why |
 | --- | --- |
-| `AUTH_DEMO` | Set `1` to enable the credentials provider |
-| `AUTH_DEMO_PASSWORD` | Shared password. Empty in `.env.example`. Seat the value on Vercel only. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Preferred store. Apply `supabase/migrations/0002_house_accounts.sql`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server reads and writes `house_accounts`. |
+| `DATABASE_URL` or `POSTGRES_URL` | Fallback store (Neon / Vercel Postgres). Creates `house_accounts` if needed. |
 
-When `AUTH_DEMO=1`, `/signin` accepts a username or email (not email-only). Login id `6` maps to the first `FOUNDER_EMAILS` address, display name `6`, role via `roleForEmail`. A founder email with the same password also works. Google OAuth stays when those keys are set.
+After changing `FOUNDER_EMAILS`, sign out and sign in again so the session re-seeds Founder.
 
-Optional: `AUTH_TWITTER_ID`, `AUTH_TWITTER_SECRET`.
+### Unused / later auth names
+
+| Name | Why |
+| --- | --- |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Optional leftovers (`GOOGLE_CLIENT_*` aliases too). Not required. Google is not a sign-in option. |
+| `AUTH_TWITTER_ID` / `AUTH_TWITTER_SECRET` | Future X OAuth follow-up. Not wired in this PR. |
+| `AUTH_DEMO` / `AUTH_DEMO_PASSWORD` | Retired shared-password emergency path. Do not set. |
 
 ### Live-edit store (preferred)
 
@@ -85,7 +67,7 @@ Optional: `AUTH_TWITTER_ID`, `AUTH_TWITTER_SECRET`.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (documented; server prefers service role) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server writes. Never expose in HTML or client bundles. |
 
-Apply `supabase/migrations/0001_house_cms.sql` in the Supabase SQL editor. Then optional seed:
+Apply `supabase/migrations/0001_house_cms.sql` and `supabase/migrations/0002_house_accounts.sql` in the Supabase SQL editor. Then optional seed:
 
 ```bash
 npx tsx scripts/seed-cms.ts
@@ -113,12 +95,13 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 
 ```bash
 cp .env.example .env.local
-# set AUTH_SECRET, AUTH_DEMO=1, AUTH_DEMO_PASSWORD, FOUNDER_EMAILS
+# set AUTH_SECRET and FOUNDER_EMAILS
+# laptop house keys persist in gitignored data/house-accounts.json
 npm install
 npm run dev
 ```
 
-Sign in at `/signin` as `6` or the founder email, then open `/admin`.
+Create a house key at `/signin` (username + email + password). Use a `FOUNDER_EMAILS` address to land as Founder on `/account`, then open `/admin`.
 
 ```bash
 npm test

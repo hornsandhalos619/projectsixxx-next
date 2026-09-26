@@ -8,14 +8,6 @@ function firstEnv(...names: string[]): string | undefined {
   return undefined;
 }
 
-/** Google OAuth client from AUTH_GOOGLE_* or GOOGLE_CLIENT_* names. */
-export function googleOAuthEnv(): { clientId: string; clientSecret: string } | null {
-  const clientId = firstEnv("AUTH_GOOGLE_ID", "GOOGLE_CLIENT_ID");
-  const clientSecret = firstEnv("AUTH_GOOGLE_SECRET", "GOOGLE_CLIENT_SECRET");
-  if (!clientId || !clientSecret) return null;
-  return { clientId, clientSecret };
-}
-
 export function stripTrailingSlash(url: string): string {
   return url.replace(/\/+$/, "");
 }
@@ -29,9 +21,8 @@ function vercelHttpsOrigin(): string | undefined {
 
 /**
  * Canonical Auth.js origin. Production uses AUTH_URL / NEXTAUTH_URL or the house
- * domain so Google stays on https://projectsixxx.com/api/auth/callback/google.
- * Preview uses the preview host so a production AUTH_URL on every Vercel env
- * cannot send preview Google back to the apex.
+ * domain. Preview uses the preview host so a production AUTH_URL on every Vercel env
+ * cannot send preview callbacks back to the apex.
  */
 export function resolveAuthUrl(): string | undefined {
   if (process.env.VERCEL_ENV === "preview") {
@@ -48,7 +39,7 @@ export function resolveAuthUrl(): string | undefined {
   return vercelHttpsOrigin();
 }
 
-/** Align AUTH_URL with the host Auth.js should advertise to Google. */
+/** Align AUTH_URL with the host Auth.js should advertise. */
 export function ensureAuthUrl(): string | undefined {
   const url = resolveAuthUrl();
   if (url) {
@@ -62,11 +53,19 @@ export function isProviderSigninPath(pathname: string): boolean {
   return /^\/api\/auth\/signin\/[^/]+$/.test(pathname);
 }
 
-/** Keep OAuth return paths on this origin. */
+/** Keep auth return paths on this origin. */
 export function safeCallbackUrl(raw: string | null | undefined): string {
   const value = String(raw ?? "").trim();
   if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) {
     return value;
   }
   return "/account";
+}
+
+export function signInErrorCopy(error: string | null | undefined): string | undefined {
+  const code = String(error ?? "").trim();
+  if (!code) return undefined;
+  if (code === "CredentialsSignin") return "House key was not accepted.";
+  if (code === "Configuration") return "House key store is waiting on environment keys.";
+  return "Sign-in did not complete.";
 }

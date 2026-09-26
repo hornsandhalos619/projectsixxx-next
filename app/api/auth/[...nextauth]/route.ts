@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { handlers } from "@/auth";
 import { isProviderSigninPath } from "@/lib/auth-env";
 
+export const runtime = "nodejs";
+
 export const { POST } = handlers;
 
 export async function GET(req: NextRequest) {
