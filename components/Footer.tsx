@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/config/site";
+import { R001MarksStrip } from "@/components/R001MarksStrip";
 
 export function Footer() {
   return (
@@ -8,6 +9,7 @@ export function Footer() {
         <small>
           {site.name} · {site.mood} · {site.domain}
         </small>
+        <R001MarksStrip />
         <nav className="nav nav--footer" aria-label="Legal">
           <Link href="/overmind/journal">Overmind</Link>
           <Link href="/links">Links</Link>

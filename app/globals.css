@@ -1960,3 +1960,103 @@ a.card:focus-visible,
   letter-spacing: 0.04em;
   color: var(--ash);
 }
+
+/* R001 session splash — fullscreen, then the house */
+.r001-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--void);
+  color: var(--bone);
+}
+
+.r001-splash-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.r001-splash-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--void) 18%, transparent) 0%,
+    color-mix(in srgb, var(--void) 12%, transparent) 46%,
+    color-mix(in srgb, var(--void) 82%, transparent) 100%
+  );
+}
+
+.r001-splash-chrome {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 1.25rem 2.25rem;
+}
+
+.r001-splash-chrome .display {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+}
+
+.r001-splash-chrome .lede {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 28rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .r001-splash {
+    display: none !important;
+  }
+}
+
+/* Footer Marks · R001 reel — dark-luxury, not an ad grid */
+.r001-marks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.r001-marks-kicker {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ash) 72%, transparent);
+}
+
+.r001-marks-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.r001-marks-list a {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash);
+  transition: color var(--t-fast) var(--ease-out);
+}
+
+.r001-marks-list a:hover,
+.r001-marks-list a:focus-visible {
+  color: var(--bone);
+}

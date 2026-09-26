@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/config/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { R001Splash } from "@/components/R001Splash";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -54,6 +55,7 @@ export default function RootLayout({
         <a className="skip" href="#content">
           Skip to content
         </a>
+        <R001Splash />
         <div className="site">
           <Header />
           <main id="content" className="main">
