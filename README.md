@@ -90,6 +90,11 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 | `HORNS_AND_HALOS_URL` | External portal CTA |
 | `SHOPIFY_URL` | Primary shop outbound (display-only on House console) |
 | `SPREADSHOP_URL` | Paused lane |
+| `NEXT_PUBLIC_R001_ADS_BASE` | Optional public folder for the six R001 mp4s. Empty serves `/ads/r001/` |
+
+## R001 reels
+
+Six H.264 cuts. Drop the production binaries at `public/ads/r001/` using the locked filenames in that folder’s README, or point `NEXT_PUBLIC_R001_ADS_BASE` at a Vercel Blob / CDN folder that already holds them. The house splash plays one cut per two UTC calendar days (same cut for every visitor in that pair). `prefers-reduced-motion` skips the splash. Dismiss is stored in `sessionStorage`. Footer Marks strip links each cut.
 
 ## Local
 
