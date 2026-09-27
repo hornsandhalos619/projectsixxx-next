@@ -261,6 +261,24 @@ select {
   white-space: nowrap;
 }
 
+@media (max-width: 480px) {
+  .footer-credits small {
+    white-space: nowrap;
+  }
+
+  .footer-house-host {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
 .footer-tagline {
   margin: 0;
   width: 100%;

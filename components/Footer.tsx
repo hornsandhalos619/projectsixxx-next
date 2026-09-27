@@ -26,7 +26,8 @@ export function Footer() {
         </p>
         <div className="footer-credits">
           <small>
-            {site.name} · {site.mood} · {site.domain}
+            {site.name} · {site.mood}
+            <span className="footer-house-host"> · {site.domain}</span>
           </small>
           <p className="footer-copyright">
             © 2026{" "}

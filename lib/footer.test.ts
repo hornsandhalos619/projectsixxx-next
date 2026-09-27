@@ -39,8 +39,14 @@ assert.ok(
   "footer must sit on the void ground",
 );
 assert.ok(
-  footer.includes("{site.name} · {site.mood} · {site.domain}"),
-  "house brand line must stay site.name · mood · domain",
+  footer.includes("{site.name} · {site.mood}") &&
+    footer.includes("{site.domain}") &&
+    footer.includes("footer-house-host"),
+  "house brand line must keep site.name · mood, with domain in footer-house-host",
+);
+assert.ok(
+  /@media\s*\(\s*max-width:\s*480px\s*\)[\s\S]*\.footer-house-host/.test(css),
+  "house host segment must hide at 480px and below",
 );
 assert.ok(
   footer.includes("© 2026") && footer.includes("Horns &amp; Halos™"),
