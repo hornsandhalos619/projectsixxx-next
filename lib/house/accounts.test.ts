@@ -95,7 +95,10 @@ async function main() {
   process.env.AUTH_TWITTER_SECRET = "twitter-secret";
 
   assert.deepEqual(advertisedProviderIds(), ["credentials"]);
-  assert.equal(publicProviders().some((provider) => provider.id === "google"), false);
+  assert.equal(
+    publicProviders().some((provider) => (provider.id as string) === "google"),
+    false,
+  );
   assert.equal(
     publicProviders().some((provider) => provider.label.toLowerCase().includes("google")),
     false,

@@ -38,7 +38,10 @@ process.env.AUTH_GOOGLE_ID = "auth-id";
 process.env.AUTH_GOOGLE_SECRET = "auth-secret";
 process.env.GOOGLE_CLIENT_ID = "legacy-id";
 process.env.GOOGLE_CLIENT_SECRET = "legacy-secret";
-assert.equal(publicProviders().some((provider) => provider.id === "google"), false);
+assert.equal(
+  publicProviders().some((provider) => (provider.id as string) === "google"),
+  false,
+);
 
 resetEnv();
 process.env.NEXTAUTH_URL = "https://projectsixxx.com/";
