@@ -38,5 +38,19 @@ assert.ok(
   css.includes("background: var(--void)") && css.includes(".footer"),
   "footer must sit on the void ground",
 );
+assert.ok(
+  footer.includes("{site.name} · {site.mood} · {site.domain}"),
+  "house brand line must stay site.name · mood · domain",
+);
+assert.ok(
+  footer.includes("© 2026") && footer.includes("Horns &amp; Halos™"),
+  "footer must add a 2026 Horns & Halos copyright line",
+);
+assert.ok(!footer.includes("®"), "footer must use ™ only, never ®");
+assert.ok(
+  css.includes(".footer-brand-lock") &&
+    /footer-brand-lock[\s\S]*white-space:\s*nowrap/.test(css),
+  "Horns & Halos™ must stay on one line",
+);
 
-console.log("footer tagline ok");
+console.log("footer tagline + copyright ok");

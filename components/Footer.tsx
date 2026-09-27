@@ -24,9 +24,15 @@ export function Footer() {
             <span className="footer-tagline-close">— Choose wisely.</span>
           </span>
         </p>
-        <small>
-          {site.name} · {site.mood} · {site.domain}
-        </small>
+        <div className="footer-credits">
+          <small>
+            {site.name} · {site.mood} · {site.domain}
+          </small>
+          <p className="footer-copyright">
+            © 2026{" "}
+            <span className="footer-brand-lock">Horns &amp; Halos™</span>
+          </p>
+        </div>
         <nav className="nav nav--footer" aria-label="Legal">
           <Link href="/overmind/journal">Overmind</Link>
           <Link href="/links">Links</Link>
