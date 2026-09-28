@@ -4,7 +4,7 @@ export const defaultHomepageSlots: HomepageSlot[] = [
   {
     slot: "quote",
     title: "House line",
-    body: "Est. in Darkness is a date, not a filter.",
+    body: "Est. in Darkness marks the night the house began.",
     attribution: "House",
     href: "",
     enabled: true,

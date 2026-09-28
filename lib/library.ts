@@ -30,7 +30,7 @@ export const libraryWorks: LibraryWork[] = [
     format: "Pamphlet / e-book",
     blurb: "Mood as discipline. Why the house refuses costume darkness.",
     sample: [
-      "Est. in Darkness is a date, not a filter. It names when the work decided it could stand in bad light.",
+      "Est. in Darkness marks the night the house began. It names when the work decided it could stand in bad light.",
       "We do not steal sacred marks. We do not dress the house as a devil or a saint. Atmosphere sits over a clean information architecture — haunting skin, sterile bones.",
       "If a sentence needs a costume to be believed, it does not make the night. This SAMPLE is a door into the longer cut — not a checkout.",
     ],
