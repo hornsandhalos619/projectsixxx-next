@@ -42,12 +42,25 @@ export function founderEmails(): string[] {
     .filter(Boolean);
 }
 
-/** Founder is seeded ONLY via FOUNDER_EMAILS. First signup is never Founder. */
+export function founderUsernames(): string[] {
+  return (process.env.FOUNDER_USERNAMES ?? "")
+    .split(",")
+    .map((name) => name.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+/** Founder is seeded ONLY via FOUNDER_EMAILS / FOUNDER_USERNAMES. First signup is never Founder. */
 export const GRANTABLE_ROLES = ["blog_admin", "shop_admin"] as const;
 export type GrantableRole = (typeof GRANTABLE_ROLES)[number];
 
 export function isGrantableRole(value: string): value is GrantableRole {
   return (GRANTABLE_ROLES as readonly string[]).includes(value);
+}
+
+export function roleForUsername(username: string | null | undefined): Role {
+  if (!username) return "member";
+  if (founderUsernames().includes(username.trim().toLowerCase())) return "founder";
+  return "member";
 }
 
 export function roleForEmail(email: string | null | undefined): Role {
@@ -56,12 +69,22 @@ export function roleForEmail(email: string | null | undefined): Role {
   return "member";
 }
 
-/** Founder from FOUNDER_EMAILS always wins. House desk may grant Blog/Shop Admin only. */
+export function roleForIdentity(
+  email: string | null | undefined,
+  username?: string | null,
+): Role {
+  if (roleForEmail(email) === "founder") return "founder";
+  if (roleForUsername(username) === "founder") return "founder";
+  return "member";
+}
+
+/** Founder from allowlists always wins. House desk may grant Blog/Shop Admin only. */
 export function applyGrantedRole(
   email: string | null | undefined,
   granted: Role | string | null | undefined,
+  username?: string | null,
 ): Role {
-  const seeded = roleForEmail(email);
+  const seeded = roleForIdentity(email, username);
   if (seeded === "founder") return "founder";
   if (granted && isGrantableRole(granted)) return granted;
   return "member";

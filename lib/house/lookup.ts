@@ -1,7 +1,7 @@
 import {
   applyGrantedRole,
   isGrantableRole,
-  roleForEmail,
+  roleForIdentity,
   type GrantableRole,
   type Role,
 } from "@/config/roles";
@@ -11,16 +11,19 @@ function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
 
-/** Edge-safe. Founder from FOUNDER_EMAILS, then Supabase house_roles. No filesystem. */
-export async function resolveRole(email: string | null | undefined): Promise<Role> {
-  if (!email) return "member";
-  if (roleForEmail(email) === "founder") return "founder";
+/** Edge-safe. Founder from FOUNDER_EMAILS / FOUNDER_USERNAMES, then Supabase house_roles. */
+export async function resolveRole(
+  email: string | null | undefined,
+  username?: string | null,
+): Promise<Role> {
+  if (!email && !username) return "member";
+  if (roleForIdentity(email, username) === "founder") return "founder";
   try {
-    const granted = await grantedRoleFromSupabase(email);
-    return applyGrantedRole(email, granted);
+    const granted = email ? await grantedRoleFromSupabase(email) : null;
+    return applyGrantedRole(email, granted, username);
   } catch (error) {
     console.error("house role lookup failed", error);
-    return roleForEmail(email);
+    return roleForIdentity(email, username);
   }
 }
 
