@@ -48,9 +48,9 @@ export default async function HomePage() {
           <h1 className="display visually-hidden">Project SiXXX</h1>
           <p className="mood house">{site.mood}</p>
           <p className="lede">
-            A house for work that can stand in bad light. Art, music, film,
+            A house for the darkness that shines in the light. Art, music, film,
             literature, fashion, technology, and frontier AI — under one night.
-            Horns &amp; Halos is the portal, not a merch rack.
+            Horns & Halos is the portal, not a merch rack.
           </p>
         </div>
       </section>
@@ -116,7 +116,7 @@ export default async function HomePage() {
           </Link>
           <a className="strip" href={shopifyUrl} rel="noopener noreferrer" target="_blank">
             <span className="name">Shop</span>
-            <h2>Horns &amp; Halos</h2>
+            <h2>Horns & Halos</h2>
             <p>Shopify store — R001 live. Open now.</p>
           </a>
           <Link className="strip" href="/services">
@@ -216,7 +216,7 @@ export default async function HomePage() {
       <section className="section">
         <div className="shell">
           <p className="kicker">Soft launch</p>
-          <h2>Horns &amp; Halos store</h2>
+          <h2>Horns & Halos store</h2>
           <p className="muted">
             Primary door is Shopify — public shop. Affiliate shelves stay on the house hub.
           </p>
