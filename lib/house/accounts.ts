@@ -1,4 +1,5 @@
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
+import { list, put } from "@vercel/blob";
 import { localAllowed } from "@/lib/cms/local-allowed";
 import { localJsonRead, localJsonWrite } from "@/lib/cms/local-json";
 import { neonConfigured } from "@/lib/cms/neon";
@@ -34,6 +35,7 @@ const USERNAME_RE = /^[a-zA-Z0-9._-]{1,32}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD = 8;
 const LOCAL_FILE = "house-accounts";
+const BLOB_PATH = "house-accounts/accounts.json";
 
 export function normalizeEmail(raw: string): string {
   return String(raw ?? "").trim().toLowerCase();
@@ -107,13 +109,28 @@ export class DuplicateAccountError extends Error {
   }
 }
 
+export function blobAccountsConfigured(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim());
+}
+
 export function accountsStoreReady(): boolean {
-  return supabaseConfigured() || neonConfigured() || localAllowed();
+  return supabaseConfigured() || neonConfigured() || blobAccountsConfigured() || localAllowed();
+}
+
+/** Human-readable reason when house keys cannot persist on this host. */
+export function accountsStoreBlockedMessage(): string | null {
+  if (accountsStoreReady()) return null;
+  return (
+    "House keys need a durable store on this host. In Vercel → Project → Settings → Environment Variables, set either " +
+    "NEXT_PUBLIC_SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY (then run supabase/migrations/0002_house_accounts.sql), " +
+    "or DATABASE_URL (Neon / Vercel Postgres), or BLOB_READ_WRITE_TOKEN. Also set AUTH_SECRET and FOUNDER_EMAILS."
+  );
 }
 
 export function liveAccountStore(): AccountStore | null {
   if (supabaseConfigured()) return supabaseAccountStore;
   if (neonConfigured()) return neonAccountStore;
+  if (blobAccountsConfigured()) return blobAccountStore;
   if (localAllowed()) return localAccountStore;
   return null;
 }
@@ -195,8 +212,7 @@ export async function createHouseAccount(input: {
   if (!store) {
     return {
       ok: false,
-      error:
-        "House keys need a durable store. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, or DATABASE_URL.",
+      error: accountsStoreBlockedMessage() ?? "House key store is not configured.",
     };
   }
   try {
@@ -227,7 +243,7 @@ export async function verifyHouseCredentials(
 function storeHint(error: unknown): string {
   const message = error instanceof Error ? error.message : "";
   if (/house_accounts|PGRST205|42P01/i.test(message)) {
-    return "Apply supabase/migrations/0002_house_accounts.sql (or set DATABASE_URL) so house keys can persist.";
+    return "Apply supabase/migrations/0002_house_accounts.sql (or set DATABASE_URL / BLOB_READ_WRITE_TOKEN) so house keys can persist.";
   }
   return "House key could not be created. Try again or check the account store.";
 }
@@ -266,6 +282,51 @@ const localAccountStore: AccountStore = {
     }
     rows.push(account);
     localJsonWrite(LOCAL_FILE, rows);
+  },
+};
+
+async function blobReadAccounts(): Promise<HouseAccount[]> {
+  const { blobs } = await list({ prefix: "house-accounts/", limit: 20 });
+  const match =
+    blobs.find((entry) => entry.pathname === BLOB_PATH) ??
+    blobs.find((entry) => entry.pathname.endsWith("accounts.json"));
+  if (!match) return [];
+  const response = await fetch(match.url, { cache: "no-store" });
+  if (!response.ok) return [];
+  try {
+    const parsed = (await response.json()) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map((row) => rowFromUnknown(row as Record<string, unknown>))
+      .filter((row): row is HouseAccount => Boolean(row));
+  } catch {
+    return [];
+  }
+}
+
+async function blobWriteAccounts(rows: HouseAccount[]): Promise<void> {
+  await put(BLOB_PATH, `${JSON.stringify(rows, null, 2)}\n`, {
+    access: "private",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
+  });
+}
+
+const blobAccountStore: AccountStore = {
+  async findByEmail(email) {
+    return (await blobReadAccounts()).find((row) => row.email === email) ?? null;
+  },
+  async findByUsernameKey(usernameKey) {
+    return (await blobReadAccounts()).find((row) => row.usernameKey === usernameKey) ?? null;
+  },
+  async insert(account) {
+    const rows = await blobReadAccounts();
+    if (rows.some((row) => row.email === account.email || row.usernameKey === account.usernameKey)) {
+      throw new DuplicateAccountError();
+    }
+    rows.push(account);
+    await blobWriteAccounts(rows);
   },
 };
 
