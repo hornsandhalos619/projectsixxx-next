@@ -285,21 +285,37 @@ const localAccountStore: AccountStore = {
   },
 };
 
+function blobAuthHeaders(): HeadersInit {
+  const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  if (!token) return {};
+  return { Authorization: `Bearer ${token}` };
+}
+
 async function blobReadAccounts(): Promise<HouseAccount[]> {
   const { blobs } = await list({ prefix: "house-accounts/", limit: 20 });
   const match =
     blobs.find((entry) => entry.pathname === BLOB_PATH) ??
     blobs.find((entry) => entry.pathname.endsWith("accounts.json"));
   if (!match) return [];
-  const response = await fetch(match.url, { cache: "no-store" });
-  if (!response.ok) return [];
+
+  const downloadUrl =
+    (match as { downloadUrl?: string }).downloadUrl || match.url;
+  const response = await fetch(downloadUrl, {
+    cache: "no-store",
+    headers: blobAuthHeaders(),
+  });
+  if (!response.ok) {
+    console.error("house accounts blob read failed", response.status, match.pathname);
+    return [];
+  }
   try {
     const parsed = (await response.json()) as unknown;
     if (!Array.isArray(parsed)) return [];
     return parsed
       .map((row) => rowFromUnknown(row as Record<string, unknown>))
       .filter((row): row is HouseAccount => Boolean(row));
-  } catch {
+  } catch (error) {
+    console.error("house accounts blob parse failed", error instanceof Error ? error.message : "unknown");
     return [];
   }
 }
