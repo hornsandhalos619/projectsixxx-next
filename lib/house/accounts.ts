@@ -35,7 +35,8 @@ const USERNAME_RE = /^[a-zA-Z0-9._-]{1,32}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD = 8;
 const LOCAL_FILE = "house-accounts";
-const BLOB_PATH = "house-accounts/accounts.json";
+/** Per-user JSON under this prefix (public fetch; bcrypt hashes only). Prefer DATABASE_URL later. */
+const BLOB_PREFIX = "house-keys/v1/";
 
 export function normalizeEmail(raw: string): string {
   return String(raw ?? "").trim().toLowerCase();
@@ -285,64 +286,55 @@ const localAccountStore: AccountStore = {
   },
 };
 
-function blobAuthHeaders(): HeadersInit {
-  const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
-  if (!token) return {};
-  return { Authorization: `Bearer ${token}` };
+function blobPathFor(usernameKey: string): string {
+  return `${BLOB_PREFIX}${usernameKey}.json`;
 }
 
-async function blobReadAccounts(): Promise<HouseAccount[]> {
-  const { blobs } = await list({ prefix: "house-accounts/", limit: 20 });
-  const match =
-    blobs.find((entry) => entry.pathname === BLOB_PATH) ??
-    blobs.find((entry) => entry.pathname.endsWith("accounts.json"));
-  if (!match) return [];
-
-  const downloadUrl =
-    (match as { downloadUrl?: string }).downloadUrl || match.url;
-  const response = await fetch(downloadUrl, {
-    cache: "no-store",
-    headers: blobAuthHeaders(),
-  });
-  if (!response.ok) {
-    console.error("house accounts blob read failed", response.status, match.pathname);
-    return [];
-  }
+async function blobFetchJson(url: string): Promise<HouseAccount | null> {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) return null;
   try {
-    const parsed = (await response.json()) as unknown;
-    if (!Array.isArray(parsed)) return [];
-    return parsed
-      .map((row) => rowFromUnknown(row as Record<string, unknown>))
-      .filter((row): row is HouseAccount => Boolean(row));
-  } catch (error) {
-    console.error("house accounts blob parse failed", error instanceof Error ? error.message : "unknown");
-    return [];
+    return rowFromUnknown((await response.json()) as Record<string, unknown>);
+  } catch {
+    return null;
   }
 }
 
-async function blobWriteAccounts(rows: HouseAccount[]): Promise<void> {
-  await put(BLOB_PATH, `${JSON.stringify(rows, null, 2)}\n`, {
-    access: "private",
-    addRandomSuffix: false,
-    allowOverwrite: true,
-    contentType: "application/json",
-  });
+async function blobReadByUsernameKey(usernameKey: string): Promise<HouseAccount | null> {
+  const path = blobPathFor(usernameKey);
+  const { blobs } = await list({ prefix: path, limit: 5 });
+  const match = blobs.find((entry) => entry.pathname === path);
+  if (!match) return null;
+  return blobFetchJson(match.url);
+}
+
+async function blobListAccounts(): Promise<HouseAccount[]> {
+  const { blobs } = await list({ prefix: BLOB_PREFIX, limit: 500 });
+  const accounts = await Promise.all(blobs.map((entry) => blobFetchJson(entry.url)));
+  return accounts.filter((row): row is HouseAccount => Boolean(row));
 }
 
 const blobAccountStore: AccountStore = {
   async findByEmail(email) {
-    return (await blobReadAccounts()).find((row) => row.email === email) ?? null;
+    const rows = await blobListAccounts();
+    return rows.find((row) => row.email === email) ?? null;
   },
   async findByUsernameKey(usernameKey) {
-    return (await blobReadAccounts()).find((row) => row.usernameKey === usernameKey) ?? null;
+    return blobReadByUsernameKey(usernameKey);
   },
   async insert(account) {
-    const rows = await blobReadAccounts();
-    if (rows.some((row) => row.email === account.email || row.usernameKey === account.usernameKey)) {
+    const existingKey = await blobReadByUsernameKey(account.usernameKey);
+    if (existingKey) throw new DuplicateAccountError();
+    const existingEmail = await blobListAccounts();
+    if (existingEmail.some((row) => row.email === account.email)) {
       throw new DuplicateAccountError();
     }
-    rows.push(account);
-    await blobWriteAccounts(rows);
+    await put(blobPathFor(account.usernameKey), `${JSON.stringify(account)}\n`, {
+      access: "public",
+      addRandomSuffix: false,
+      allowOverwrite: false,
+      contentType: "application/json",
+    });
   },
 };
 
