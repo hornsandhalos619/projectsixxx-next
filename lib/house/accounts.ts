@@ -1,5 +1,5 @@
 import { neon, type NeonQueryFunction } from "@neondatabase/serverless";
-import { list, put } from "@vercel/blob";
+import { get, list, put } from "@vercel/blob";
 import { localAllowed } from "@/lib/cms/local-allowed";
 import { localJsonRead, localJsonWrite } from "@/lib/cms/local-json";
 import { neonConfigured } from "@/lib/cms/neon";
@@ -244,8 +244,11 @@ function storeHint(error: unknown): string {
   if (/house_accounts|PGRST205|42P01/i.test(message)) {
     return "Apply supabase/migrations/0002_house_accounts.sql (or set DATABASE_URL / BLOB_READ_WRITE_TOKEN) so house keys can persist.";
   }
-  if (/blob|token|forbidden|unauthorized|403|401/i.test(message)) {
-    return "House key store could not write to Blob. Check BLOB_READ_WRITE_TOKEN on Vercel.";
+  if (/blob|token|forbidden|unauthorized|403|401|access/i.test(message)) {
+    const detail = message.replace(/^Vercel Blob:\s*/i, "").trim();
+    return detail
+      ? `House key store could not write to Blob: ${detail}`
+      : "House key store could not write to Blob. Check BLOB_READ_WRITE_TOKEN on Vercel, and that the store access mode matches (private vs public).";
   }
   if (message) return `House key could not be created: ${message}`;
   return "House key could not be created. Try again or check the account store.";
@@ -292,37 +295,104 @@ function blobPathFor(usernameKey: string): string {
   return `${BLOB_PREFIX}${usernameKey}.json`;
 }
 
-async function blobFetchJson(url: string): Promise<HouseAccount | null> {
+async function streamToJson(stream: ReadableStream<Uint8Array> | null | undefined): Promise<HouseAccount | null> {
+  if (!stream) return null;
   try {
-    const response = await fetch(url, { cache: "no-store" });
-    if (!response.ok) return null;
-    return rowFromUnknown((await response.json()) as Record<string, unknown>);
+    const text = await new Response(stream).text();
+    if (!text) return null;
+    return rowFromUnknown(JSON.parse(text) as Record<string, unknown>);
   } catch {
     return null;
   }
 }
 
-async function blobReadByUsernameKey(usernameKey: string): Promise<HouseAccount | null> {
+/** Read a house-key JSON blob. Tries private first (password hashes), then public fallback. */
+async function blobReadByPath(pathname: string): Promise<HouseAccount | null> {
+  for (const access of ["private", "public"] as const) {
+    try {
+      const result = await get(pathname, { access });
+      if (result && result.statusCode === 200) {
+        const row = await streamToJson(result.stream);
+        if (row) return row;
+      }
+    } catch {
+      // try next access mode
+    }
+  }
+
+  // Fallback: list + authenticated fetch (covers older public URLs)
   try {
-    const path = blobPathFor(usernameKey);
-    const { blobs } = await list({ prefix: path, limit: 5 });
-    const match = blobs.find((entry) => entry.pathname === path);
+    const { blobs } = await list({ prefix: pathname, limit: 5 });
+    const match = blobs.find((entry) => entry.pathname === pathname);
     if (!match) return null;
-    return blobFetchJson(match.url);
+    const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await fetch(match.url, { cache: "no-store", headers });
+    if (!response.ok) return null;
+    return rowFromUnknown((await response.json()) as Record<string, unknown>);
   } catch (error) {
-    console.error("blobReadByUsernameKey", error instanceof Error ? error.message : "unknown");
+    console.error("blobReadByPath", error instanceof Error ? error.message : "unknown");
     return null;
   }
+}
+
+async function blobReadByUsernameKey(usernameKey: string): Promise<HouseAccount | null> {
+  return blobReadByPath(blobPathFor(usernameKey));
 }
 
 async function blobListAccounts(): Promise<HouseAccount[]> {
   try {
     const { blobs } = await list({ prefix: BLOB_PREFIX, limit: 500 });
-    const accounts = await Promise.all(blobs.map((entry) => blobFetchJson(entry.url)));
+    const accounts = await Promise.all(
+      blobs.map(async (entry) => {
+        const byGet = await blobReadByPath(entry.pathname);
+        if (byGet) return byGet;
+        const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+        const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+        try {
+          const response = await fetch(entry.url, { cache: "no-store", headers });
+          if (!response.ok) return null;
+          return rowFromUnknown((await response.json()) as Record<string, unknown>);
+        } catch {
+          return null;
+        }
+      }),
+    );
     return accounts.filter((row): row is HouseAccount => Boolean(row));
   } catch (error) {
     console.error("blobListAccounts", error instanceof Error ? error.message : "unknown");
     return [];
+  }
+}
+
+/**
+ * Put must match the store's access mode (private store rejects access:"public").
+ * House keys prefer private so password hashes are not world-readable.
+ */
+async function blobPutAccount(pathname: string, body: string): Promise<void> {
+  const optionsBase = {
+    addRandomSuffix: false as const,
+    allowOverwrite: true as const,
+    contentType: "application/json",
+  };
+
+  let privateError: unknown;
+  try {
+    await put(pathname, body, { ...optionsBase, access: "private" });
+    return;
+  } catch (error) {
+    privateError = error;
+  }
+
+  try {
+    await put(pathname, body, { ...optionsBase, access: "public" });
+    return;
+  } catch (publicError) {
+    const privateMsg = privateError instanceof Error ? privateError.message : String(privateError ?? "");
+    const publicMsg = publicError instanceof Error ? publicError.message : String(publicError ?? "");
+    throw new Error(
+      `Blob put failed (private: ${privateMsg || "unknown"}; public: ${publicMsg || "unknown"})`,
+    );
   }
 }
 
@@ -341,12 +411,7 @@ const blobAccountStore: AccountStore = {
     if (byEmail.some((row) => row.email === account.email)) {
       throw new DuplicateAccountError();
     }
-    await put(blobPathFor(account.usernameKey), JSON.stringify(account), {
-      access: "public",
-      addRandomSuffix: false,
-      allowOverwrite: true,
-      contentType: "application/json",
-    });
+    await blobPutAccount(blobPathFor(account.usernameKey), JSON.stringify(account));
   },
 };
 
