@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SignInForm } from "@/components/SignInForm";
 import { signInErrorCopy } from "@/lib/auth-env";
+import { accountsStoreBlockedMessage } from "@/lib/house/accounts";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -26,6 +27,7 @@ export default async function SignInPage({
       <SignInForm
         callbackUrl={callbackUrl || "/account"}
         errorMessage={signInErrorCopy(error)}
+        storeBlockedMessage={accountsStoreBlockedMessage()}
       />
     </div>
   );
