@@ -35,7 +35,6 @@ const USERNAME_RE = /^[a-zA-Z0-9._-]{1,32}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_PASSWORD = 8;
 const LOCAL_FILE = "house-accounts";
-/** Per-user JSON under this prefix (public fetch; bcrypt hashes only). Prefer DATABASE_URL later. */
 const BLOB_PREFIX = "house-keys/v1/";
 
 export function normalizeEmail(raw: string): string {
@@ -118,7 +117,6 @@ export function accountsStoreReady(): boolean {
   return supabaseConfigured() || neonConfigured() || blobAccountsConfigured() || localAllowed();
 }
 
-/** Human-readable reason when house keys cannot persist on this host. */
 export function accountsStoreBlockedMessage(): string | null {
   if (accountsStoreReady()) return null;
   return (
@@ -246,6 +244,10 @@ function storeHint(error: unknown): string {
   if (/house_accounts|PGRST205|42P01/i.test(message)) {
     return "Apply supabase/migrations/0002_house_accounts.sql (or set DATABASE_URL / BLOB_READ_WRITE_TOKEN) so house keys can persist.";
   }
+  if (/blob|token|forbidden|unauthorized|403|401/i.test(message)) {
+    return "House key store could not write to Blob. Check BLOB_READ_WRITE_TOKEN on Vercel.";
+  }
+  if (message) return `House key could not be created: ${message}`;
   return "House key could not be created. Try again or check the account store.";
 }
 
@@ -291,9 +293,9 @@ function blobPathFor(usernameKey: string): string {
 }
 
 async function blobFetchJson(url: string): Promise<HouseAccount | null> {
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) return null;
   try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) return null;
     return rowFromUnknown((await response.json()) as Record<string, unknown>);
   } catch {
     return null;
@@ -301,17 +303,27 @@ async function blobFetchJson(url: string): Promise<HouseAccount | null> {
 }
 
 async function blobReadByUsernameKey(usernameKey: string): Promise<HouseAccount | null> {
-  const path = blobPathFor(usernameKey);
-  const { blobs } = await list({ prefix: path, limit: 5 });
-  const match = blobs.find((entry) => entry.pathname === path);
-  if (!match) return null;
-  return blobFetchJson(match.url);
+  try {
+    const path = blobPathFor(usernameKey);
+    const { blobs } = await list({ prefix: path, limit: 5 });
+    const match = blobs.find((entry) => entry.pathname === path);
+    if (!match) return null;
+    return blobFetchJson(match.url);
+  } catch (error) {
+    console.error("blobReadByUsernameKey", error instanceof Error ? error.message : "unknown");
+    return null;
+  }
 }
 
 async function blobListAccounts(): Promise<HouseAccount[]> {
-  const { blobs } = await list({ prefix: BLOB_PREFIX, limit: 500 });
-  const accounts = await Promise.all(blobs.map((entry) => blobFetchJson(entry.url)));
-  return accounts.filter((row): row is HouseAccount => Boolean(row));
+  try {
+    const { blobs } = await list({ prefix: BLOB_PREFIX, limit: 500 });
+    const accounts = await Promise.all(blobs.map((entry) => blobFetchJson(entry.url)));
+    return accounts.filter((row): row is HouseAccount => Boolean(row));
+  } catch (error) {
+    console.error("blobListAccounts", error instanceof Error ? error.message : "unknown");
+    return [];
+  }
 }
 
 const blobAccountStore: AccountStore = {
@@ -325,14 +337,14 @@ const blobAccountStore: AccountStore = {
   async insert(account) {
     const existingKey = await blobReadByUsernameKey(account.usernameKey);
     if (existingKey) throw new DuplicateAccountError();
-    const existingEmail = await blobListAccounts();
-    if (existingEmail.some((row) => row.email === account.email)) {
+    const byEmail = await blobListAccounts();
+    if (byEmail.some((row) => row.email === account.email)) {
       throw new DuplicateAccountError();
     }
-    await put(blobPathFor(account.usernameKey), `${JSON.stringify(account)}\n`, {
+    await put(blobPathFor(account.usernameKey), JSON.stringify(account), {
       access: "public",
       addRandomSuffix: false,
-      allowOverwrite: false,
+      allowOverwrite: true,
       contentType: "application/json",
     });
   },
