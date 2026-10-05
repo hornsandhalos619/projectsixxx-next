@@ -6,6 +6,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { shopCategories } from "../config/affiliates";
 import { visibleOutboundShops, type OutboundShop } from "../config/shops";
+import React from "react";
+import ShopPage, { metadata as shopMetadata } from "../app/shop/page";
 import { ShopCategoryTiles } from "../components/ShopCategoryTiles";
 import { TeeEditorial } from "../components/TeeEditorial";
 import {
@@ -122,6 +124,14 @@ async function main() {
   assert.ok(!shopSource.includes("URL placeholder"));
   assert.ok(shopSource.includes("visibleOutboundShops"));
   assert.ok(shopSource.includes("loadShopifyTees"));
+
+  const shopMeta = [shopMetadata.title, shopMetadata.description]
+    .map((value) => (typeof value === "string" ? value : ""))
+    .join("\n");
+  assert.ok(!/Spreadshop/i.test(shopMeta), "shop metadata omits Spreadshop");
+  (globalThis as { React?: typeof React }).React = React;
+  const shopPageHtml = renderToStaticMarkup(await ShopPage());
+  assert.ok(!/Spreadshop/i.test(shopPageHtml), "rendered /shop HTML omits Spreadshop");
 
   const hiddenSpreadshop: OutboundShop[] = [
     {

@@ -21,7 +21,7 @@ const adConcepts = [
   },
   {
     title: "Wearable silver",
-    body: "One garment, one body. Silver metal language for Horns & Halos. Outbound only when SHOPIFY_URL or SPREADSHOP_URL is live.",
+    body: "One garment, one body. Silver metal language for Horns & Halos. Outbound only when SHOPIFY_URL is live.",
   },
   {
     title: "Public light",
