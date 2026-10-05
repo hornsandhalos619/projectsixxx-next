@@ -94,7 +94,7 @@ export function recordToMdx(record: CmsRecord): string {
       author: "Overmind",
       stream: "overmind",
       tags,
-      teaser: (record.teaser || record.excerpt).slice(0, 160),
+      teaser: String(record.teaser || record.excerpt || "").slice(0, 160),
       status: record.status,
     };
     return matter.stringify(record.body.trimStart(), front);

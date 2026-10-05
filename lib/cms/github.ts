@@ -54,14 +54,19 @@ async function listDirectory(dir: string): Promise<ContentItem[]> {
 }
 
 async function readFile(path: string, stream: JournalStream, category?: string): Promise<CmsRecord | null> {
-  const url = `https://api.github.com/repos/${repoSlug()}/contents/${path}?ref=${encodeURIComponent(branchName())}`;
-  const response = await githubFetch(url);
-  if (!response.ok) return null;
-  const data = (await response.json()) as { content?: string; encoding?: string; name?: string };
-  if (!data.content) return null;
-  const raw = Buffer.from(data.content, (data.encoding as BufferEncoding) || "base64").toString("utf8");
-  const slug = (data.name ?? path.split("/").pop() ?? "").replace(/\.mdx?$/, "");
-  return mdxToRecord(raw, { stream, slug, category });
+  try {
+    const url = `https://api.github.com/repos/${repoSlug()}/contents/${path}?ref=${encodeURIComponent(branchName())}`;
+    const response = await githubFetch(url);
+    if (!response.ok) return null;
+    const data = (await response.json()) as { content?: string; encoding?: string; name?: string };
+    if (!data.content) return null;
+    const raw = Buffer.from(data.content, (data.encoding as BufferEncoding) || "base64").toString("utf8");
+    const slug = (data.name ?? path.split("/").pop() ?? "").replace(/\.mdx?$/, "");
+    return mdxToRecord(raw, { stream, slug, category });
+  } catch (error) {
+    console.error("journal github parse failed", path, error);
+    return null;
+  }
 }
 
 export async function githubList(): Promise<CmsRecord[]> {

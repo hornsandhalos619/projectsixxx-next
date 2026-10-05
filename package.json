@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "npx --yes tsx lib/cms/merge.test.ts && npx --yes tsx lib/house/accounts.test.ts && npx --yes tsx lib/auth-env.test.ts && npx --yes tsx lib/house/roles.test.ts && npx --yes tsx lib/manifesto.test.ts && npx --yes tsx lib/seo.test.ts && npx --yes tsx lib/footer.test.ts && npx --yes tsx lib/public-roster.test.ts && npx --yes tsx lib/public-sample.test.ts && npx --yes tsx lib/gallery/published-column.test.ts",
+    "test": "npx --yes tsx lib/cms/merge.test.ts && npx --yes tsx lib/house/accounts.test.ts && npx --yes tsx lib/auth-env.test.ts && npx --yes tsx lib/house/roles.test.ts && npx --yes tsx lib/manifesto.test.ts && npx --yes tsx lib/seo.test.ts && npx --yes tsx lib/footer.test.ts && npx --yes tsx lib/public-roster.test.ts && npx --yes tsx lib/public-sample.test.ts && npx --yes tsx lib/gallery/published-column.test.ts && npx --yes tsx lib/sitemap.test.ts",
     "seed": "npx --yes tsx scripts/seed-cms.ts"
   },
   "dependencies": {

@@ -25,7 +25,7 @@ function toOvermindPost(record: CmsRecord): OvermindPost | null {
     author: "Overmind",
     stream: "overmind",
     tags: record.tags ?? [],
-    teaser: (record.teaser || record.excerpt).slice(0, 160),
+    teaser: String(record.teaser || record.excerpt || "").slice(0, 160),
     status: record.status,
     content: record.body,
   };

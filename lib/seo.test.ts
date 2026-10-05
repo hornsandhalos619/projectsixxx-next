@@ -8,12 +8,13 @@ import robots from "../app/robots";
 import sitemap from "../app/sitemap";
 
 const sitemapSource = readFileSync(
-  join(dirname(fileURLToPath(import.meta.url)), "../app/sitemap.ts"),
+  join(dirname(fileURLToPath(import.meta.url)), "../lib/sitemap.ts"),
   "utf8",
 );
+assert.ok(sitemapSource.includes("async function safe("), "sitemap must wrap sources in safe()");
 assert.ok(
-  sitemapSource.includes("Promise.allSettled"),
-  "sitemap must isolate failing data sources with Promise.allSettled",
+  sitemapSource.includes("coreSitemapEntries"),
+  "sitemap must fall back to static core entries",
 );
 
 const layoutSource = readFileSync(
