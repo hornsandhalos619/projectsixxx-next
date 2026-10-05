@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journalTaxonomy, site } from "../config/site";
-import { shopCategories } from "../config/affiliates";
+import { publishedProducts, shopCategories } from "../config/affiliates";
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
 
@@ -89,6 +89,13 @@ async function checkSitemap() {
 
   for (const category of shopCategories) {
     assert.ok(urls.includes(`https://projectsixxx.com/shop/${category.slug}`));
+  }
+
+  for (const product of publishedProducts()) {
+    assert.ok(
+      urls.includes(`https://projectsixxx.com/shop/${product.category}/${product.slug}`),
+      `sitemap missing published product /shop/${product.category}/${product.slug}`,
+    );
   }
 
   const blocked = [

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { shopCategories } from "@/config/affiliates";
 import { outboundShops, shopifyUrl } from "@/config/shops";
 import { SOFT_LAUNCH_COPY, SOFT_LAUNCH_SOURCE, SOFT_LAUNCH_TAG } from "@/config/leads";
@@ -21,6 +22,7 @@ export default function ShopPage() {
           Primary door is Shopify. Affiliate shelves stay on this hub.
           Spreadshop is paused.
         </p>
+        <AffiliateDisclosure />
         <div className="cta-row" style={{ marginTop: "1.25rem" }}>
           <a
             className="btn btn-ember"
