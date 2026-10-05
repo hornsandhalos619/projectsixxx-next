@@ -8,7 +8,7 @@ import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
 import { listFeaturedArtists } from "@/lib/gallery/store";
 import { listHomepageSlots } from "@/lib/homepage/store";
 import { publishedPosts } from "@/lib/journal";
-import { shopCategories } from "@/config/affiliates";
+import { ShopCategoryTiles } from "@/components/ShopCategoryTiles";
 import { shopifyUrl } from "@/config/shops";
 import { listFeaturedLibrary } from "@/lib/titles/store";
 
@@ -21,7 +21,6 @@ export default async function HomePage() {
     showRoster ? listFeaturedArtists() : Promise.resolve([]),
   ]);
   const posts = postsAll.slice(0, 3);
-  const shopTeaser = shopCategories.slice(0, 3);
   const quote = slots.find((slot) => slot.slot === "quote" && slot.enabled);
   const excerpt = slots.find((slot) => slot.slot === "excerpt" && slot.enabled);
   const literatureSlot = slots.find((slot) => slot.slot === "literature" && slot.enabled);
@@ -224,15 +223,8 @@ export default async function HomePage() {
           <p className="muted">
             Primary door is Shopify — public shop. Affiliate shelves stay on the house hub.
           </p>
-          {/* Quiet category teasers only. No Helix / zZounds product name, dek, or CTA on the house front. */}
-          <div className="grid-2" style={{ marginTop: "1.25rem" }}>
-            {shopTeaser.map((cat) => (
-              <Link className="card" key={cat.slug} href={`/shop/${cat.slug}`}>
-                <h3>{cat.title}</h3>
-                <p className="muted">{cat.dek}</p>
-              </Link>
-            ))}
-          </div>
+          {/* Quiet category teasers only. Category tiles stay on the house front. */}
+          <ShopCategoryTiles />
           <div className="cta-row">
             <a
               className="btn btn-ember"

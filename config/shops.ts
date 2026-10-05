@@ -9,7 +9,7 @@ export type OutboundShop = {
   id: "shopify" | "spreadshop";
   title: string;
   dek: string;
-  /** Empty string = placeholder card only; do not invent a live URL. */
+  /** Empty string omits this lane from the public shop. */
   url: string;
   cta: string;
 };
@@ -22,7 +22,7 @@ export const shopifyUrl =
 /** Retained locked door (no hyphens). Not auto-applied while Spreadshop is paused. */
 export const SPREADSHOP_URL_LOCKED = "https://hornsandhalos.myspreadshop.com/";
 
-/** Paused lane: env only. Empty = placeholder card. */
+/** Paused lane: env only. Empty omits the lane from the public shop. */
 export const spreadshopUrl = (process.env.SPREADSHOP_URL ?? "").trim();
 
 export const outboundShops: OutboundShop[] = [
@@ -36,8 +36,12 @@ export const outboundShops: OutboundShop[] = [
   {
     id: "spreadshop",
     title: "Spreadshop",
-    dek: "Paused. Secondary placeholder until founder reopens this lane.",
+    dek: "Paused. Secondary door when the founder reopens this lane.",
     url: spreadshopUrl,
     cta: "Open Spreadshop",
   },
 ];
+
+export function visibleOutboundShops(shops: OutboundShop[] = outboundShops) {
+  return shops.filter((shop) => shop.url.length > 0);
+}

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
-import { shopCategories } from "@/config/affiliates";
-import { outboundShops, shopifyUrl } from "@/config/shops";
+import { ShopCategoryTiles } from "@/components/ShopCategoryTiles";
+import { TeeEditorial } from "@/components/TeeEditorial";
+import { shopifyUrl, visibleOutboundShops } from "@/config/shops";
 import { SOFT_LAUNCH_COPY, SOFT_LAUNCH_SOURCE, SOFT_LAUNCH_TAG } from "@/config/leads";
 import { EmailCapture } from "@/components/EmailCapture";
+import { loadShopifyTees } from "@/lib/shopify-tees";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -12,7 +14,12 @@ export const metadata: Metadata = {
     "Three lanes: affiliate catalog, Shopify soft-launch (primary), Spreadshop paused. Belief first. Est. in Darkness.",
 };
 
-export default function ShopPage() {
+export const revalidate = 3600;
+
+export default async function ShopPage() {
+  const tees = await loadShopifyTees();
+  const shopLanes = visibleOutboundShops();
+
   return (
     <div className="shell">
       <header className="page-head">
@@ -94,7 +101,7 @@ export default function ShopPage() {
               </Link>
             </div>
           </article>
-          {outboundShops.map((shop) => (
+          {shopLanes.map((shop) => (
             <article className="card void-glass" key={shop.id}>
               <p className="kicker">
                 Lane {shop.id === "shopify" ? "02" : "03"}
@@ -102,20 +109,14 @@ export default function ShopPage() {
               <h2>{shop.title}</h2>
               <p className="muted">{shop.dek}</p>
               <div className="cta-row">
-                {shop.url ? (
-                  <a
-                    className="btn btn-ember"
-                    href={shop.url}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {shop.cta}
-                  </a>
-                ) : (
-                  <span className="btn" aria-disabled="true">
-                    URL placeholder — set in env
-                  </span>
-                )}
+                <a
+                  className="btn btn-ember"
+                  href={shop.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {shop.cta}
+                </a>
               </div>
             </article>
           ))}
@@ -125,66 +126,10 @@ export default function ShopPage() {
       <section className="section" id="affiliate-shelves" aria-label="Affiliate shelves">
         <p className="kicker">Affiliate shelves</p>
         <h2>Tools that earn a place</h2>
-        <div className="grid-2" style={{ marginTop: "1.25rem" }}>
-          {shopCategories.map((cat) => (
-            <Link className="card void-glass" key={cat.slug} href={`/shop/${cat.slug}`}>
-              <h3>{cat.title}</h3>
-              <p className="muted">{cat.dek}</p>
-            </Link>
-          ))}
-        </div>
+        <ShopCategoryTiles cardClassName="card void-glass" />
       </section>
 
-
-      <section className="section" aria-label="R001 tee editorial">
-        <p className="kicker">R001 · $35</p>
-        <h2>Tee editorial</h2>
-        <p className="muted">
-          Ghost-mannequin lookbook plates. Primary money door is Shopify.
-        </p>
-        <div className="grid-2" style={{ marginTop: "1.25rem" }}>
-          {[
-            { src: "/brand/horns-r001-outer-horns-tee-editorial.png", title: "Outer Horns", lane: "Horns" },
-            { src: "/brand/horns-r001-infinite-conflict-tee-editorial.png", title: "Infinite Conflict.", lane: "Horns" },
-            { src: "/brand/horns-r001-oculus-tee-editorial.png", title: "Oculus", lane: "Horns" },
-            { src: "/brand/halos-r001-unbroken-tee-editorial.png", title: "Unbroken", lane: "Halos" },
-            { src: "/brand/halos-r001-eternal-balance-tee-editorial.png", title: "Eternal Balance.", lane: "Halos" },
-            { src: "/brand/halos-r001-brilliance-tee-editorial.png", title: "Brilliance", lane: "Halos" },
-          ].map((sku) => (
-            <a
-              key={sku.src}
-              className="card void-glass"
-              href={shopifyUrl}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={sku.src}
-                alt={`${sku.title} tee editorial`}
-                width={800}
-                height={1000}
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-              <div style={{ padding: "0.85rem 1rem" }}>
-                <p className="kicker" style={{ marginBottom: "0.35rem" }}>{sku.lane}</p>
-                <h3 style={{ margin: 0 }}>{sku.title}</h3>
-                <p className="muted" style={{ margin: "0.35rem 0 0" }}>$35.00 · Enter Shopify store</p>
-              </div>
-            </a>
-          ))}
-        </div>
-        <div className="cta-row">
-          <a
-            className="btn btn-ember"
-            href={shopifyUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Enter Shopify store
-          </a>
-        </div>
-      </section>
+      <TeeEditorial tees={tees} />
 
       <section className="section" aria-label="Soft-launch list">
         <p className="kicker">Soft launch</p>
