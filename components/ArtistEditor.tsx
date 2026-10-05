@@ -92,6 +92,16 @@ export function ArtistEditor({
         Feature on homepage
       </label>
       <label>
+        <input
+          type="checkbox"
+          name="published"
+          value="1"
+          defaultChecked={Boolean(artist?.published ?? artist?.role === "House")}
+        />
+        {" "}
+        Published on public gallery
+      </label>
+      <label>
         Feature rank
         <input name="featuredRank" type="number" defaultValue={artist?.featuredRank ?? ""} />
       </label>

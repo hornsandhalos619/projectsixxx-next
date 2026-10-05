@@ -90,6 +90,7 @@ export async function saveArtistEntry(
       mediaPending: formData.get("mediaPending") === "1",
       featured: formData.get("featured") === "1",
       featuredRank: Number(formData.get("featuredRank") || 0) || undefined,
+      published: formData.get("published") === "1",
     });
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Save failed." };

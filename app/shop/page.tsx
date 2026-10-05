@@ -33,8 +33,8 @@ export default function ShopPage() {
         </div>
       </header>
 
-      <section className="section" aria-label="Shop duality SAMPLE">
-        <p className="kicker">Duality SAMPLE</p>
+      <section className="section" aria-label="Shop duality">
+        <p className="kicker">Duality</p>
         <h2>Horns void · Halos parchment</h2>
         <div className="grid-2" style={{ marginTop: "1.25rem", alignItems: "center" }}>
           <figure className="card void-glass" style={{ padding: 0, overflow: "hidden" }}>
@@ -134,9 +134,9 @@ export default function ShopPage() {
       </section>
 
 
-      <section className="section" aria-label="R001 tee editorial SAMPLE">
+      <section className="section" aria-label="R001 tee editorial">
         <p className="kicker">R001 · $35</p>
-        <h2>Tee editorial SAMPLE</h2>
+        <h2>Tee editorial</h2>
         <p className="muted">
           Ghost-mannequin lookbook plates. Primary money door is Shopify.
         </p>

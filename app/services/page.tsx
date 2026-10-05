@@ -22,7 +22,7 @@ const items = [
   {
     href: "/services/b2b",
     title: "B2B",
-    dek: "Quiet engagements. SAMPLE labels: Abacus Films, Oakwood-Residential.",
+    dek: "Quiet engagements. Abacus Films, Oakwood-Residential.",
   },
 ];
 

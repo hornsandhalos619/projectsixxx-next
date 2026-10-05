@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { artists } from "@/lib/artists";
-import { SampleBadge } from "@/components/SampleBadge";
-import { getArtist } from "@/lib/gallery/store";
+import { publishedArtists } from "@/lib/artists";
+import { getPublishedArtist } from "@/lib/gallery/store";
 
 type Props = { params: Promise<{ artist: string }> };
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
-  return artists.map((a) => ({ artist: a.slug }));
+  return publishedArtists().map((a) => ({ artist: a.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artist: slug } = await params;
-  const artist = await getArtist(slug);
+  const artist = await getPublishedArtist(slug);
   if (!artist) return { title: "Gallery" };
   return { title: artist.name, description: artist.bio };
 }
 
 export default async function ArtistPage({ params }: Props) {
   const { artist: slug } = await params;
-  const artist = await getArtist(slug);
+  const artist = await getPublishedArtist(slug);
   if (!artist) notFound();
 
   return (
@@ -28,12 +29,6 @@ export default async function ArtistPage({ params }: Props) {
       <header className="page-head">
         <p className="kicker">
           {artist.role}
-          {artist.status === "sample" ? (
-            <>
-              {" "}
-              <SampleBadge label="SAMPLE" />
-            </>
-          ) : null}
           {artist.mediaPending ? (
             <span className="muted"> · media pending</span>
           ) : null}

@@ -21,6 +21,8 @@ export type Artist = {
   mediaPending?: boolean;
   featured?: boolean;
   featuredRank?: number;
+  /** Public gallery / sitemap / metadata. Default off until the person approves. */
+  published?: boolean;
 };
 
 /**
@@ -34,7 +36,8 @@ export const artists: Artist[] = [
     role: "House",
     status: "sample",
     mediaPending: true,
-    bio: "The house name, not a legal caption. Project SiXXX holds journal, gallery, portal, library, and shop. This roster card is SAMPLE until the founder sets the public artist line.",
+    published: true,
+    bio: "The house name, not a legal caption. Project SiXXX holds journal, gallery, portal, library, and shop. This roster card waits for the founder to set the public artist line.",
     email: "house@projectsixxx.com",
     social: [{ label: "Site", href: "/" }],
     store: [
@@ -63,6 +66,7 @@ export const artists: Artist[] = [
     status: "sample",
     mediaPending: true,
     featured: true,
+    published: false,
     bio: "Named collaborator slot for Christian Boye Larsen. SAMPLE — media pending. No invented biography. Page expands when the house lands approved stills and a founder-blessed credit line.",
     email: "",
     social: [],
@@ -75,6 +79,8 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    featured: true,
+    published: false,
     bio: "Named collaborator slot for Eliot Kohek. SAMPLE — media pending. Attribution placeholder only. No style imitation and no fabricated personal history.",
     email: "",
     social: [],
@@ -87,6 +93,8 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    featured: true,
+    published: false,
     bio: "Named collaborator slot for the Murray Brothers. SAMPLE — media pending. Credit line reserved; works and contact land when the founder approves materials.",
     email: "",
     social: [],
@@ -99,6 +107,8 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    featured: true,
+    published: false,
     bio: "Named collaborator slot for Jesse Levitt. SAMPLE — media pending. Short attribution only. Expandable when approved media and links arrive.",
     email: "",
     social: [],
@@ -111,6 +121,8 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    featured: true,
+    published: false,
     bio: "Named collaborator slot for Rob Borbas. SAMPLE — media pending. No invented personal history. Page holds the name until the house sets the public credit.",
     email: "",
     social: [],
@@ -124,6 +136,7 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    published: false,
     bio: "Expandable collaborator slot. SAMPLE until named. Reserved for a future house guest — no placeholder persona.",
     email: "",
     social: [],
@@ -136,6 +149,7 @@ export const artists: Artist[] = [
     role: "Collaborator",
     status: "sample",
     mediaPending: true,
+    published: false,
     bio: "Expandable collaborator slot. SAMPLE until named. Kept empty of invented history on purpose.",
     email: "",
     social: [],
@@ -153,6 +167,16 @@ export function isFeaturedArtist(artist: Artist): boolean {
   return artist.role === "Collaborator" && !artist.slug.startsWith("slot-open");
 }
 
+/** Named collaborators stay off the public site until this is explicitly true. */
+export function isPublishedArtist(artist: Artist): boolean {
+  if (typeof artist.published === "boolean") return artist.published;
+  return artist.role === "House";
+}
+
 export function featuredCollaborators() {
   return artists.filter(isFeaturedArtist);
+}
+
+export function publishedArtists(list: Artist[] = artists) {
+  return list.filter(isPublishedArtist);
 }

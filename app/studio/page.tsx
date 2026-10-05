@@ -40,7 +40,7 @@ const heygenScripts = [
   },
   {
     title: "Library sample",
-    body: "VO: The reading room is open. SAMPLE titles. No fake checkout. Visual: catalog cards, Read sample. CTA: /library",
+    body: "VO: The reading room is open. Titles you can read on the site. Visual: catalog cards, Read sample. CTA: /library",
   },
 ];
 

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getPost, isJournalCategory, publishedPosts } from "@/lib/journal";
-import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
 
@@ -34,12 +33,6 @@ export default async function PostPage({ params }: Props) {
       <header className="page-head">
         <p className="kicker">
           {post.category}
-          {post.status === "sample" ? (
-            <>
-              {" "}
-              <SampleBadge />
-            </>
-          ) : null}
         </p>
         <h1>{post.title}</h1>
         <p className="lede">{post.dek}</p>

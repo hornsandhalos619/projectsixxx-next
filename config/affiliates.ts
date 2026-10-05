@@ -67,7 +67,7 @@ export const shopCategories: {
     dek: "Instruments that earn the night — not costume hardware.",
     seoTitle: "Guitars — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar landing. Live Line 6 Helix LT and Helix Stadium XL at zZounds. SAMPLE Ibanez-style pick remains. Est. in Darkness.",
+      "Affiliate guitar landing. Live Line 6 Helix LT and Helix Stadium XL at zZounds. Ibanez-style pick remains. Est. in Darkness.",
   },
   {
     slug: "synths",
@@ -136,7 +136,7 @@ export const products: AffiliateProduct[] = [
     slug: "ibanez-rg-sample",
     category: "guitars",
     name: "Ibanez-style RG",
-    dek: "A fast neck. A working trem. SAMPLE pick — not an endorsement theater.",
+    dek: "A fast neck. A working trem.",
     belief:
       "If the neck is a hallway and the fretboard is a floor, buy the one you can walk in the dark. Flash is not a setup. A setup is a setup.",
     merchant: "Sweetwater",

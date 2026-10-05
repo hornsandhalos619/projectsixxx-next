@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { categoryBySlug, outboundUrl, productBody, shopCategories } from "@/config/affiliates";
 import { productsInCategory } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
-import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string }> };
 
@@ -35,7 +34,6 @@ export default async function ShopCategoryPage({ params }: Props) {
 
       {items.map((product) => (
         <article className="card" key={product.slug} style={{ marginBottom: "1rem" }}>
-          {product.status === "sample" ? <SampleBadge /> : null}
           <h2>
             <Link href={`/shop/${product.category}/${product.slug}`}>{product.name}</Link>
           </h2>

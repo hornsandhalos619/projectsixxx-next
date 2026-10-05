@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { shopCategories } from "@/config/affiliates";
 import { journalTaxonomy, site } from "@/config/site";
 import { listAffiliateProducts } from "@/lib/affiliates/store";
-import { listArtists } from "@/lib/gallery/store";
+import { listPublishedArtists } from "@/lib/gallery/store";
 import { publishedPosts } from "@/lib/journal";
 import { publishedOvermindPosts } from "@/lib/overmind-journal";
 import { listLibraryTitles } from "@/lib/titles/store";
@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     publishedPosts(),
     publishedOvermindPosts(),
     listLibraryTitles(),
-    listArtists(),
+    listPublishedArtists(),
     listAffiliateProducts(),
   ]);
 

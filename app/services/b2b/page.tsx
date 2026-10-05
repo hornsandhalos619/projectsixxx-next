@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SampleBadge } from "@/components/SampleBadge";
 
 export const metadata: Metadata = {
   title: "B2B",
-  description: "B2B engagements. SAMPLE labels: Abacus Films, Oakwood-Residential.",
+  description: "B2B engagements. Abacus Films, Oakwood-Residential.",
 };
 
 export default function B2BPage() {
@@ -17,14 +16,12 @@ export default function B2BPage() {
       </header>
       <div className="grid-2">
         <article className="card">
-          <SampleBadge />
           <h2>Abacus Films</h2>
-          <p className="muted">SAMPLE engagement label. Production house, night-side tooling.</p>
+          <p className="muted">Production house, night-side tooling.</p>
         </article>
         <article className="card">
-          <SampleBadge />
           <h2>Oakwood-Residential</h2>
-          <p className="muted">SAMPLE engagement label. Residential operations, sterile IA.</p>
+          <p className="muted">Residential operations, sterile IA.</p>
         </article>
       </div>
       <div className="cta-row">

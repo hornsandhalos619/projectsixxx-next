@@ -2,12 +2,14 @@ import { revalidatePath } from "next/cache";
 import {
   artists as seedArtists,
   isFeaturedArtist,
+  isPublishedArtist,
   type Artist,
   type ArtistStatus,
   type Work,
 } from "@/lib/artists";
 import { localJsonRead, localJsonWrite } from "@/lib/cms/local-json";
 import { isValidSlug, slugify } from "@/lib/cms/slug";
+import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
 import { detectLiveStore, liveStoreKind, mergeBySlug } from "@/lib/live";
 import { getSupabase } from "@/lib/supabase";
 
@@ -25,6 +27,7 @@ type ArtistRow = {
   media_pending: boolean;
   featured: boolean;
   featured_rank: number | null;
+  published?: boolean | null;
   artist_works?: WorkRow[] | null;
 };
 
@@ -87,6 +90,7 @@ function rowToArtist(row: ArtistRow): Artist {
     mediaPending: Boolean(row.media_pending),
     featured: Boolean(row.featured),
     featuredRank: row.featured_rank ?? undefined,
+    published: row.published == null ? undefined : Boolean(row.published),
   };
 }
 
@@ -95,7 +99,7 @@ async function listOverlay(): Promise<Artist[]> {
   if (kind === "supabase") {
     const { data, error } = await getSupabase()
       .from("artists")
-      .select("slug, name, role, status, bio, email, social, store, media_pending, featured, featured_rank, artist_works(title, year, medium, caption, media_url, sort_order)")
+      .select("slug, name, role, status, bio, email, social, store, media_pending, featured, featured_rank, published, artist_works(title, year, medium, caption, media_url, sort_order)")
       .order("name");
     if (error) throw new Error(error.message);
     return (data ?? []).map((row) => {
@@ -124,8 +128,20 @@ export async function getArtist(slug: string): Promise<Artist | undefined> {
   return (await listArtists()).find((artist) => artist.slug === slug);
 }
 
+export async function listPublishedArtists(): Promise<Artist[]> {
+  return (await listArtists()).filter(isPublishedArtist);
+}
+
+export async function getPublishedArtist(slug: string): Promise<Artist | undefined> {
+  const artist = await getArtist(slug);
+  return artist && isPublishedArtist(artist) ? artist : undefined;
+}
+
 export async function listFeaturedArtists(): Promise<Artist[]> {
-  const list = (await listArtists()).filter(isFeaturedArtist);
+  if (!isFeaturedRosterEnabled()) return [];
+  const list = (await listArtists()).filter(
+    (artist) => isFeaturedArtist(artist) && isPublishedArtist(artist),
+  );
   return list.sort((a, b) => (a.featuredRank ?? 99) - (b.featuredRank ?? 99));
 }
 
@@ -161,6 +177,7 @@ export async function saveArtist(artist: Artist): Promise<void> {
         media_pending: Boolean(artist.mediaPending),
         featured: Boolean(artist.featured),
         featured_rank: artist.featuredRank ?? null,
+        published: Boolean(artist.published),
         updated_at: new Date().toISOString(),
       },
       { onConflict: "slug" },

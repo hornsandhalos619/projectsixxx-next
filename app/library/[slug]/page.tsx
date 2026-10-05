@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { allLibraryWorks } from "@/lib/library";
-import { SampleBadge } from "@/components/SampleBadge";
 import { getLibraryTitle } from "@/lib/titles/store";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -28,12 +27,6 @@ export default async function LibraryWorkPage({ params }: Props) {
       <header className="page-head">
         <p className="kicker">
           Library
-          {work.status === "sample" ? (
-            <>
-              {" "}
-              <SampleBadge label="SAMPLE" />
-            </>
-          ) : null}
         </p>
         <h1>{work.title}</h1>
         <p className="lede">{work.dek}</p>
