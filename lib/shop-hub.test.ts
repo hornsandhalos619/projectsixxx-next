@@ -160,6 +160,30 @@ async function main() {
   assert.ok(!home.includes("shopTeaser"));
   assert.ok(!home.includes("shopCategories.slice"));
 
+  const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  assert.ok(
+    /\.grid-shelves\s*\{[^}]*display:\s*grid/.test(css),
+    "shelf tiles use a grid so every card can stretch to one row height",
+  );
+  assert.ok(
+    /\.grid-shelves\s*\{[^}]*align-items:\s*stretch/.test(css),
+    "shelf grid stretches tiles to equal height",
+  );
+  assert.ok(
+    /\.grid-shelves\s*>\s*\*\s*\{[^}]*height:\s*100%/.test(css),
+    "shelf cards fill the grid cell",
+  );
+  assert.ok(
+    /\.grid-shelves\s+\.card\s+h3\s*\{[^}]*white-space:\s*nowrap/.test(css),
+    "shelf titles stay on one line in the five-up row",
+  );
+  assert.ok(
+    /@media\s*\(\s*max-width:\s*1100px\s*\)\s*\{[^}]*\.grid-shelves\s*\{[^}]*grid-template-columns:\s*1fr/.test(
+      css,
+    ),
+    "shelf grid goes from five-up to a single column",
+  );
+
   console.log(
     `shop hub ok (${liveTees.map((tee) => tee.title).join(" / ")}; ${shopCategories.length} shelves)`,
   );
