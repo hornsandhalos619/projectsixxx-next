@@ -11,7 +11,7 @@ import { loadShopifyTees } from "@/lib/shopify-tees";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Three lanes: affiliate catalog, Shopify soft-launch (primary), Spreadshop paused. Belief first. Est. in Darkness.",
+    "Two lanes: affiliate catalog, Shopify soft-launch (primary). Belief first. Est. in Darkness.",
 };
 
 export const revalidate = 3600;
@@ -27,7 +27,6 @@ export default async function ShopPage() {
         <h1>Horns &amp; Halos shop</h1>
         <p className="lede">
           Primary door is Shopify. Affiliate shelves stay on this hub.
-          Spreadshop is paused.
         </p>
         <AffiliateDisclosure />
         <div className="cta-row" style={{ marginTop: "1.25rem" }}>
