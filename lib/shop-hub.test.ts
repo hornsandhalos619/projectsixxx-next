@@ -128,6 +128,7 @@ async function main() {
   const shopMeta = [shopMetadata.title, shopMetadata.description]
     .map((value) => (typeof value === "string" ? value : ""))
     .join("\n");
+  // Spreadshop lane is closed for now (founder, 2026-10-05). When the founder reopens it, update or remove these two assertions along with the /shop copy.
   assert.ok(!/Spreadshop/i.test(shopMeta), "shop metadata omits Spreadshop");
   (globalThis as { React?: typeof React }).React = React;
   const shopPageHtml = renderToStaticMarkup(await ShopPage());
