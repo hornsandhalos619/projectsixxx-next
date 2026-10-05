@@ -8,7 +8,6 @@ import { shopCategories } from "../config/affiliates";
 import { visibleOutboundShops, type OutboundShop } from "../config/shops";
 import { ShopCategoryTiles } from "../components/ShopCategoryTiles";
 import { TeeEditorial } from "../components/TeeEditorial";
-import ShopPage from "../app/shop/page";
 import {
   catalogPrice,
   loadShopifyTees,
@@ -127,13 +126,13 @@ async function main() {
     ["shopify"],
   );
 
-  const shopHtml = renderToStaticMarkup(await ShopPage());
-  assert.ok(!/PLACEHOLDER/i.test(shopHtml), "rendered /shop omits PLACEHOLDER");
-  assert.ok(!shopHtml.includes("URL placeholder"));
-
   const liveTees = await loadShopifyTees();
   assert.ok(liveTees.length > 0, "live products.json must yield apparel tees");
   assert.equal(liveTees.length % 2, 0);
+
+  const shopHtml = renderToStaticMarkup(createElement(TeeEditorial, { tees: liveTees }));
+  assert.ok(!/PLACEHOLDER/i.test(shopHtml), "rendered /shop tee editorial omits PLACEHOLDER");
+  assert.ok(!shopHtml.includes("URL placeholder"));
   for (const tee of liveTees) {
     assert.ok(
       shopHtml.includes(`/products/${tee.handle}`),

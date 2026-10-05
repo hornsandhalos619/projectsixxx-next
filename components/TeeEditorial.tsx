@@ -1,3 +1,4 @@
+import React from "react";
 import type { ShopifyTeeCard } from "@/lib/shopify-tees";
 import { shopifyUrl } from "@/config/shops";
 
