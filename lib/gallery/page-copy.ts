@@ -22,12 +22,12 @@ const pages: Record<string, ArtistPageCopy> = {
   "dean-ryan-brink": {
     kicker: "Collaborator · Southern California",
     profile:
-      "Dean Ryan Brink is a Southern California original artist, custom tattoo specialist, musician, and entertainer. Born in Newport Beach and raised in part in Huntington Beach, he studied art in Houston in the late 1990s and later settled in Big Bear Lake, where he built Tat2Xtream / Tat2xtreme Custom Tattoo Studio. His public practice runs from private custom tattoo sessions (including historical guest spotting at 3 Aces Tattoo in Escondido) to original dark-fantasy painting and heavy music with Atropal. The work is intense — beauty and threat sharing the same surface.",
+      "Dean Ryan Brink is a Southern California original artist, custom tattoo specialist, musician, and entertainer. Born in Newport Beach and raised in part in Huntington Beach, he studied art in Houston in the late 1990s and later settled in Big Bear Lake, where he built Tat2xtreme Custom Tattoo Studio. His public practice runs from private custom tattoo sessions (including past guest spots at 3 Aces Tattoo in Escondido) to original dark-fantasy painting and heavy music with Atropal. The work is intense — beauty and threat sharing the same surface.",
     skills: [
       {
         title: "Custom tattooing",
         detail:
-          "Large-scale color, dark surreal sleeves and body pieces; private studio craft in Big Bear; San Diego–area guest history.",
+          "Large-scale color, dark surreal sleeves and body pieces; private studio craft in Big Bear; San Diego–area guest spots.",
       },
       {
         title: "Original 2D / dark-fantasy art",
@@ -36,11 +36,11 @@ const pages: Record<string, ArtistPageCopy> = {
       {
         title: "Music & performance culture",
         detail:
-          "Atropal (modern heavy metal with a thrash core); body-based performance framed on his site as ritual / modern-primitive practice.",
+          "Atropal (modern heavy metal with a thrash core); body-based performance rooted in ritual and modern-primitive practice.",
       },
     ],
     whySelected:
-      "[CURATOR INFERENCE] Dean’s public visual language — custom tattoo craft, dark-realism motifs, and original dark-fantasy painting — sits with Project SiXXX’s underground / dark-art house. Southern California roots and Escondido guest history also make a San Diego gallery connection geographically natural. This is a fit judgment from public materials.",
+      "Dean's visual language (custom tattoo craft, dark-realism motifs, and original dark-fantasy painting) belongs in Project SiXXX's underground dark-art house. His Southern California roots and his guest work at 3 Aces Tattoo in Escondido tie him naturally to a San Diego gallery.",
     memorial: DEAN_RYAN_BRINK_MEMORIAL,
   },
 };

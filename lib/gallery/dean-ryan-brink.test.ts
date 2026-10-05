@@ -82,7 +82,7 @@ async function main() {
     markup.includes(LOCKED_MEMORIAL),
     "artist page must render the locked memorial paragraph verbatim",
   );
-  assert.ok(markup.includes("[CURATOR INFERENCE]"));
+  assert.ok(!markup.includes("[CURATOR INFERENCE]"));
   assert.ok(markup.includes("House still pending"));
   assert.ok(!markup.includes("<img"), "page must not embed or hotlink artwork images");
   assert.ok(markup.includes('rel="noopener"'));
