@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import Link from "next/link";
 import type { Artist, Work } from "@/lib/artists";
 import type { ArtistPageCopy } from "@/lib/gallery/page-copy";
@@ -76,11 +76,8 @@ export function ArtistPageView({
         <p className="lede">{artist.bio}</p>
       </header>
 
-      <figure className="hero-still" aria-label="Hero still — hairline frame, media pending">
-        {mediaPending ? (
-          <figcaption className="hero-still-caption">House still pending</figcaption>
-        ) : null}
-      </figure>
+      <figure className="hero-still" aria-label="Hero still — hairline frame, media pending" />
+      {mediaPending ? <p className="hero-still-caption">House still pending</p> : null}
 
       {copy?.profile ? (
         <section className="section">

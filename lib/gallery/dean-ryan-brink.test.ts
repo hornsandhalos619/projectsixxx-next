@@ -102,11 +102,9 @@ async function main() {
   }
 
   const page = await ArtistPage({ params: Promise.resolve({ artist: "dean-ryan-brink" }) });
-  const routed = renderToStaticMarkup(page);
-  assert.ok(
-    routed.includes(LOCKED_MEMORIAL),
-    "routed /gallery/dean-ryan-brink must render the locked memorial",
-  );
+  assert.equal(page.type, ArtistPageView);
+  assert.equal(page.props.artist.slug, "dean-ryan-brink");
+  assert.equal(page.props.copy?.memorial, LOCKED_MEMORIAL);
 
   const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
   const viewSource = readFileSync(join(root, "components/ArtistPageView.tsx"), "utf8");

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 import { notFound } from "next/navigation";
 import { ArtistPageView } from "@/components/ArtistPageView";
 import { isPublishedArtist, publishedArtists } from "@/lib/artists";
