@@ -76,6 +76,7 @@ async function checkSitemap() {
     "https://projectsixxx.com/gallery/project-sixxx",
     "https://projectsixxx.com/shop/guitars",
     "https://projectsixxx.com/shop/guitars/line-6-helix-lt",
+    "https://projectsixxx.com/shop/guitars/line-6-stadium-xl",
   ];
 
   for (const url of required) {
@@ -104,6 +105,11 @@ async function checkSitemap() {
     "/gallery/murray-brothers",
     "/gallery/jesse-levitt",
     "/gallery/rob-borbas",
+    "/shop/guitars/ibanez-rg-sample",
+    "/shop/synths/synth-placeholder",
+    "/shop/tablets/tablet-placeholder",
+    "/shop/art-supplies/art-supplies-placeholder",
+    "/shop/computer-gear/computer-gear-placeholder",
   ];
 
   for (const path of blocked) {

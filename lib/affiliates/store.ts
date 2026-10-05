@@ -1,6 +1,7 @@
 import { revalidatePath } from "next/cache";
 import {
   products as seedProducts,
+  isPublishedProduct,
   type AffiliateNetwork,
   type AffiliateProduct,
   type ShopCategorySlug,
@@ -55,6 +56,7 @@ function rowToProduct(row: Record<string, unknown>): AffiliateProduct | null {
     network,
     status: row.status === "live" ? "live" : "sample",
     priceHint: String(row.price_hint ?? row.priceHint ?? ""),
+    published: row.published == null ? undefined : Boolean(row.published),
   };
 }
 
@@ -94,8 +96,20 @@ export async function getAffiliateProduct(
   );
 }
 
+export async function listPublishedAffiliateProducts(): Promise<AffiliateProduct[]> {
+  return (await listAffiliateProducts()).filter(isPublishedProduct);
+}
+
+export async function getPublishedAffiliateProduct(
+  category: string,
+  slug: string,
+): Promise<AffiliateProduct | undefined> {
+  const product = await getAffiliateProduct(category, slug);
+  return product && isPublishedProduct(product) ? product : undefined;
+}
+
 export async function productsInCategory(category: string): Promise<AffiliateProduct[]> {
-  return (await listAffiliateProducts()).filter((product) => product.category === category);
+  return (await listPublishedAffiliateProducts()).filter((product) => product.category === category);
 }
 
 function revalidateShop(product?: Pick<AffiliateProduct, "category" | "slug">): void {

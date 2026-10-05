@@ -41,6 +41,8 @@ export type AffiliateProduct = {
   network: AffiliateNetwork;
   status: "sample" | "live";
   priceHint: string;
+  /** Public shop / sitemap / metadata. Default off until the SKU is a real affiliate door. */
+  published?: boolean;
 };
 
 export function productBody(product: AffiliateProduct) {
@@ -117,6 +119,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINHELIXLT`,
     network: "zzounds",
     status: "live",
+    published: true,
     priceHint: "See zZounds",
   },
   {
@@ -130,6 +133,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: `${ZZOUNDS_AFFILIATE_BASE}/item--LINSTADIUMXL?siid=390641`,
     network: "zzounds",
     status: "live",
+    published: true,
     priceHint: "See zZounds",
   },
   {
@@ -143,6 +147,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: "https://www.sweetwater.com/c1000--Solidbody_Guitars",
     network: "sweetwater",
     status: "sample",
+    published: false,
     priceHint: "Placeholder — confirm live SKU before spend",
   },
   {
@@ -155,6 +160,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: "https://www.sweetwater.com/c1035--Synthesizers",
     network: "sweetwater",
     status: "sample",
+    published: false,
     priceHint: "Placeholder",
   },
   {
@@ -167,6 +173,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: "https://www.bhphotovideo.com/",
     network: "bandh",
     status: "sample",
+    published: false,
     priceHint: "Placeholder",
   },
   {
@@ -179,6 +186,7 @@ export const products: AffiliateProduct[] = [
     merchantUrl: "https://www.dickblick.com/",
     network: "merchant",
     status: "sample",
+    published: false,
     priceHint: "Placeholder",
   },
   {
@@ -191,9 +199,20 @@ export const products: AffiliateProduct[] = [
     merchantUrl: "https://www.amazon.com/",
     network: "amazon",
     status: "sample",
+    published: false,
     priceHint: "Placeholder",
   },
 ];
+
+/** Placeholder shelves stay in seed for the desk; public shop only lists explicit live doors. */
+export function isPublishedProduct(product: AffiliateProduct): boolean {
+  if (typeof product.published === "boolean") return product.published;
+  return product.status === "live";
+}
+
+export function publishedProducts(list: AffiliateProduct[] = products) {
+  return list.filter(isPublishedProduct);
+}
 
 function withTag(url: string, network: AffiliateNetwork): string {
   if (network === "merchant" || network === "zzounds") return url;
@@ -216,9 +235,9 @@ export function categoryBySlug(slug: string) {
 }
 
 export function productsIn(slug: string) {
-  return products.filter((p) => p.category === slug);
+  return publishedProducts().filter((p) => p.category === slug);
 }
 
 export function productBySlugs(category: string, slug: string) {
-  return products.find((p) => p.category === category && p.slug === slug);
+  return publishedProducts().find((p) => p.category === category && p.slug === slug);
 }

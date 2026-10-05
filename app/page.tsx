@@ -131,7 +131,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section section--centered" aria-label="Horns chrome sample">
+      <section className="section section--centered" aria-label="Horns chrome">
         <div className="shell">
           <div className="parchment-panel void-glass">
             <p className="parchment-title">House lanes</p>
