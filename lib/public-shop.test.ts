@@ -12,6 +12,7 @@ import {
   products,
   productsIn,
   publishedProducts,
+  shopCategories,
   ZZOUNDS_AFFILIATE_BASE,
 } from "../config/affiliates";
 import sitemap from "../app/sitemap";
@@ -68,6 +69,27 @@ async function main() {
   assert.equal(stadiumXl.dek, STADIUM_XL_FOUNDER_COPY);
   assert.equal(stadiumXl.belief, STADIUM_XL_FOUNDER_COPY);
   assert.equal(stadiumXl.body, STADIUM_XL_FOUNDER_COPY);
+
+  const guitarShelf = shopCategories.find((category) => category.slug === "guitars");
+  assert.equal(guitarShelf?.dek, "Instruments that earn the night.");
+
+  const contrast = /\bnot\b|\bNo [A-Z]/;
+  const helixSlugs = new Set(["line-6-helix-lt", "line-6-stadium-xl"]);
+  for (const category of shopCategories) {
+    for (const field of [category.dek, category.seoDescription] as const) {
+      assert.ok(!contrast.test(field), `category ${category.slug} copy must stay affirmative: ${field}`);
+    }
+  }
+  for (const product of products) {
+    if (helixSlugs.has(product.slug)) continue;
+    for (const field of [product.dek, product.belief, product.body ?? ""] as const) {
+      assert.ok(!contrast.test(field), `${product.slug} copy must stay affirmative: ${field}`);
+    }
+  }
+  const shopHub = readFileSync(join(root, "app/shop/page.tsx"), "utf8");
+  assert.ok(shopHub.includes("Tools that earn a place"));
+  assert.ok(!shopHub.includes("Tools, not relics"));
+  assert.ok(!shopHub.includes("not sent as public"));
 
   const live = publishedProducts();
   assert.ok(live.length >= 29, `expected the founder shortlist on the public shop, got ${live.length}`);
