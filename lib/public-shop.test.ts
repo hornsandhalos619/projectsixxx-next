@@ -124,6 +124,46 @@ async function main() {
         `${product.slug} must use the founder zZounds base`,
       );
     }
+
+    if (product.network === "amazon") {
+      assert.ok(
+        !product.priceHint.includes("$"),
+        `${product.slug} amazon priceHint must not show a hand-entered price`,
+      );
+    }
+    assert.ok(
+      !product.priceHint.includes("$") && !product.priceHint.includes("~"),
+      `${product.slug} published priceHint must omit $ and ~`,
+    );
+  }
+
+  const categoryPageSource = readFileSync(join(root, "app/shop/[category]/page.tsx"), "utf8");
+  const productPageSourceForPrice = readFileSync(join(root, "app/shop/[category]/[slug]/page.tsx"), "utf8");
+  for (const [label, source] of [
+    ["category", categoryPageSource],
+    ["product", productPageSourceForPrice],
+  ] as const) {
+    assert.ok(
+      source.includes("product.priceHint ?") || source.includes("product.priceHint?"),
+      `${label} page must only render a priceHint when one exists`,
+    );
+    assert.ok(!source.includes("~$"), `${label} page must not hardcode approximate prices`);
+  }
+
+  for (const product of live.filter((item) => item.network === "amazon")) {
+    const rendered = [
+      product.name,
+      product.dek,
+      product.belief !== product.dek ? product.belief : "",
+      product.body && product.body !== product.belief && product.body !== product.dek ? product.body : "",
+      product.priceHint,
+    ]
+      .filter(Boolean)
+      .join("\n");
+    assert.ok(
+      !rendered.includes("$"),
+      `rendered /shop/${product.category} and /shop/${product.category}/${product.slug} must show no Amazon price text for ${product.slug}`,
+    );
   }
 
   const computerGear = productsIn("computer-gear");

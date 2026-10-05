@@ -163,7 +163,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$600",
+    priceHint: "See zZounds",
   },
   {
     slug: "neural-dsp-quad-cortex",
@@ -176,7 +176,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$1799",
+    priceHint: "See zZounds",
   },
   {
     slug: "boss-katana-50-gen-3",
@@ -229,7 +229,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$349",
+    priceHint: "See zZounds",
   },
   {
     slug: "arturia-minifreak",
@@ -255,7 +255,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$700",
+    priceHint: "See zZounds",
   },
   {
     slug: "moog-grandmother",
@@ -308,7 +308,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$1400",
+    priceHint: "",
   },
   {
     slug: "wacom-cintiq-16",
@@ -321,7 +321,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$500",
+    priceHint: "",
   },
   {
     slug: "samsung-galaxy-tab-s10-ultra",
@@ -348,7 +348,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$1320",
+    priceHint: "",
   },
   {
     slug: "huion-kamvas-13-gen-3",
@@ -361,7 +361,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$229",
+    priceHint: "",
   },
   {
     slug: "wacom-intuos-pro-medium",
@@ -387,7 +387,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$600",
+    priceHint: "",
   },
   {
     slug: "tablet-placeholder",
@@ -414,7 +414,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$58",
+    priceHint: "",
   },
   {
     slug: "posca-pc-3m-8-pack",
@@ -428,7 +428,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$20",
+    priceHint: "",
   },
   {
     slug: "sharpie-fine-tip-black-12",
@@ -441,7 +441,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$9",
+    priceHint: "",
   },
   {
     slug: "zebra-sarasa-fineliner-black-12",
@@ -455,7 +455,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$18",
+    priceHint: "",
   },
   {
     slug: "prismacolor-premier-72",
@@ -468,7 +468,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$64",
+    priceHint: "",
   },
   {
     slug: "apple-pencil-pro",
@@ -481,7 +481,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$99",
+    priceHint: "",
   },
   {
     slug: "art-supplies-placeholder",
@@ -508,7 +508,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$3259",
+    priceHint: "",
   },
   {
     slug: "audio-technica-ath-m50x",
@@ -521,7 +521,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$159",
+    priceHint: "See zZounds",
   },
   {
     slug: "sony-mdr-7506",
@@ -534,7 +534,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$98",
+    priceHint: "See zZounds",
   },
   {
     slug: "sony-mdr-m1",
@@ -548,7 +548,7 @@ export const products: AffiliateProduct[] = [
     network: "amazon",
     status: "live",
     published: true,
-    priceHint: "~$228",
+    priceHint: "",
   },
   {
     slug: "focusrite-scarlett-2i2-4th-gen",
@@ -561,7 +561,7 @@ export const products: AffiliateProduct[] = [
     network: "zzounds",
     status: "live",
     published: true,
-    priceHint: "~$225",
+    priceHint: "See zZounds",
   },
   {
     slug: "samsung-t7-shield-1tb",
