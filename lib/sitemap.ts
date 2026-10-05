@@ -179,7 +179,7 @@ function defaultSources(): Required<SitemapSources> {
     overmind: () => import("@/lib/overmind-journal").then((mod) => mod.publishedOvermindPosts()),
     library: () => import("@/lib/titles/store").then((mod) => mod.listLibraryTitles()),
     gallery: () => import("@/lib/gallery/store").then((mod) => mod.listPublishedArtists()),
-    affiliates: () => import("@/lib/affiliates/store").then((mod) => mod.listAffiliateProducts()),
+    affiliates: () => import("@/lib/affiliates/store").then((mod) => mod.listPublishedAffiliateProducts()),
   };
 }
 

@@ -1,25 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { outboundUrl, productBody, products } from "@/config/affiliates";
-import { getAffiliateProduct } from "@/lib/affiliates/store";
+import { outboundUrl, productBody, publishedProducts } from "@/config/affiliates";
+import { getPublishedAffiliateProduct } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
 
 export function generateStaticParams() {
-  return products.map((p) => ({ category: p.category, slug: p.slug }));
+  return publishedProducts().map((p) => ({ category: p.category, slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params;
-  const product = await getAffiliateProduct(category, slug);
+  const product = await getPublishedAffiliateProduct(category, slug);
   if (!product) return { title: "Shop" };
   return { title: product.name, description: product.dek };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { category, slug } = await params;
-  const product = await getAffiliateProduct(category, slug);
+  const product = await getPublishedAffiliateProduct(category, slug);
   if (!product) notFound();
 
   return (
