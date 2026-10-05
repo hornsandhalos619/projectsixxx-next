@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categoryBySlug, outboundUrl, productBody, shopCategories } from "@/config/affiliates";
+import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
+import {
+  categoryBySlug,
+  isFounderPick,
+  outboundUrl,
+  shopCategories,
+} from "@/config/affiliates";
 import { productsInCategory } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
 
@@ -30,15 +36,26 @@ export default async function ShopCategoryPage({ params }: Props) {
         <p className="kicker">Shop</p>
         <h1>{cat.title}</h1>
         <p className="lede">{cat.dek}</p>
+        <AffiliateDisclosure />
       </header>
 
       {items.map((product) => (
-        <article className="card" key={product.slug} style={{ marginBottom: "1rem" }}>
+        <article
+          className={isFounderPick(product) ? "card void-glass" : "card"}
+          key={product.slug}
+          style={{ marginBottom: "1rem" }}
+        >
+          {isFounderPick(product) ? (
+            <p className="kicker">
+              <span className="badge">Founder&apos;s pick</span>
+            </p>
+          ) : null}
           <h2>
             <Link href={`/shop/${product.category}/${product.slug}`}>{product.name}</Link>
           </h2>
-          <p>{productBody(product)}</p>
-          {product.dek !== productBody(product) ? <p className="muted">{product.dek}</p> : null}
+          <p>{product.dek}</p>
+          {product.belief !== product.dek ? <p className="muted">{product.belief}</p> : null}
+          {product.priceHint ? <p className="muted">{product.priceHint}</p> : null}
           <div className="cta-row">
             <a
               className="btn btn-ember"
@@ -49,10 +66,6 @@ export default async function ShopCategoryPage({ params }: Props) {
               View at {product.merchant}
             </a>
           </div>
-          <p className="ftc">
-            As an affiliate, the house may earn from qualifying purchases. Empty
-            partner tags still open the merchant. This is not a house sacrament.
-          </p>
         </article>
       ))}
 

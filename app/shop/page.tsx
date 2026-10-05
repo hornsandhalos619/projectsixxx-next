@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { shopCategories } from "@/config/affiliates";
 import { outboundShops, shopifyUrl } from "@/config/shops";
 import { SOFT_LAUNCH_COPY, SOFT_LAUNCH_SOURCE, SOFT_LAUNCH_TAG } from "@/config/leads";
@@ -21,6 +22,7 @@ export default function ShopPage() {
           Primary door is Shopify. Affiliate shelves stay on this hub.
           Spreadshop is paused.
         </p>
+        <AffiliateDisclosure />
         <div className="cta-row" style={{ marginTop: "1.25rem" }}>
           <a
             className="btn btn-ember"
@@ -122,7 +124,7 @@ export default function ShopPage() {
 
       <section className="section" id="affiliate-shelves" aria-label="Affiliate shelves">
         <p className="kicker">Affiliate shelves</p>
-        <h2>Tools, not relics</h2>
+        <h2>Tools that earn a place</h2>
         <div className="grid-2" style={{ marginTop: "1.25rem" }}>
           {shopCategories.map((cat) => (
             <Link className="card void-glass" key={cat.slug} href={`/shop/${cat.slug}`}>
@@ -188,7 +190,7 @@ export default function ShopPage() {
         <p className="kicker">Soft launch</p>
         <h2>The door is emailed</h2>
         <p className="muted">
-          One welcome. Shop URL only — not sent as public until Proof PASS.
+          One welcome. The shop URL stays private until Proof PASS.
         </p>
         <EmailCapture
           source={SOFT_LAUNCH_SOURCE}

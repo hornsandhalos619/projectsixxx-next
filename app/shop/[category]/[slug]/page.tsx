@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { outboundUrl, productBody, publishedProducts } from "@/config/affiliates";
+import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
+import { isFounderPick, outboundUrl, publishedProducts } from "@/config/affiliates";
 import { getPublishedAffiliateProduct } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
 
@@ -27,11 +28,22 @@ export default async function ProductPage({ params }: Props) {
       <header className="page-head">
         <p className="kicker">
           {product.category}
+          {isFounderPick(product) ? (
+            <>
+              {" "}
+              <span className="badge">Founder&apos;s pick</span>
+            </>
+          ) : null}
         </p>
         <h1>{product.name}</h1>
-        <p className="lede">{productBody(product)}</p>
+        <p className="lede">{product.dek}</p>
+        {product.belief !== product.dek ? <p>{product.belief}</p> : null}
+        {product.body && product.body !== product.belief && product.body !== product.dek ? (
+          <p className="muted">{product.body}</p>
+        ) : null}
+        <AffiliateDisclosure />
       </header>
-      <p className="muted">{product.priceHint}</p>
+      {product.priceHint ? <p className="muted">{product.priceHint}</p> : null}
       <div className="cta-row">
         <a
           className="btn btn-ember"
@@ -42,10 +54,6 @@ export default async function ProductPage({ params }: Props) {
           Continue to {product.merchant}
         </a>
       </div>
-      <p className="ftc">
-        Affiliate disclosure: we may earn a commission. Tags can be empty; the
-        merchant link still works. Rel=sponsored. Target=_blank.
-      </p>
       <section className="section">
         <EmailCapture source={`shop-${product.category}-${product.slug}`} />
       </section>
