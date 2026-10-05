@@ -949,6 +949,34 @@ select {
     radial-gradient(ellipse at 72% 38%, color-mix(in srgb, var(--halo) 14%, transparent), transparent 46%),
     var(--surface);
   margin: 0 0 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.hero-still-caption {
+  margin: 0 0 1rem;
+  font-size: var(--label);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.outbound {
+  color: var(--bone);
+  box-shadow: inset 0 -1px 0 var(--gild);
+}
+
+.skill-stack {
+  display: grid;
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.memorial {
+  max-width: 42rem;
 }
 
 .store-links {

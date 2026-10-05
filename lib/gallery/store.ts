@@ -66,12 +66,16 @@ function asWorks(value: unknown): Work[] {
     const title = String(data.title ?? "").trim();
     if (!title) continue;
     const media = data.mediaUrl || data.media_url ? String(data.mediaUrl ?? data.media_url) : "";
+    const href = data.href ? String(data.href).trim() : "";
+    const links = asLinks(data.links);
     works.push({
       title,
       year: String(data.year ?? ""),
       medium: String(data.medium ?? ""),
       caption: String(data.caption ?? ""),
       ...(media ? { mediaUrl: media } : {}),
+      ...(href ? { href } : {}),
+      ...(links.length ? { links } : {}),
     });
   }
   return works;
