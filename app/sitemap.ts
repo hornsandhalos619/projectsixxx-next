@@ -34,14 +34,26 @@ function entry(
   };
 }
 
+function settledList<T>(result: PromiseSettledResult<T[]>, label: string): T[] {
+  if (result.status === "fulfilled") return result.value;
+  console.error(`sitemap ${label} failed`, result.reason);
+  return [];
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, overmind, titles, artists, products] = await Promise.all([
+  const results = await Promise.allSettled([
     publishedPosts(),
     publishedOvermindPosts(),
     listLibraryTitles(),
     listPublishedArtists(),
     listAffiliateProducts(),
   ]);
+
+  const posts = settledList(results[0], "journal");
+  const overmind = settledList(results[1], "overmind");
+  const titles = settledList(results[2], "library");
+  const artists = settledList(results[3], "gallery");
+  const products = settledList(results[4], "affiliates");
 
   const entries: MetadataRoute.Sitemap = [
     entry("/", "weekly", 1),

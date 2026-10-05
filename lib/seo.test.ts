@@ -7,6 +7,15 @@ import { shopCategories } from "../config/affiliates";
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
 
+const sitemapSource = readFileSync(
+  join(dirname(fileURLToPath(import.meta.url)), "../app/sitemap.ts"),
+  "utf8",
+);
+assert.ok(
+  sitemapSource.includes("Promise.allSettled"),
+  "sitemap must isolate failing data sources with Promise.allSettled",
+);
+
 const layoutSource = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "../app/layout.tsx"),
   "utf8",
