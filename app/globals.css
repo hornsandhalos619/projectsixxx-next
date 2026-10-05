@@ -726,6 +726,28 @@ select {
   border: 1px solid var(--hairline);
 }
 
+.grid-tees {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1px;
+  background: var(--void);
+  border: 1px solid var(--hairline);
+}
+
+.grid-tees > * {
+  flex: 0 0 calc((100% - 1px) / 2);
+  max-width: calc((100% - 1px) / 2);
+  box-sizing: border-box;
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.grid-tees > :last-child:nth-child(odd) {
+  flex: 0 0 calc((100% - 1px) / 2);
+  max-width: calc((100% - 1px) / 2);
+  margin-inline: auto;
+}
+
 .grid-shelves {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1065,6 +1087,12 @@ code {
   .works,
   .strip {
     grid-template-columns: 1fr;
+  }
+
+  .grid-tees > *,
+  .grid-tees > :last-child:nth-child(odd) {
+    flex-basis: 100%;
+    max-width: 100%;
   }
 
   .gate + .gate,

@@ -12,7 +12,7 @@ export function TeeEditorial({ tees }: { tees: ShopifyTeeCard[] }) {
       <p className="muted">
         Ghost-mannequin lookbook plates. Primary money door is Shopify.
       </p>
-      <div className="grid-2" style={{ marginTop: "1.25rem" }}>
+      <div className="grid-tees" style={{ marginTop: "1.25rem" }}>
         {tees.map((tee) => (
           <a
             key={tee.handle}
@@ -24,7 +24,7 @@ export function TeeEditorial({ tees }: { tees: ShopifyTeeCard[] }) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={tee.image}
-              alt={`${tee.title} tee editorial`}
+              alt={tee.imageAlt}
               width={800}
               height={1000}
               style={{ width: "100%", height: "auto", display: "block" }}

@@ -9,6 +9,7 @@ import { visibleOutboundShops, type OutboundShop } from "../config/shops";
 import { ShopCategoryTiles } from "../components/ShopCategoryTiles";
 import { TeeEditorial } from "../components/TeeEditorial";
 import {
+  SHOPIFY_PRODUCTS_JSON,
   catalogPrice,
   loadShopifyTees,
   selectShopifyTees,
@@ -53,6 +54,15 @@ const fixture: ShopifyCatalogProduct[] = [
     images: [{ src: "https://cdn.shopify.com/infinite-conflict.jpg" }],
   },
   {
+    title: "Fifth Light",
+    handle: "fifth-light",
+    product_type: "T-Shirt",
+    tags: ["Halos"],
+    body_html: "<p>Black tee.</p>",
+    variants: [{ price: "35.00" }],
+    images: [{ src: "https://cdn.shopify.com/fifth-light.jpg", alt: "Fifth Light listing" }],
+  },
+  {
     title: "Oculus",
     handle: "oculus",
     product_type: "Poster",
@@ -76,16 +86,23 @@ async function main() {
   assert.equal(catalogPrice({ title: "X", handle: "x", variants: [{ price: "35.00" }] }), "$35.00");
 
   const tees = selectShopifyTees(fixture);
-  assert.equal(tees.length % 2, 0, "tee grid stays even");
   assert.deepEqual(
     tees.map((tee) => tee.handle),
-    ["unbroken", "eternal-balance", "brilliance", "infinite-conflict"],
+    ["unbroken", "eternal-balance", "brilliance", "infinite-conflict", "fifth-light"],
   );
+  assert.equal(tees.length, 5, "odd live tees all stay on the grid");
   assert.ok(tees.every((tee) => tee.url.includes(`/products/${tee.handle}`)));
   assert.ok(!tees.some((tee) => tee.handle === "oculus"));
+  for (const tee of tees) {
+    const listing = fixture.find((product) => product.handle === tee.handle);
+    assert.equal(tee.image, listing?.images?.[0]?.src, `${tee.handle} uses the listing first image`);
+    assert.ok(!tee.image.includes("/brand/"), `${tee.handle} uses the Shopify listing image`);
+  }
+  assert.equal(tees[4]?.imageAlt, "Fifth Light listing");
+  assert.equal(tees[0]?.imageAlt, "Unbroken");
 
   const odd = selectShopifyTees(fixture.slice(0, 3));
-  assert.equal(odd.length, 2);
+  assert.equal(odd.length, 3, "odd -> all shown");
 
   const teeHtml = renderToStaticMarkup(createElement(TeeEditorial, { tees }));
   for (const tee of tees) {
@@ -95,6 +112,7 @@ async function main() {
     );
     assert.ok(teeHtml.includes(`/products/${tee.handle}`), `tee card must use /products/${tee.handle}`);
     assert.ok(teeHtml.includes(tee.title), `tee card must use Shopify title ${tee.title}`);
+    assert.ok(teeHtml.includes(`src="${tee.image}"`), `tee card must render listing image ${tee.image}`);
   }
   assert.ok(!teeHtml.includes("Oculus"));
   assert.ok(!teeHtml.includes("Outer Horns"));
@@ -128,7 +146,19 @@ async function main() {
 
   const liveTees = await loadShopifyTees();
   assert.ok(liveTees.length > 0, "live products.json must yield apparel tees");
-  assert.equal(liveTees.length % 2, 0);
+  const liveCatalog = (await fetch(SHOPIFY_PRODUCTS_JSON).then((response) => response.json())) as {
+    products?: ShopifyCatalogProduct[];
+  };
+  for (const tee of liveTees) {
+    const listing = liveCatalog.products?.find((product) => product.handle === tee.handle);
+    assert.ok(listing, `live catalog still lists ${tee.handle}`);
+    assert.equal(
+      tee.image,
+      listing?.images?.[0]?.src,
+      `${tee.handle} card image equals products.json images[0].src`,
+    );
+    assert.ok(!tee.image.includes("/brand/"), `${tee.handle} uses the Shopify listing image`);
+  }
 
   const shopHtml = renderToStaticMarkup(createElement(TeeEditorial, { tees: liveTees }));
   assert.ok(!/PLACEHOLDER/i.test(shopHtml), "rendered /shop tee editorial omits PLACEHOLDER");
@@ -160,7 +190,23 @@ async function main() {
   assert.ok(!home.includes("shopTeaser"));
   assert.ok(!home.includes("shopCategories.slice"));
 
+  const oddHtml = renderToStaticMarkup(createElement(TeeEditorial, { tees: odd }));
+  assert.ok(oddHtml.includes("grid-tees"), "odd tee grid uses the centered leftover layout");
+  assert.equal((oddHtml.match(/<h3/g) ?? []).length, 3);
+
   const css = readFileSync(join(root, "app/globals.css"), "utf8");
+  assert.ok(
+    /\.grid-tees\s*\{[^}]*justify-content:\s*center/.test(css),
+    "tee grid centers an odd leftover row",
+  );
+  assert.ok(
+    /\.grid-tees\s*>\s*:last-child:nth-child\(\s*odd\s*\)\s*\{[^}]*margin-inline:\s*auto/.test(css),
+    "odd last tee card is centered at the same card width",
+  );
+  const teeSource = readFileSync(join(root, "lib/shopify-tees.ts"), "utf8");
+  assert.ok(!teeSource.includes("EDITORIAL_BY_HANDLE"), "listing images come from products.json");
+  assert.ok(!teeSource.includes("/brand/"), "house editorial plates stay unused");
+
   assert.ok(
     /\.grid-shelves\s*\{[^}]*display:\s*grid/.test(css),
     "shelf tiles use a grid so every card can stretch to one row height",

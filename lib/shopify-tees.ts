@@ -10,7 +10,7 @@ export type ShopifyCatalogProduct = {
   tags?: string[];
   body_html?: string;
   variants?: { price?: string | null }[];
-  images?: { src?: string }[];
+  images?: { src?: string; alt?: string }[];
 };
 
 export type ShopifyTeeCard = {
@@ -19,26 +19,8 @@ export type ShopifyTeeCard = {
   url: string;
   price: string | null;
   image: string;
+  imageAlt: string;
   lane: string | null;
-};
-
-const EDITORIAL_BY_HANDLE: Record<string, { src: string; lane: string }> = {
-  unbroken: {
-    src: "/brand/halos-r001-unbroken-tee-editorial.png",
-    lane: "Halos",
-  },
-  "eternal-balance": {
-    src: "/brand/halos-r001-eternal-balance-tee-editorial.png",
-    lane: "Halos",
-  },
-  brilliance: {
-    src: "/brand/halos-r001-brilliance-tee-editorial.png",
-    lane: "Halos",
-  },
-  "infinite-conflict": {
-    src: "/brand/horns-r001-infinite-conflict-tee-editorial.png",
-    lane: "Horns",
-  },
 };
 
 const APPAREL_RE =
@@ -70,28 +52,29 @@ export function teeLane(product: ShopifyCatalogProduct): string | null {
   const tags = product.tags ?? [];
   if (tags.some((tag) => tag.toLowerCase() === "horns")) return "Horns";
   if (tags.some((tag) => tag.toLowerCase() === "halos")) return "Halos";
-  return EDITORIAL_BY_HANDLE[product.handle]?.lane ?? null;
+  return null;
 }
 
 export function toTeeCard(product: ShopifyCatalogProduct): ShopifyTeeCard {
-  const editorial = EDITORIAL_BY_HANDLE[product.handle];
+  const listingImage = product.images?.[0];
+  const image = listingImage?.src ?? "";
+  const imageAlt = listingImage?.alt?.trim() || product.title;
   return {
     title: product.title,
     handle: product.handle,
     url: shopifyProductUrl(product.handle),
     price: catalogPrice(product),
-    image: editorial?.src ?? product.images?.[0]?.src ?? "",
+    image,
+    imageAlt,
     lane: teeLane(product),
   };
 }
 
 export function selectShopifyTees(products: ShopifyCatalogProduct[]): ShopifyTeeCard[] {
-  const tees = products
+  return products
     .filter(isApparelTee)
     .map(toTeeCard)
     .filter((tee) => tee.handle && tee.title && tee.image);
-  if (tees.length % 2 === 1) return tees.slice(0, -1);
-  return tees;
 }
 
 export async function loadShopifyTees(): Promise<ShopifyTeeCard[]> {
