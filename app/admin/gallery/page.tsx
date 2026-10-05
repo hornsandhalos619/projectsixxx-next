@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { canSeeGalleryAdmin } from "@/config/roles";
-import { isFeaturedArtist } from "@/lib/artists";
+import { isFeaturedArtist, isPublishedArtist } from "@/lib/artists";
 import { listArtists } from "@/lib/gallery/store";
 import { detectLiveStore } from "@/lib/live";
 import { getViewer } from "@/lib/session";
@@ -47,6 +47,7 @@ export default async function AdminGalleryPage() {
               <th>Name</th>
               <th>Role</th>
               <th>Status</th>
+              <th>Public</th>
               <th>Home</th>
               <th>Open</th>
             </tr>
@@ -60,6 +61,7 @@ export default async function AdminGalleryPage() {
                 </td>
                 <td>{artist.role}</td>
                 <td>{artist.status}</td>
+                <td>{isPublishedArtist(artist) ? "Live" : "Draft"}</td>
                 <td>{isFeaturedArtist(artist) ? "Featured" : "—"}</td>
                 <td>
                   <Link href={`/admin/gallery/${artist.slug}`}>Edit</Link>

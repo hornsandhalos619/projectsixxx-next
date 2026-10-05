@@ -4,7 +4,7 @@ import { duality, portalArt } from "@/config/duality";
 import { housePillars } from "@/config/pillars";
 import { Manifesto } from "@/components/Manifesto";
 import { PortalCta } from "@/components/PortalCta";
-import { SampleBadge } from "@/components/SampleBadge";
+import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
 import { listFeaturedArtists } from "@/lib/gallery/store";
 import { listHomepageSlots } from "@/lib/homepage/store";
 import { publishedPosts } from "@/lib/journal";
@@ -13,14 +13,18 @@ import { shopifyUrl } from "@/config/shops";
 import { listFeaturedLibrary } from "@/lib/titles/store";
 
 export default async function HomePage() {
-  const posts = (await publishedPosts()).slice(0, 3);
-  const collabs = await listFeaturedArtists();
+  const showRoster = isFeaturedRosterEnabled();
+  const [postsAll, slots, featuredTitles, collabs] = await Promise.all([
+    publishedPosts(),
+    listHomepageSlots(),
+    listFeaturedLibrary(),
+    showRoster ? listFeaturedArtists() : Promise.resolve([]),
+  ]);
+  const posts = postsAll.slice(0, 3);
   const shopTeaser = shopCategories.slice(0, 3);
-  const slots = await listHomepageSlots();
   const quote = slots.find((slot) => slot.slot === "quote" && slot.enabled);
   const excerpt = slots.find((slot) => slot.slot === "excerpt" && slot.enabled);
   const literatureSlot = slots.find((slot) => slot.slot === "literature" && slot.enabled);
-  const featuredTitles = await listFeaturedLibrary();
 
   return (
     <>
@@ -112,7 +116,7 @@ export default async function HomePage() {
           <Link className="strip" href="/gallery">
             <span className="name">Gallery</span>
             <h2>Roster in the void</h2>
-            <p>House first. Collaborators SAMPLE until media lands.</p>
+            <p>House first. Collaborators wait for approved media.</p>
           </Link>
           <a className="strip" href={shopifyUrl} rel="noopener noreferrer" target="_blank">
             <span className="name">Shop</span>
@@ -175,7 +179,6 @@ export default async function HomePage() {
               <div className="grid-2" style={{ marginTop: "1.25rem" }}>
                 {featuredTitles.map((work) => (
                   <Link className="card" key={work.slug} href={`/library/${work.slug}`}>
-                    {work.status === "sample" ? <SampleBadge label="SAMPLE" /> : null}
                     <h3>{work.title}</h3>
                     <p className="muted">{work.blurb}</p>
                   </Link>
@@ -191,27 +194,28 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className="section">
-        <div className="shell">
-          <p className="kicker">Collaborators</p>
-          <h2>Featured roster</h2>
-          <p className="muted">Named collaborators the house has featured. No invented personal history.</p>
-          <div className="grid-2" style={{ marginTop: "1.25rem" }}>
-            {collabs.map((artist) => (
-              <Link className="card" key={artist.slug} href={`/gallery/${artist.slug}`}>
-                <SampleBadge label="SAMPLE" />
-                <h3>{artist.name}</h3>
-                <p className="muted">{artist.bio}</p>
+      {collabs.length ? (
+        <section className="section">
+          <div className="shell">
+            <p className="kicker">Collaborators</p>
+            <h2>Featured roster</h2>
+            <p className="muted">Named collaborators the house has featured.</p>
+            <div className="grid-2" style={{ marginTop: "1.25rem" }}>
+              {collabs.map((artist) => (
+                <Link className="card" key={artist.slug} href={`/gallery/${artist.slug}`}>
+                  <h3>{artist.name}</h3>
+                  <p className="muted">{artist.bio}</p>
+                </Link>
+              ))}
+            </div>
+            <div className="cta-row">
+              <Link className="btn btn-house" href="/gallery">
+                Full gallery
               </Link>
-            ))}
+            </div>
           </div>
-          <div className="cta-row">
-            <Link className="btn btn-house" href="/gallery">
-              Full gallery
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       <section className="section">
         <div className="shell">
@@ -274,7 +278,6 @@ export default async function HomePage() {
             <div className="grid-2" style={{ marginTop: "1.25rem" }}>
               {posts.map((post) => (
                 <article className="card" key={`${post.category}/${post.slug}`}>
-                  {post.status === "sample" ? <SampleBadge /> : null}
                   <p className="kicker">{post.category}</p>
                   <h3>
                     <Link href={`/journal/${post.category}/${post.slug}`}>{post.title}</Link>

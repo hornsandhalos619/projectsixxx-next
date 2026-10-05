@@ -32,7 +32,7 @@ export const libraryWorks: LibraryWork[] = [
     sample: [
       "Est. in Darkness marks the night the house began. It names when the work decided it could stand in bad light.",
       "We do not steal sacred marks. We do not dress the house as a devil or a saint. Atmosphere sits over a clean information architecture — haunting skin, sterile bones.",
-      "If a sentence needs a costume to be believed, it does not make the night. This SAMPLE is a door into the longer cut — not a checkout.",
+      "If a sentence needs a costume to be believed, it does not make the night. This excerpt is a door into the longer cut.",
     ],
   },
   {
@@ -49,7 +49,7 @@ export const libraryWorks: LibraryWork[] = [
     sample: [
       "Horns are two vault ribs that never meet. The gap is the suggestion — oxide, ember at the floor, no goat and no pitchfork.",
       "Halos are an incomplete annulus. Silver rim. Broken at four o'clock so it cannot read as a holy nimbus.",
-      "The portal is a choice, not a merch rack. This SAMPLE keeps the geometry; the wearable language, when it arrives, uses silver — not gild.",
+      "The portal is a choice, not a merch rack. This excerpt keeps the geometry; the wearable language, when it arrives, uses silver.",
     ],
   },
   {
@@ -64,7 +64,7 @@ export const libraryWorks: LibraryWork[] = [
     sample: [
       "Craft is the part you cannot vote into existence. Consensus is a room. Rooms are useful. Rooms are not the work.",
       "Money moves. That is its job. A sale can fund the next night. A sale cannot baptize a weak piece.",
-      "Would you keep it if the name went blank. Would you keep it if the price went blank. Those are the tests this SAMPLE keeps open.",
+      "Would you keep it if the name went blank. Would you keep it if the price went blank. Those are the tests this excerpt keeps open.",
     ],
   },
   {
@@ -79,7 +79,7 @@ export const libraryWorks: LibraryWork[] = [
     sample: [
       "Research on this shelf means public-source literacy — records, citations, and the patience to read what is already out.",
       "It does not mean exploit guides, malware, or unauthorized access. Those are out of house. Always.",
-      "This SAMPLE points at /links for community and research doors. The longer brief stays SAMPLE until the founder sets house status.",
+      "This excerpt points at /links for community and research doors. The longer brief waits for the founder to set house status.",
     ],
   },
 ];

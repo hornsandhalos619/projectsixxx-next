@@ -67,6 +67,7 @@ async function main() {
         media_pending: Boolean(artist.mediaPending),
         featured: artist.featured ?? (artist.role === "Collaborator" && !artist.slug.startsWith("slot-open")),
         featured_rank: artist.featuredRank ?? null,
+        published: Boolean(artist.published),
       });
       if (error) throw new Error(error.message);
       if (artist.works.length) {

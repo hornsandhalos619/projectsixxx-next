@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { journalTaxonomy, taxonomyCopy } from "@/config/site";
 import { isJournalCategory, postsIn } from "@/lib/journal";
-import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string }> };
 
@@ -38,7 +37,6 @@ export default async function CategoryPage({ params }: Props) {
       ) : (
         posts.map((post) => (
           <article className="card" key={post.slug}>
-            {post.status === "sample" ? <SampleBadge /> : null}
             <h2>
               <Link href={`/journal/${post.category}/${post.slug}`}>{post.title}</Link>
             </h2>

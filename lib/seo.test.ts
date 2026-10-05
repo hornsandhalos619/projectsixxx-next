@@ -89,6 +89,11 @@ async function checkSitemap() {
     "/login",
     "/manifesto",
     "/overmind/journal/soft-launch-discipline",
+    "/gallery/christian-boye-larsen",
+    "/gallery/eliot-kohek",
+    "/gallery/murray-brothers",
+    "/gallery/jesse-levitt",
+    "/gallery/rob-borbas",
   ];
 
   for (const path of blocked) {

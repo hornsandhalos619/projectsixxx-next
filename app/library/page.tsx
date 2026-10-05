@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SampleBadge } from "@/components/SampleBadge";
 import { listLibraryTitles } from "@/lib/titles/store";
 
 export const metadata: Metadata = {
   title: "Library",
-  description: "On-site e-book store and reading library. SAMPLE titles. No fake payments.",
+  description: "On-site e-book store and reading library. Titles you can read on the site.",
 };
 
 export const dynamic = "force-dynamic";
@@ -25,7 +24,6 @@ export default async function LibraryIndexPage() {
       <div className="grid-2">
         {works.map((work) => (
           <article className="card" key={work.slug}>
-            {work.status === "sample" ? <SampleBadge label="SAMPLE" /> : null}
             <p className="kicker">{work.format}</p>
             <h2>
               <Link href={`/library/${work.slug}`}>{work.title}</Link>

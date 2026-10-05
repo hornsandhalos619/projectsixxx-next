@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { allLibraryWorks } from "@/lib/library";
-import { SampleBadge } from "@/components/SampleBadge";
 import { getLibraryTitle } from "@/lib/titles/store";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,7 +26,7 @@ export default async function LibrarySamplePage({ params }: Props) {
     <article className="shell">
       <header className="page-head">
         <p className="kicker">
-          Sample reader <SampleBadge label="SAMPLE" />
+          Reader
         </p>
         <h1>{work.title}</h1>
         <p className="lede">Local sample. No account required. No payment.</p>

@@ -90,6 +90,7 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 | `HORNS_AND_HALOS_URL` | External portal CTA |
 | `SHOPIFY_URL` | Primary shop outbound (display-only on House console) |
 | `SPREADSHOP_URL` | Paused lane |
+| `NEXT_PUBLIC_SHOW_FEATURED_ROSTER` | Homepage featured roster. Default off. Set `true` only after named collaborators approve. Each roster entry also needs `published: true`. |
 
 ## Local
 

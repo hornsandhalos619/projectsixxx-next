@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { outboundUrl, productBody, products } from "@/config/affiliates";
 import { getAffiliateProduct } from "@/lib/affiliates/store";
 import { EmailCapture } from "@/components/EmailCapture";
-import { SampleBadge } from "@/components/SampleBadge";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
 
@@ -28,12 +27,6 @@ export default async function ProductPage({ params }: Props) {
       <header className="page-head">
         <p className="kicker">
           {product.category}
-          {product.status === "sample" ? (
-            <>
-              {" "}
-              <SampleBadge />
-            </>
-          ) : null}
         </p>
         <h1>{product.name}</h1>
         <p className="lede">{productBody(product)}</p>

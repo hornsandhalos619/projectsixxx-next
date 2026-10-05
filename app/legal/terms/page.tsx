@@ -12,8 +12,8 @@ export default function TermsPage() {
       <div className="prose">
         <p>
           The house site is informational. Affiliate outbound is labeled
-          sponsored. SAMPLE work is labeled SAMPLE. Services pages do not
-          process payments. Do not treat a placeholder as a live offer.
+          sponsored. Services pages stay informational. Treat a placeholder as a
+          placeholder until the house sets a live offer.
         </p>
       </div>
     </div>
