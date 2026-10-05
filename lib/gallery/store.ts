@@ -10,6 +10,7 @@ import {
 import { localJsonRead, localJsonWrite } from "@/lib/cms/local-json";
 import { isValidSlug, slugify } from "@/lib/cms/slug";
 import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
+import { isMissingPublishedColumnError, seedPublishedFallback } from "@/lib/gallery/published-column";
 import { detectLiveStore, liveStoreKind, mergeBySlug } from "@/lib/live";
 import { getSupabase } from "@/lib/supabase";
 
@@ -94,20 +95,35 @@ function rowToArtist(row: ArtistRow): Artist {
   };
 }
 
+const ARTIST_SELECT_BASE =
+  "slug, name, role, status, bio, email, social, store, media_pending, featured, featured_rank, artist_works(title, year, medium, caption, media_url, sort_order)";
+const ARTIST_SELECT_WITH_PUBLISHED =
+  "slug, name, role, status, bio, email, social, store, media_pending, featured, featured_rank, published, artist_works(title, year, medium, caption, media_url, sort_order)";
+
+function mapArtistRows(data: ArtistRow[] | null): Artist[] {
+  return (data ?? []).map((row) => {
+    const works = Array.isArray(row.artist_works)
+      ? [...row.artist_works].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      : [];
+    return rowToArtist({ ...row, artist_works: works });
+  });
+}
+
 async function listOverlay(): Promise<Artist[]> {
   const kind = liveStoreKind();
   if (kind === "supabase") {
-    const { data, error } = await getSupabase()
-      .from("artists")
-      .select("slug, name, role, status, bio, email, social, store, media_pending, featured, featured_rank, published, artist_works(title, year, medium, caption, media_url, sort_order)")
-      .order("name");
-    if (error) throw new Error(error.message);
-    return (data ?? []).map((row) => {
-      const works = Array.isArray(row.artist_works)
-        ? [...row.artist_works].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
-        : [];
-      return rowToArtist({ ...(row as ArtistRow), artist_works: works });
-    });
+    const client = getSupabase();
+    const first = await client.from("artists").select(ARTIST_SELECT_WITH_PUBLISHED).order("name");
+    if (!first.error) {
+      return mapArtistRows((first.data ?? []) as ArtistRow[]);
+    }
+    if (isMissingPublishedColumnError(first.error)) {
+      console.warn("artists.published missing; retrying gallery overlay without that column");
+      const retry = await client.from("artists").select(ARTIST_SELECT_BASE).order("name");
+      if (retry.error) throw new Error(retry.error.message);
+      return seedPublishedFallback(mapArtistRows((retry.data ?? []) as ArtistRow[]), seedArtists);
+    }
+    throw new Error(first.error.message);
   }
   if (kind === "local") {
     return localJsonRead<Artist>(LOCAL_FILE);
