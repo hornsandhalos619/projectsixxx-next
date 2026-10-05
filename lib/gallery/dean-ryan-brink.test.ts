@@ -101,6 +101,24 @@ async function main() {
     assert.ok(ALLOWED_HREFS.has(href), `unexpected outbound href ${href}`);
   }
 
+  const previousVercelEnv = process.env.VERCEL_ENV;
+  process.env.VERCEL_ENV = "production";
+  try {
+    await ArtistPage({ params: Promise.resolve({ artist: "dean-ryan-brink" }) });
+    throw new Error("expected notFound for unpublished artist in production");
+  } catch (error) {
+    assert.ok(isNotFound(error), `production unpublished must notFound, got ${String(error)}`);
+  }
+
+  process.env.VERCEL_ENV = "preview";
+  const preview = await ArtistPage({ params: Promise.resolve({ artist: "dean-ryan-brink" }) });
+  assert.equal(preview.type, ArtistPageView);
+  assert.equal(preview.props.artist.slug, "dean-ryan-brink");
+  assert.equal(preview.props.copy?.memorial, LOCKED_MEMORIAL);
+
+  if (previousVercelEnv === undefined) delete process.env.VERCEL_ENV;
+  else process.env.VERCEL_ENV = previousVercelEnv;
+
   const page = await ArtistPage({ params: Promise.resolve({ artist: "dean-ryan-brink" }) });
   assert.equal(page.type, ArtistPageView);
   assert.equal(page.props.artist.slug, "dean-ryan-brink");

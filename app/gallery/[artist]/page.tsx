@@ -19,6 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const artist = await getArtist(slug);
   const copy = artistPageCopy(slug);
   if (!artist || (!isPublishedArtist(artist) && !copy)) return { title: "Gallery" };
+  if (!isPublishedArtist(artist) && process.env.VERCEL_ENV === "production") {
+    return { title: "Gallery" };
+  }
   return {
     title: artist.name,
     description: artist.bio,
@@ -31,6 +34,7 @@ export default async function ArtistPage({ params }: Props) {
   const artist = await getArtist(slug);
   const copy = artistPageCopy(slug);
   if (!artist || (!isPublishedArtist(artist) && !copy)) notFound();
+  if (!isPublishedArtist(artist) && process.env.VERCEL_ENV === "production") notFound();
 
   return <ArtistPageView artist={artist} copy={copy} />;
 }
