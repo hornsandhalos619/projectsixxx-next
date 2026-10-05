@@ -91,7 +91,13 @@ export async function listCmsRecords(): Promise<CmsRecord[]> {
 }
 
 export async function listJournalRecords(): Promise<CmsRecord[]> {
-  return mergeRecords(readFilesystemRecords(), await listCmsRecords());
+  let seed: CmsRecord[] = [];
+  try {
+    seed = readFilesystemRecords();
+  } catch (error) {
+    console.error("journal filesystem read failed", error);
+  }
+  return mergeRecords(seed, await listCmsRecords());
 }
 
 export async function getJournalRecord(

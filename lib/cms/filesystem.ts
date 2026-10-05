@@ -14,16 +14,26 @@ function walk(dir: string): string[] {
 }
 
 function parseHouseFile(file: string): CmsRecord | null {
-  const raw = fs.readFileSync(file, "utf8");
-  const category = path.basename(path.dirname(file));
-  const slug = path.basename(file, path.extname(file));
-  return mdxToRecord(raw, { stream: "house", slug, category });
+  try {
+    const raw = fs.readFileSync(file, "utf8");
+    const category = path.basename(path.dirname(file));
+    const slug = path.basename(file, path.extname(file));
+    return mdxToRecord(raw, { stream: "house", slug, category });
+  } catch (error) {
+    console.error("journal filesystem parse failed", file, error);
+    return null;
+  }
 }
 
 function parseOvermindFile(file: string): CmsRecord | null {
-  const raw = fs.readFileSync(file, "utf8");
-  const slug = path.basename(file, path.extname(file));
-  return mdxToRecord(raw, { stream: "overmind", slug });
+  try {
+    const raw = fs.readFileSync(file, "utf8");
+    const slug = path.basename(file, path.extname(file));
+    return mdxToRecord(raw, { stream: "overmind", slug });
+  } catch (error) {
+    console.error("journal filesystem parse failed", file, error);
+    return null;
+  }
 }
 
 export function readFilesystemRecords(stream?: JournalStream): CmsRecord[] {

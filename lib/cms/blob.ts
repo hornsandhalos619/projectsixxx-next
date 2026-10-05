@@ -14,10 +14,15 @@ export async function blobList(): Promise<CmsRecord[]> {
   const { blobs } = await list({ prefix: "journal-cms/" });
   const records = await Promise.all(
     blobs.map(async (entry) => {
-      const response = await fetch(entry.url, { cache: "no-store" });
-      if (!response.ok) return null;
-      const data = await response.json();
-      return recordFromUnknown(data);
+      try {
+        const response = await fetch(entry.url, { cache: "no-store" });
+        if (!response.ok) return null;
+        const data = await response.json();
+        return recordFromUnknown(data);
+      } catch (error) {
+        console.error("journal blob parse failed", entry.url, error);
+        return null;
+      }
     }),
   );
   return records.filter((record): record is CmsRecord => Boolean(record));
