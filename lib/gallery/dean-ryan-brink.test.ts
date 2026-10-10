@@ -69,7 +69,7 @@ async function main() {
   );
 
   try {
-    await ArtistPage({ params: Promise.resolve({ artist: "murray-brothers" }) });
+    await ArtistPage({ params: Promise.resolve({ artist: "slot-open-01" }) });
     throw new Error("expected notFound for unpublished stub without page copy");
   } catch (error) {
     assert.ok(isNotFound(error), `stub collaborator must notFound, got ${String(error)}`);

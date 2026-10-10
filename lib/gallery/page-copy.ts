@@ -143,6 +143,32 @@ const pages: Record<string, ArtistPageCopy> = {
     whySelected:
       "Rob Borbas's engraving-like line sits squarely in the gothic, old-print atmosphere that Project SiXXX loves. The work moves freely between skin, page and record sleeve, the same range the house spans with journal, gallery and shop.",
   },
+  "murray-brothers": {
+    kicker: "Collaborators · Salem, Massachusetts",
+    profile:
+      "Ryan and Matthew Murray work side by side as tattooers and multimedia artists in Salem, Massachusetts. Ryan began tattooing in 2009 after an apprenticeship in New Hampshire; Matthew studied film at the Massachusetts College of Art in Boston and apprenticed with Ryan while still in school. In April 2012 the two opened The Black Veil. The studio's published line is “black and grey for the grim hearted.” The art draws from the death and mourning customs of New England's Victorian past, from old-world folklore and from the history of Salem itself, returning again and again to crescent moons, vacant eyes and a pair of matching black widow spiders that sign the work as one. The Black Veil also keeps a storefront of art prints, apparel, candles and metaphysical supplies, and each October the brothers present the Salem Night Faire at Salem Pioneer Village.",
+    skills: [
+      {
+        title: "Black-and-grey tattooing",
+        detail: "Macabre, folkloric imagery in a shared, recognizable visual language.",
+      },
+      {
+        title: "Illustration and fine art prints",
+        detail:
+          "Signed prints such as A Bitter Harvest, A Place Beneath the Soil, Among the Toadstools and Across the Night.",
+      },
+      {
+        title: "Multimedia making",
+        detail: "Apparel, candles, sculpture and shop design that extend the art beyond skin.",
+      },
+      {
+        title: "Community building",
+        detail: "Founders and presenters of the annual Salem Night Faire, with proceeds supporting Salem Pioneer Village.",
+      },
+    ],
+    whySelected:
+      "The Black Veil's union of mourning ritual, folklore and craft mirrors the twin structure of Project SiXXX: two hands weaving one web, much as Horns and Halos share one house. The Salem Night Faire shows the same spirit of gathering an artistic community around the darker seasons.",
+  },
 };
 
 export function artistPageCopy(slug: string): ArtistPageCopy | undefined {

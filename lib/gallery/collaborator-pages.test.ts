@@ -16,6 +16,7 @@ const SLUGS = [
   "eliot-kohek",
   "jesse-levitt",
   "rob-borbas",
+  "murray-brothers",
 ] as const;
 
 const ALLOWED_HREFS: Record<(typeof SLUGS)[number], Set<string>> = {
@@ -43,6 +44,17 @@ const ALLOWED_HREFS: Record<(typeof SLUGS)[number], Set<string>> = {
     "https://www.tattoolifestore.com/product/incubus-the-art-of-grindesign-by-robert-borbas/",
     "https://www.rockvilag.hu/hirek/soilwork-az-augusztus-vegen-megjeleno-lemez-boritojat-borbas-robi-keszitette/",
     "https://hypeandhyper.com/the-first-book-on-the-art-of-a-hungarian-tattooist-grindesign/",
+  ]),
+  "murray-brothers": new Set([
+    "https://www.blackveilstudio.com/",
+    "https://www.instagram.com/blackveiltattoo/",
+    "https://salemnightfaire.com/",
+    "https://www.blackveilstudio.com/gallery",
+    "https://www.blackveilstudio.com/matthewtattoos",
+    "https://www.blackveilstudio.com/ryan-1",
+    "https://www.blackveilstudio.com/product/a-bitter-harvest/1065",
+    "https://www.blackveilstudio.com/product/among-the-toadstools/1092",
+    "https://www.blackveilstudio.com/product/across-the-night/2263",
   ]),
 };
 
@@ -89,6 +101,18 @@ const BANNED: Record<(typeof SLUGS)[number], string[]> = {
     "anxiety",
     "theartofgrindesign.com",
   ],
+  "murray-brothers": [
+    "shoppe@blackveilstudio",
+    "info@blackveilstudio",
+    "roommates",
+    "Salem Village",
+    "1692",
+    "witch trial",
+    "Life altering",
+    "instagram.com/blackveilstudio",
+    "Tattoos by Ryan",
+    "Ryan's gallery",
+  ],
 };
 
 const HEDGING = [
@@ -97,6 +121,7 @@ const HEDGING = [
   "This is a fit judgment drawn from public portfolios and interviews.",
   "This is a fit judgment drawn from public portfolios and press.",
   "This is a fit judgment drawn from public portfolios, books and press.",
+  "This is a fit judgment drawn from public materials and press.",
 ];
 
 const FORBIDDEN_COPY = /\bnot\b|\bno\b|\bnever\b|\bwithout\b|n't/i;
@@ -144,11 +169,9 @@ async function expectNotFound(slug: string, label: string): Promise<void> {
 }
 
 async function main() {
-  const murray = artists.find((entry) => entry.slug === "murray-brothers");
-  assert.ok(murray, "Murray Brothers seed stays in place");
-  assert.equal(murray.bio.startsWith("Named collaborator slot"), true);
-  assert.equal(murray.works.length, 0);
-  assert.equal(artistPageCopy("murray-brothers"), undefined);
+  const openSlot = artists.find((entry) => entry.slug === "slot-open-01");
+  assert.ok(openSlot, "open collaborator slot stays in place");
+  assert.equal(artistPageCopy("slot-open-01"), undefined);
 
   const staticParams = generateStaticParams();
   const entries = await sitemap();
@@ -184,7 +207,7 @@ async function main() {
       `/gallery roster must omit ${slug}`,
     );
     assert.ok(!artist.images?.length, `${slug} uses placeholder frames only`);
-    assert.equal(artist.works.length % 2, 1, `${slug} keeps an odd last work tile to center`);
+    assert.ok(artist.works.length > 0, `${slug} lists link-out works`);
     for (const work of artist.works) {
       assert.equal(work.mediaUrl, undefined, `${slug} works stay link-out only`);
       assert.ok(work.href, `${slug} work ${work.title} needs an outbound href`);
@@ -240,6 +263,23 @@ async function main() {
   );
   assert.ok(!/instagram/i.test(robMarkup), "Rob Borbas page omits Instagram until the handle is confirmed");
 
+  const murray = artists.find((entry) => entry.slug === "murray-brothers");
+  assert.ok(murray);
+  const murrayMarkup = htmlText(
+    renderToStaticMarkup(
+      createElement(ArtistPageView, {
+        artist: murray,
+        copy: artistPageCopy("murray-brothers"),
+      }),
+    ),
+  );
+  assert.ok(murrayMarkup.includes("Studio gallery"), "ryan-1 stays a studio gallery label");
+  assert.ok(murrayMarkup.includes("https://www.blackveilstudio.com/ryan-1"));
+  assert.ok(murrayMarkup.includes("Tattoos by Matthew Murray"), "Matthew page title is verified");
+  assert.ok(!murrayMarkup.includes("Tattoos by Ryan"));
+  assert.ok(!murrayMarkup.includes("Ryan's gallery"));
+  assert.ok(!murrayMarkup.includes("Gallery-1"));
+
   process.env.VERCEL_ENV = "production";
   for (const slug of SLUGS) {
     await expectNotFound(slug, `unpublished ${slug} in production`);
@@ -257,7 +297,7 @@ async function main() {
   if (previousVercelEnv === undefined) delete process.env.VERCEL_ENV;
   else process.env.VERCEL_ENV = previousVercelEnv;
 
-  await expectNotFound("murray-brothers", "unpublished Murray Brothers stub without page copy");
+  await expectNotFound("slot-open-01", "unpublished open slot without page copy");
 
   const styles = readFileSync(join(root, "app/globals.css"), "utf8");
   assert.ok(
