@@ -10,6 +10,14 @@ export type Work = {
   links?: { label: string; href: string }[];
 };
 
+export type ArtistImage = {
+  src?: string;
+  alt: string;
+  title: string;
+  year: string;
+  credit: string;
+};
+
 export type Artist = {
   slug: string;
   name: string;
@@ -20,6 +28,7 @@ export type Artist = {
   social: { label: string; href: string }[];
   store: { label: string; href: string }[];
   works: Work[];
+  images?: ArtistImage[];
   mediaPending?: boolean;
   featured?: boolean;
   featuredRank?: number;
@@ -173,6 +182,44 @@ export const artists: Artist[] = [
         medium: "Original dark-fantasy painting · link-out",
         caption: "Nightmarish mythic forms and distorted portraiture — view on Dean’s official Art Gallery.",
         href: "https://deanryaninfo.wixsite.com/deanryanbrink/artgallery",
+      },
+    ],
+    images: [
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 01",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 02",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 03",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 04",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 05",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 06",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
       },
     ],
   },

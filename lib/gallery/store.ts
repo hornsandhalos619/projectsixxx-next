@@ -4,6 +4,7 @@ import {
   isFeaturedArtist,
   isPublishedArtist,
   type Artist,
+  type ArtistImage,
   type ArtistStatus,
   type Work,
 } from "@/lib/artists";
@@ -30,6 +31,7 @@ type ArtistRow = {
   featured_rank: number | null;
   published?: boolean | null;
   artist_works?: WorkRow[] | null;
+  images?: unknown;
 };
 
 type WorkRow = {
@@ -81,6 +83,27 @@ function asWorks(value: unknown): Work[] {
   return works;
 }
 
+function asImages(value: unknown): ArtistImage[] {
+  if (!Array.isArray(value)) return [];
+  const images: ArtistImage[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") continue;
+    const data = item as Record<string, unknown>;
+    const title = String(data.title ?? "").trim();
+    const credit = String(data.credit ?? "").trim();
+    if (!title || !credit) continue;
+    const src = data.src ? String(data.src).trim() : "";
+    images.push({
+      title,
+      year: String(data.year ?? ""),
+      alt: String(data.alt ?? ""),
+      credit,
+      ...(src ? { src } : {}),
+    });
+  }
+  return images;
+}
+
 function rowToArtist(row: ArtistRow): Artist {
   return {
     slug: row.slug,
@@ -92,6 +115,7 @@ function rowToArtist(row: ArtistRow): Artist {
     social: asLinks(row.social),
     store: asLinks(row.store),
     works: asWorks(row.artist_works ?? []),
+    images: asImages(row.images),
     mediaPending: Boolean(row.media_pending),
     featured: Boolean(row.featured),
     featuredRank: row.featured_rank ?? undefined,
@@ -135,9 +159,17 @@ async function listOverlay(): Promise<Artist[]> {
   return [];
 }
 
+function keepSeedImages(list: Artist[]): Artist[] {
+  return list.map((artist) => {
+    if (artist.images?.length) return artist;
+    const seed = seedArtists.find((item) => item.slug === artist.slug);
+    return seed?.images?.length ? { ...artist, images: seed.images } : artist;
+  });
+}
+
 export async function listArtists(): Promise<Artist[]> {
   try {
-    return mergeBySlug(seedArtists, await listOverlay());
+    return keepSeedImages(mergeBySlug(seedArtists, await listOverlay()));
   } catch (error) {
     console.error("gallery list failed", error);
     return seedArtists;

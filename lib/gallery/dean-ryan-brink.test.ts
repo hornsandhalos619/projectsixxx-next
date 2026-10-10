@@ -85,6 +85,17 @@ async function main() {
   assert.ok(!markup.includes("[CURATOR INFERENCE]"));
   assert.ok(markup.includes("House still pending"));
   assert.ok(!markup.includes("<img"), "page must not embed or hotlink artwork images");
+  assert.equal(dean.images?.length, 6, "seed holds six placeholder gallery stills");
+  const credit = "© Dean Ryan Brink, shown with permission";
+  for (const image of dean.images ?? []) {
+    assert.equal(image.src, undefined, "placeholder stills must not carry a src");
+    assert.equal(image.credit, credit);
+  }
+  assert.equal(
+    markup.split(credit).length - 1,
+    6,
+    "every gallery still must render its credit line",
+  );
   assert.ok(markup.includes('rel="noopener"'));
   assert.ok(markup.includes('target="_blank"'));
 

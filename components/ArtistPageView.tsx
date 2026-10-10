@@ -1,6 +1,6 @@
 import React, { type ReactNode } from "react";
 import Link from "next/link";
-import type { Artist, Work } from "@/lib/artists";
+import type { Artist, ArtistImage, Work } from "@/lib/artists";
 import type { ArtistPageCopy } from "@/lib/gallery/page-copy";
 
 function isExternalHref(href: string): boolean {
@@ -34,6 +34,14 @@ function DoorLink({
       {children}
     </Link>
   );
+}
+
+function GalleryStill({ image, mediaPending }: { image: ArtistImage; mediaPending: boolean }) {
+  if (mediaPending || !image.src) {
+    return <div className="work-still" />;
+  }
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={image.src} alt={image.alt} />;
 }
 
 function WorkStill({ work, mediaPending }: { work: Work; mediaPending: boolean }) {
@@ -142,6 +150,24 @@ export function ArtistPageView({
           </div>
         )}
       </section>
+
+      {artist.images?.length ? (
+        <section className="section">
+          <p className="kicker">Gallery</p>
+          <div className="works">
+            {artist.images.map((image, index) => (
+              <figure className="work" key={`${image.title}-${index}`}>
+                <GalleryStill image={image} mediaPending={mediaPending} />
+                <figcaption>
+                  {image.title} · {image.year}
+                  <br />
+                  {image.credit}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {copy?.memorial ? (
         <section className="section">
