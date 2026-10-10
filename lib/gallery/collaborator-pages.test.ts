@@ -279,6 +279,7 @@ async function main() {
       }),
     ),
   );
+  assert.equal(murray.store.length, 0, "Murray store drops the Site-duplicate homepage link");
   assert.ok(murrayMarkup.includes("Studio gallery"), "ryan-1 stays a studio gallery label");
   assert.ok(murrayMarkup.includes("https://www.blackveilstudio.com/ryan-1"));
   assert.ok(murrayMarkup.includes("Tattoos by Matthew Murray"), "Matthew page title is verified");
