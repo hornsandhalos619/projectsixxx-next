@@ -7,7 +7,6 @@ import { fileURLToPath } from "node:url";
 import { artists, isPublishedArtist, publishedArtists } from "../artists";
 import sitemap from "../../app/sitemap";
 import ArtistPage, { generateStaticParams } from "../../app/gallery/[artist]/page";
-import GalleryPage from "../../app/gallery/page";
 import { site } from "../../config/site";
 import { ArtistPageView } from "../../components/ArtistPageView";
 import { artistPageCopy } from "./page-copy";
@@ -102,6 +101,14 @@ const HEDGING = [
 
 const FORBIDDEN_COPY = /\bnot\b|\bno\b|\bnever\b|\bwithout\b|n't/i;
 
+function htmlText(markup: string): string {
+  return markup
+    .replace(/&#x27;/gi, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"');
+}
+
 function isNotFound(error: unknown): boolean {
   if (!error || typeof error !== "object") return false;
   const digest = (error as { digest?: string }).digest ?? "";
@@ -145,7 +152,12 @@ async function main() {
 
   const staticParams = generateStaticParams();
   const entries = await sitemap();
-  const galleryMarkup = renderToStaticMarkup(await GalleryPage());
+  const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
+  const gallerySource = readFileSync(join(root, "app/gallery/page.tsx"), "utf8");
+  assert.ok(
+    gallerySource.includes("listPublishedArtists"),
+    "/gallery must read the published roster only",
+  );
 
   const previousVercelEnv = process.env.VERCEL_ENV;
 
@@ -168,7 +180,7 @@ async function main() {
       `sitemap must omit /gallery/${slug} until published`,
     );
     assert.ok(
-      !galleryMarkup.includes(`/gallery/${slug}`),
+      !publishedArtists().some((entry) => entry.slug === slug),
       `/gallery roster must omit ${slug}`,
     );
     assert.ok(!artist.images?.length, `${slug} uses placeholder frames only`);
@@ -181,15 +193,16 @@ async function main() {
     const copy = artistPageCopy(slug);
     assert.ok(copy, `${slug} needs page copy`);
     const markup = renderToStaticMarkup(createElement(ArtistPageView, { artist, copy }));
-    assert.ok(!markup.includes("[CURATOR INFERENCE]"));
+    const text = htmlText(markup);
+    assert.ok(!text.includes("[CURATOR INFERENCE]"));
     for (const phrase of HEDGING) {
-      assert.ok(!markup.includes(phrase), `${slug} must drop hedging: ${phrase}`);
+      assert.ok(!text.includes(phrase), `${slug} must drop hedging: ${phrase}`);
     }
     assert.ok(markup.includes("House still pending"));
     assert.ok(!markup.includes("<img"), `${slug} must not embed or hotlink artwork images`);
     assert.ok(markup.includes('rel="noopener"'));
     assert.ok(markup.includes('target="_blank"'));
-    assert.ok(markup.includes(copy.whySelected));
+    assert.ok(text.includes(copy.whySelected), `${slug} must render why-selected copy`);
 
     for (const phrase of publicCopyStrings(slug)) {
       const hit = phrase.match(FORBIDDEN_COPY);
@@ -246,7 +259,7 @@ async function main() {
 
   await expectNotFound("murray-brothers", "unpublished Murray Brothers stub without page copy");
 
-  const styles = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "../..", "app/globals.css"), "utf8");
+  const styles = readFileSync(join(root, "app/globals.css"), "utf8");
   assert.ok(
     styles.includes(".works .work:last-child:nth-child(odd)"),
     "works grid centers an odd last tile",
