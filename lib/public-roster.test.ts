@@ -15,6 +15,7 @@ const hiddenNames = [
   "Eliot Kohek",
   "The Murray Brothers",
   "Jesse Levitt",
+  "Rob Borbás",
   "Dean Ryan Brink",
 ];
 

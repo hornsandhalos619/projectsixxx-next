@@ -69,7 +69,7 @@ async function main() {
   );
 
   try {
-    await ArtistPage({ params: Promise.resolve({ artist: "christian-boye-larsen" }) });
+    await ArtistPage({ params: Promise.resolve({ artist: "slot-open-01" }) });
     throw new Error("expected notFound for unpublished stub without page copy");
   } catch (error) {
     assert.ok(isNotFound(error), `stub collaborator must notFound, got ${String(error)}`);
@@ -86,16 +86,37 @@ async function main() {
   assert.ok(markup.includes("House still pending"));
   assert.ok(!markup.includes("<img"), "page must not embed or hotlink artwork images");
   assert.equal(dean.images?.length, 6, "seed holds six placeholder gallery stills");
-  const credit = "© Dean Ryan Brink, shown with permission";
+  const permissionCredit = "© Dean Ryan Brink, shown with permission";
   for (const image of dean.images ?? []) {
     assert.equal(image.src, undefined, "placeholder stills must not carry a src");
-    assert.equal(image.credit, credit);
+    assert.equal(image.credit, "", "placeholder stills leave credit empty until a src exists");
   }
+  assert.ok(!markup.includes(permissionCredit), "placeholders show no permission credit");
   assert.equal(
-    markup.split(credit).length - 1,
+    markup.split("Media pending").length - 1,
     6,
-    "every gallery still must render its credit line",
+    "empty-src tiles render Media pending instead of a credit",
   );
+  const creditedMarkup = renderToStaticMarkup(
+    createElement(ArtistPageView, {
+      artist: {
+        ...dean,
+        mediaPending: false,
+        images: [
+          {
+            src: "/dean-still.jpg",
+            alt: "Approved still",
+            title: "Still with source",
+            year: "2026",
+            credit: permissionCredit,
+          },
+        ],
+      },
+      copy,
+    }),
+  );
+  assert.ok(creditedMarkup.includes(permissionCredit), "an entry with a src renders its credit");
+  assert.ok(!creditedMarkup.includes("Media pending"), "a sourced still does not show Media pending");
   assert.ok(markup.includes('rel="noopener"'));
   assert.ok(markup.includes('target="_blank"'));
 

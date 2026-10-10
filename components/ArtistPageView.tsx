@@ -155,16 +155,19 @@ export function ArtistPageView({
         <section className="section">
           <p className="kicker">Gallery</p>
           <div className="works">
-            {artist.images.map((image, index) => (
-              <figure className="work" key={`${image.title}-${index}`}>
-                <GalleryStill image={image} mediaPending={mediaPending} />
-                <figcaption>
-                  {image.title} · {image.year}
-                  <br />
-                  {image.credit}
-                </figcaption>
-              </figure>
-            ))}
+            {artist.images.map((image, index) => {
+              const pendingTile = mediaPending || !image.src;
+              return (
+                <figure className="work" key={`${image.title}-${index}`}>
+                  <GalleryStill image={image} mediaPending={mediaPending} />
+                  <figcaption>
+                    {image.title} · {image.year}
+                    <br />
+                    {pendingTile ? "Media pending" : image.credit}
+                  </figcaption>
+                </figure>
+              );
+            })}
           </div>
         </section>
       ) : null}
