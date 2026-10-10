@@ -12,7 +12,7 @@ import { ArtistPageView } from "../../components/ArtistPageView";
 import { artistPageCopy, DEAN_RYAN_BRINK_MEMORIAL } from "./page-copy";
 
 const LOCKED_MEMORIAL =
-  "Aaron Franklin Brink (November 12, 1974 – May 26, 2023) was a Southern California mixed martial artist known in the cage as “The Frijolero.” Over a professional career that stretched from the late 1990s into the late 2010s, he competed for major promotions including the UFC, WEC, King of the Cage, and RINGS, and fought out of the San Diego area. Aaron Franklin Brink is remembered here as well. Aaron was a warrior, a scholar, a role model and a friend. In addition to introducing me to his brother Ryan, his endorsement and support of my work when I was formulating Project Sixxx played an integral role to everything that has followed. He is sorely missed and fondly remembered. If Valhalla exists he surely has a seat at the banquet. May his memory be honored with dignity.";
+  "Aaron Franklin Brink (November 12, 1974 – May 26, 2023) was a Southern California mixed martial artist known in the cage as “The Frijolero.” Over a professional career that stretched from the late 1990s into the late 2010s, he competed for major promotions including the UFC, WEC, King of the Cage, and RINGS, and fought out of the San Diego area. Aaron was a warrior, a scholar, a role model and a friend. In addition to introducing me to his brother Ryan, his endorsement and support of my work when I was formulating Project Sixxx played an integral role to everything that has followed. He is sorely missed and fondly remembered. If Valhalla exists he surely has a seat at the banquet. May his memory be honored with dignity.";
 
 const ALLOWED_HREFS = new Set([
   "https://deanryaninfo.wixsite.com/deanryanbrink",
