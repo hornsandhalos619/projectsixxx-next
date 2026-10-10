@@ -141,6 +141,14 @@ async function main() {
   assert.ok(viewSource.includes('rel="noopener"'));
   assert.ok(viewSource.includes('target="_blank"'));
 
+  const styles = readFileSync(join(root, "app/globals.css"), "utf8");
+  const memorialBlock = styles.slice(styles.indexOf(".memorial {"), styles.indexOf(".store-links"));
+  assert.ok(memorialBlock.includes("#d4af37"), "memorial gold base");
+  assert.ok(memorialBlock.includes("#f2d27a"), "memorial gold highlight");
+  assert.ok(memorialBlock.includes("memorial-shine"), "memorial shine sweep");
+  assert.ok(memorialBlock.includes("prefers-reduced-motion: reduce"), "memorial shine respects reduced motion");
+  assert.ok(memorialBlock.includes("color: #d4af37"), "gold color fallback before clip");
+
   const copySource = readFileSync(join(root, "lib/gallery/page-copy.ts"), "utf8");
   assert.ok(copySource.includes(LOCKED_MEMORIAL), "page-copy module must hold the locked memorial");
 
