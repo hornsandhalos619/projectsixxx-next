@@ -6,6 +6,16 @@ export type Work = {
   medium: string;
   caption: string;
   mediaUrl?: string;
+  href?: string;
+  links?: { label: string; href: string }[];
+};
+
+export type ArtistImage = {
+  src?: string;
+  alt: string;
+  title: string;
+  year: string;
+  credit: string;
 };
 
 export type Artist = {
@@ -18,6 +28,7 @@ export type Artist = {
   social: { label: string; href: string }[];
   store: { label: string; href: string }[];
   works: Work[];
+  images?: ArtistImage[];
   mediaPending?: boolean;
   featured?: boolean;
   featuredRank?: number;
@@ -128,6 +139,89 @@ export const artists: Artist[] = [
     social: [],
     store: [],
     works: [],
+  },
+  {
+    slug: "dean-ryan-brink",
+    name: "Dean Ryan Brink",
+    role: "Collaborator",
+    status: "sample",
+    mediaPending: true,
+    featured: true,
+    published: false,
+    bio: "Southern California original artist and custom tattoo specialist whose work moves between skin, paint, and underground craft — dark realism, saturated color, and macabre elegance. Honored on the Project SiXXX roster for that language, and for the path that first brought it to this house.",
+    email: "",
+    social: [
+      { label: "Site", href: "https://deanryaninfo.wixsite.com/deanryanbrink" },
+      { label: "Instagram", href: "https://www.instagram.com/deanbrinktattoos/" },
+      { label: "Tattoo Gallery", href: "https://deanryaninfo.wixsite.com/deanryanbrink/tattoogallery" },
+      { label: "Art Gallery", href: "https://deanryaninfo.wixsite.com/deanryanbrink/artgallery" },
+    ],
+    store: [],
+    works: [
+      {
+        title: "Tattoo Gallery",
+        year: "ongoing",
+        medium: "Custom tattoo · link-out",
+        caption: "Large-scale color and dark surreal work — view on Dean’s official Tattoo Gallery.",
+        href: "https://deanryaninfo.wixsite.com/deanryanbrink/tattoogallery",
+      },
+      {
+        title: "Dark-realism vocabulary",
+        year: "ongoing",
+        medium: "Motif study · link-out",
+        caption: "Skulls, roses, ocular motifs — beauty set against the macabre. View the vocabulary on the Tattoo Gallery and Instagram.",
+        href: "https://deanryaninfo.wixsite.com/deanryanbrink/tattoogallery",
+        links: [
+          { label: "Tattoo Gallery", href: "https://deanryaninfo.wixsite.com/deanryanbrink/tattoogallery" },
+          { label: "Instagram", href: "https://www.instagram.com/deanbrinktattoos/" },
+        ],
+      },
+      {
+        title: "Art Gallery",
+        year: "ongoing",
+        medium: "Original dark-fantasy painting · link-out",
+        caption: "Nightmarish mythic forms and distorted portraiture — view on Dean’s official Art Gallery.",
+        href: "https://deanryaninfo.wixsite.com/deanryanbrink/artgallery",
+      },
+    ],
+    images: [
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 01",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 02",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 03",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 04",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 05",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+      {
+        alt: "Hairline frame — media pending",
+        title: "Still 06",
+        year: "pending",
+        credit: "© Dean Ryan Brink, shown with permission",
+      },
+    ],
   },
   // Expandable empty slots — founder can fill later without route surgery.
   {
