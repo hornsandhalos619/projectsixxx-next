@@ -252,7 +252,7 @@ export const artists: Artist[] = [
   },
   {
     slug: "rob-borbas",
-    name: "Rob Borbas",
+    name: "Rob Borbás",
     role: "Collaborator",
     status: "sample",
     mediaPending: true,

@@ -252,8 +252,13 @@ async function main() {
       copy: artistPageCopy("jesse-levitt"),
     }),
   );
-  assert.ok(jesseMarkup.includes("official bio"), "Jesse page attributes Burlington to the official bio");
-  assert.ok(jesseMarkup.includes("Burlington, Vermont"));
+  assert.ok(
+    jesseMarkup.includes(
+      "Jesse is based in Burlington, Vermont, and travels for conventions and guest spots across the country and abroad.",
+    ),
+    "Jesse page uses the source-backed Burlington and travel sentence",
+  );
+  assert.ok(!jesseMarkup.includes("official bio"), "Jesse page no longer attributes Burlington to the official bio");
 
   const robMarkup = renderToStaticMarkup(
     createElement(ArtistPageView, {
@@ -261,7 +266,8 @@ async function main() {
       copy: artistPageCopy("rob-borbas"),
     }),
   );
-  assert.ok(!/instagram/i.test(robMarkup), "Rob Borbas page omits Instagram until the handle is confirmed");
+  assert.ok(robMarkup.includes("Rob Borbás"), "Rob public copy uses the accented surname");
+  assert.ok(!/instagram/i.test(robMarkup), "Rob Borbás page omits Instagram until the handle is confirmed");
 
   const murray = artists.find((entry) => entry.slug === "murray-brothers");
   assert.ok(murray);

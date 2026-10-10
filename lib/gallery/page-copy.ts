@@ -66,7 +66,7 @@ const pages: Record<string, ArtistPageCopy> = {
       },
     ],
     whySelected:
-      "Christian Boye Larsen's monster-driven black and grey, with its playful villain-loving origin, sits naturally beside the Horns side of Project SiXXX. The freehand method, art made live on the body, echoes the house value of creating in the moment.",
+      "Christian Boye Larsen's monster-driven black and grey, with its playful villain-loving origin, belongs in Project SiXXX's dark-art house. The freehand method, art made live on the body, echoes the house value of creating in the moment.",
   },
   "eliot-kohek": {
     kicker: "Collaborator · Annecy",
@@ -96,7 +96,7 @@ const pages: Record<string, ArtistPageCopy> = {
   "jesse-levitt": {
     kicker: "Collaborator · Vermont & Troy, New York",
     profile:
-      "Jesse Levitt tattoos and paints abstracted dark art, with every piece conceptualized personally and freehanded onto the skin with markers, on the spot. Fifteen years of work in a single personal style have produced a body of organic, flowing darkness, much of it in black and grey. Jesse's official bio names Burlington, Vermont as home base, with travel for conventions and guest spots across the country and abroad. In 2020 Jesse opened Darkspace Art Collective in downtown Troy, New York, a by-appointment studio with its own gallery room for dark art on canvas as well as skin. Original oil paintings, studies and commissions run alongside the tattoo work.",
+      "Jesse Levitt tattoos and paints abstracted dark art, with every piece conceptualized personally and freehanded onto the skin with markers, on the spot. Fifteen years of work in a single personal style have produced a body of organic, flowing darkness, much of it in black and grey. Jesse is based in Burlington, Vermont, and travels for conventions and guest spots across the country and abroad. In 2020 Jesse opened Darkspace Art Collective in downtown Troy, New York, a by-appointment studio with its own gallery room for dark art on canvas as well as skin. Original oil paintings, studies and commissions run alongside the tattoo work.",
     skills: [
       {
         title: "Freehand dark art",
@@ -141,7 +141,7 @@ const pages: Record<string, ArtistPageCopy> = {
       },
     ],
     whySelected:
-      "Rob Borbas's engraving-like line sits squarely in the gothic, old-print atmosphere that Project SiXXX loves. The work moves freely between skin, page and record sleeve, the same range the house spans with journal, gallery and shop.",
+      "Rob Borbás's engraving-like line sits squarely in the gothic, old-print atmosphere that Project SiXXX loves. The work moves freely between skin, page and record sleeve, the same range the house spans with journal, gallery and shop.",
   },
   "murray-brothers": {
     kicker: "Collaborators · Salem, Massachusetts",
