@@ -112,6 +112,7 @@ async function checkSitemap() {
     "/gallery/murray-brothers",
     "/gallery/jesse-levitt",
     "/gallery/rob-borbas",
+    "/gallery/dean-ryan-brink",
     "/shop/guitars/ibanez-rg-sample",
     "/shop/synths/synth-placeholder",
     "/shop/tablets/tablet-placeholder",
