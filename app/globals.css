@@ -986,15 +986,17 @@ select {
   font-weight: 400;
   color: #d4af37;
   background-image: linear-gradient(
-    105deg,
+    90deg,
     #d4af37 0%,
-    #f2d27a 42%,
-    #fff6c2 50%,
-    #f2d27a 58%,
+    #d4af37 22%,
+    #f2d27a 36%,
+    #fff8d0 50%,
+    #f2d27a 64%,
+    #d4af37 78%,
     #d4af37 100%
   );
-  background-size: 220% 100%;
-  background-position: 120% 50%;
+  background-size: 320% 100%;
+  background-position: 100% 50%;
   background-repeat: no-repeat;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1009,14 +1011,12 @@ select {
 }
 
 @keyframes memorial-shine {
-  0% {
-    background-position: 120% 50%;
-  }
-  21.43% {
-    background-position: -20% 50%;
+  0%,
+  78.57% {
+    background-position: 100% 50%;
   }
   100% {
-    background-position: -20% 50%;
+    background-position: 0% 50%;
   }
 }
 
