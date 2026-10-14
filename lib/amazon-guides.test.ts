@@ -47,6 +47,25 @@ async function main() {
   assert.ok(pageSource.includes("amazonLink(p.asin)"), "/picks must build doors from amazonLink");
   assert.ok(pageSource.includes('rel="sponsored nofollow"'), "/picks outbound doors must use rel=sponsored nofollow");
   assert.ok(!pageSource.includes("noopener"), "/picks affiliate rel must be sponsored nofollow only");
+  assert.ok(
+    pageSource.includes("Check today&apos;s price"),
+    "/picks must keep Check today's price on each item",
+  );
+
+  const PRICE_MARK = /\$\s*\d|\d+\s*(?:dollars?|usd|bucks)\b|~\s*\$|about\s+\$|around\s+\$|under\s+\$/i;
+  const BUDGET_HEADING = /under\s+\$?\s*\d|\$\s*\d+\s*(?:and\s+)?(?:under|or less)|budget\s+band|gifts?\s+under/i;
+  const userCopy = [
+    ...amazonSections.flatMap((section) => [
+      section.title,
+      section.dek,
+      ...section.picks.flatMap((pick) => [pick.name, pick.note, pick.lane]),
+    ]),
+  ];
+  for (const field of userCopy) {
+    assert.ok(!field.includes("$"), `picks copy must not include $: ${field}`);
+    assert.ok(!PRICE_MARK.test(field), `picks copy must not include a per-item price: ${field}`);
+    assert.ok(!BUDGET_HEADING.test(field), `unverified budget-band heading is not allowed: ${field}`);
+  }
 
   const nextConfig = readFileSync(join(root, "next.config.ts"), "utf8");
   assert.ok(
@@ -67,6 +86,9 @@ async function main() {
     const blob = `${guide.title}\n${guide.description}\n${guide.content}`;
     assert.ok(!AMAZON_HOST.test(blob), `${guide.slug} must not contain amazon.com links`);
     assert.ok(!FORBIDDEN.test(blob), `${guide.slug} must not contain tarot, Christian, or Christmas copy`);
+    assert.ok(!blob.includes("$"), `${guide.slug} must not include $ or per-item prices`);
+    assert.ok(!PRICE_MARK.test(blob), `${guide.slug} must not include a per-item price`);
+    assert.ok(!BUDGET_HEADING.test(blob), `${guide.slug} must not use an unverified budget-band heading`);
     for (const asin of REMOVED_ASINS) {
       assert.ok(!blob.includes(asin), `${guide.slug} must not mention removed ASIN ${asin}`);
     }
