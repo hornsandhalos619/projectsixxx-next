@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
         destination: "/signin",
         permanent: true,
       },
+      {
+        source: "/amazon",
+        destination: "/picks",
+        permanent: true,
+      },
     ];
   },
 };

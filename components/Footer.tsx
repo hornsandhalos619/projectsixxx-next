@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AMAZON_ASSOCIATE_LINE } from "@/components/AffiliateDisclosure";
 import { site } from "@/config/site";
 
 export function Footer() {
@@ -38,6 +39,10 @@ export function Footer() {
           <Link href="/overmind/journal">Overmind</Link>
           <Link href="/links">Links</Link>
           <Link href="/library">Library</Link>
+          <span className="footer-amazon">
+            <Link href="/picks">Amazon</Link>
+            <span className="footer-amazon-disclosure">{AMAZON_ASSOCIATE_LINE}</span>
+          </span>
           <Link href="/studio">Studio</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/schedule">Schedule</Link>

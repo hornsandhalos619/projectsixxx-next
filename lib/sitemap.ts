@@ -10,6 +10,7 @@ export type SitemapSources = {
   library?: SitemapSource;
   gallery?: SitemapSource;
   affiliates?: SitemapSource;
+  guides?: SitemapSource;
 };
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
@@ -30,6 +31,8 @@ export const SITEMAP_CORE_PATHS = [
   "/links",
   "/studio",
   "/overmind/journal",
+  "/picks",
+  "/guides",
   "/legal/privacy",
   "/legal/terms",
 ] as const;
@@ -128,6 +131,8 @@ const CORE_PAGE_META: Record<
   "/links": { changeFrequency: "monthly", priority: 0.6 },
   "/studio": { changeFrequency: "monthly", priority: 0.6 },
   "/overmind/journal": { changeFrequency: "weekly", priority: 0.6 },
+  "/picks": { changeFrequency: "weekly", priority: 0.7 },
+  "/guides": { changeFrequency: "weekly", priority: 0.6 },
   "/legal/privacy": { changeFrequency: "yearly", priority: 0.3 },
   "/legal/terms": { changeFrequency: "yearly", priority: 0.3 },
 };
@@ -180,6 +185,7 @@ function defaultSources(): Required<SitemapSources> {
     library: () => import("@/lib/titles/store").then((mod) => mod.listLibraryTitles()),
     gallery: () => import("@/lib/gallery/store").then((mod) => mod.listPublishedArtists()),
     affiliates: () => import("@/lib/affiliates/store").then((mod) => mod.listPublishedAffiliateProducts()),
+    guides: () => import("@/lib/guides").then((mod) => mod.publishedGuides()),
   };
 }
 
@@ -241,6 +247,20 @@ function galleryEntries(artists: unknown[]): MetadataRoute.Sitemap {
   return keep(items);
 }
 
+function guideEntries(guides: unknown[]): MetadataRoute.Sitemap {
+  const items: Array<SitemapEntry | null> = [];
+  for (const guide of guides) {
+    try {
+      const slug = field(guide, "slug");
+      if (!isValidSlug(slug)) continue;
+      items.push(entry(`/guides/${slug}`, "monthly", 0.5, asDate(field(guide, "date"))));
+    } catch (error) {
+      console.error("sitemap guide entry failed", error);
+    }
+  }
+  return keep(items);
+}
+
 function affiliateEntries(products: unknown[]): MetadataRoute.Sitemap {
   const items: Array<SitemapEntry | null> = [];
   for (const product of products) {
@@ -257,12 +277,13 @@ function affiliateEntries(products: unknown[]): MetadataRoute.Sitemap {
 }
 
 async function assemble(sources: Required<SitemapSources>): Promise<MetadataRoute.Sitemap> {
-  const [journal, overmind, library, gallery, affiliates] = await Promise.all([
+  const [journal, overmind, library, gallery, affiliates, guides] = await Promise.all([
     safe("journal", sources.journal),
     safe("overmind", sources.overmind),
     safe("library", sources.library),
     safe("gallery", sources.gallery),
     safe("affiliates", sources.affiliates),
+    safe("guides", sources.guides),
   ]);
 
   const sections: MetadataRoute.Sitemap[] = [coreSitemapEntries()];
@@ -291,6 +312,11 @@ async function assemble(sources: Required<SitemapSources>): Promise<MetadataRout
     sections.push(affiliateEntries(affiliates));
   } catch (error) {
     console.error("sitemap affiliates section failed", error);
+  }
+  try {
+    sections.push(guideEntries(guides));
+  } catch (error) {
+    console.error("sitemap guides section failed", error);
   }
 
   return keep(sections.flat());
