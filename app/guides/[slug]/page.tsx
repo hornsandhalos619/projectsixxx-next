@@ -36,7 +36,7 @@ export default async function GuidePage({ params }: Props) {
         <MDXRemote source={guide.content} />
       </div>
       <div className="cta-row">
-        <Link className="btn btn-house" href="/amazon">
+        <Link className="btn btn-house" href="/picks">
           Amazon picks
         </Link>
         <Link className="btn" href="/guides">

@@ -53,8 +53,12 @@ assert.ok(
   "footer must add a 2026 Horns & Halos copyright line",
 );
 assert.ok(
-  footer.includes('href="/amazon"') && footer.includes(">Amazon<"),
+  footer.includes('href="/picks"') && footer.includes(">Amazon<"),
   "footer must include a small Amazon link",
+);
+assert.ok(
+  footer.includes("AMAZON_ASSOCIATE_LINE") && footer.includes("footer-amazon-disclosure"),
+  "footer must show the Amazon Associate disclosure next to the Amazon link",
 );
 assert.ok(!footer.includes("®"), "footer must use ™ only, never ®");
 assert.ok(

@@ -31,7 +31,7 @@ export default function AmazonPage() {
                 <p className="kicker">{p.lane}</p>
                 <h3>{p.name}</h3>
                 <p>{p.note}</p>
-                <a href={amazonLink(p.asin)} rel="sponsored nofollow noopener noreferrer" target="_blank">
+                <a href={amazonLink(p.asin)} rel="sponsored nofollow" target="_blank">
                   Check today&apos;s price
                 </a>
               </article>

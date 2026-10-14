@@ -231,6 +231,18 @@ select {
   gap: 0.75rem 1.25rem;
 }
 
+.footer-amazon {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.65rem;
+}
+
+.footer-amazon-disclosure {
+  font-size: 0.7rem;
+  color: var(--oxide);
+}
+
 .footer small {
   font-size: var(--label);
   letter-spacing: var(--track-label);

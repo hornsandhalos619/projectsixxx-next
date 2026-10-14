@@ -66,7 +66,7 @@ async function checkSitemap() {
     "https://projectsixxx.com/links",
     "https://projectsixxx.com/studio",
     "https://projectsixxx.com/overmind/journal",
-    "https://projectsixxx.com/amazon",
+    "https://projectsixxx.com/picks",
     "https://projectsixxx.com/guides",
     "https://projectsixxx.com/guides/halloween-samhain-guide",
     "https://projectsixxx.com/guides/choose-your-side-holiday-guide",

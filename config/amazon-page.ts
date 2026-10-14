@@ -1,13 +1,13 @@
 /**
- * The single Amazon page (/amazon). Amazon affiliate links live ONLY here.
+ * The single Amazon page (/picks). Amazon affiliate links live ONLY here.
  * Text-only cards: no Amazon images, no prices (PA-API not unlocked yet),
  * no third-party logos. Every link uses the one tag below.
  * Section order follows personas.md shelf priorities (Oct: altar + gothic decor first).
  */
-export const AMAZON_PAGE_TAG = "hornsandhal0b-20";
+export const AMAZON_TAG = "hornsandhal0b-20";
 
 export const amazonLink = (asin: string) =>
-  `https://www.amazon.com/dp/${asin}?tag=${AMAZON_PAGE_TAG}`;
+  `https://www.amazon.com/dp/${asin}?tag=${AMAZON_TAG}`;
 
 export type AmazonPick = {
   asin: string;
