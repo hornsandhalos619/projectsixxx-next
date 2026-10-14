@@ -12,8 +12,11 @@ export async function POST(request: Request) {
     const source = String(body.source ?? "unknown");
     const tag = body.tag ? String(body.tag) : undefined;
     const result = await captureLead({ email, source, tag });
-    return NextResponse.json(result);
-  } catch {
-    return NextResponse.json({ ok: false }, { status: 400 });
+    return NextResponse.json(result, { status: result.persisted ? 200 : 503 });
+  } catch (error) {
+    if (error instanceof Error && error.message === "invalid_email") {
+      return NextResponse.json({ ok: false, reason: "invalid_email" }, { status: 400 });
+    }
+    return NextResponse.json({ ok: false }, { status: 503 });
   }
 }
