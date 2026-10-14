@@ -52,6 +52,10 @@ assert.ok(
   footer.includes("© 2026") && footer.includes("Horns &amp; Halos™"),
   "footer must add a 2026 Horns & Halos copyright line",
 );
+assert.ok(
+  footer.includes('href="/amazon"') && footer.includes(">Amazon<"),
+  "footer must include a small Amazon link",
+);
 assert.ok(!footer.includes("®"), "footer must use ™ only, never ®");
 assert.ok(
   css.includes(".footer-brand-lock") &&

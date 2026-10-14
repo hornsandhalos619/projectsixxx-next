@@ -38,6 +38,7 @@ export function Footer() {
           <Link href="/overmind/journal">Overmind</Link>
           <Link href="/links">Links</Link>
           <Link href="/library">Library</Link>
+          <Link href="/amazon">Amazon</Link>
           <Link href="/studio">Studio</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/schedule">Schedule</Link>

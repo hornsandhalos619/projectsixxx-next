@@ -33,6 +33,7 @@ async function main() {
     library: throwSync("library"),
     gallery: throwSync("gallery"),
     affiliates: throwSync("affiliates"),
+    guides: throwSync("guides"),
   });
   const urls = urlsOf(entries);
 
@@ -62,6 +63,7 @@ async function main() {
     affiliates: () => {
       throw new Error("affiliates sync");
     },
+    guides: () => [{ slug: "ok-guide", date: "2026-10-15" }, { slug: "BAD SLUG" }],
   });
   const mixedUrls = urlsOf(mixed);
   for (const url of coreUrls()) {
@@ -69,7 +71,9 @@ async function main() {
   }
   assert.ok(mixedUrls.includes(`${site.url}/overmind/journal/ok-overmind`));
   assert.ok(mixedUrls.includes(`${site.url}/gallery/house-artist`));
+  assert.ok(mixedUrls.includes(`${site.url}/guides/ok-guide`));
   assert.ok(!mixedUrls.includes(`${site.url}/overmind/journal/BAD SLUG`));
+  assert.ok(!mixedUrls.includes(`${site.url}/guides/BAD SLUG`));
   assert.ok(mixed.every(isValidSitemapEntry), "garbage live rows must not emit invalid entries");
 
   console.log(`sitemap resilience ok (${entries.length} core urls when every source throws)`);
