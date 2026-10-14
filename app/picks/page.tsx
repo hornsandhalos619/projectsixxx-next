@@ -4,7 +4,7 @@ import { amazonLink, amazonSections } from "@/config/amazon-page";
 
 export const metadata: Metadata = {
   title: "Amazon picks",
-  description: "Hand-picked Horns & Halos finds on Amazon: altar and candlelight, silver and gold, steel, books, chess and the desk.",
+  description: "Hand-picked Horns & Halos finds on Amazon, grouped by budget tier. Altar and candlelight, silver and gold, steel, books, chess and the desk.",
 };
 
 export default function AmazonPage() {
@@ -25,10 +25,11 @@ export default function AmazonPage() {
         <section className="section" id={section.id} key={section.id} aria-label={section.title}>
           <h2>{section.title}</h2>
           <p className="muted">{section.dek}</p>
-          <div className="grid-2" style={{ marginTop: "1rem" }}>
+          <div className="grid-2 picks-grid" style={{ marginTop: "1rem" }}>
             {section.picks.map((p) => (
               <article className="card" key={p.asin}>
-                <p className="kicker">{p.lane}</p>
+                <p className="kicker">{p.theme}</p>
+                <p className="muted">{p.lane}</p>
                 <h3>{p.name}</h3>
                 <p>{p.note}</p>
                 <a href={amazonLink(p.asin)} rel="sponsored nofollow" target="_blank">

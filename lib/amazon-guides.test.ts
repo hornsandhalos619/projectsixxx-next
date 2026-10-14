@@ -5,7 +5,15 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AffiliateDisclosure, AMAZON_ASSOCIATE_LINE } from "../components/AffiliateDisclosure";
-import { AMAZON_TAG, amazonLink, amazonSections } from "../config/amazon-page";
+import {
+  AMAZON_TAG,
+  TIER_CHECKED_AT,
+  TIER_DEFS,
+  amazonLink,
+  amazonPicks,
+  amazonSections,
+  tierIdForPrice,
+} from "../config/amazon-page";
 import { primaryNav } from "../config/site";
 import { publishedGuides } from "./guides";
 
@@ -17,12 +25,35 @@ const AMAZON_HOST = /amazon\.com/i;
 
 async function main() {
   const asins = amazonSections.flatMap((section) => section.picks.map((pick) => pick.asin));
+  const UNPRICED_ASINS = ["B074274RH9", "B0105VZ4GI", "0345337662"] as const;
   for (const asin of REMOVED_ASINS) {
     assert.ok(!asins.includes(asin), `amazon-page must not list removed ASIN ${asin}`);
+  }
+  for (const asin of UNPRICED_ASINS) {
+    assert.ok(!asins.includes(asin), `picks.md recorded no price for ${asin}; omit from budget tiers`);
   }
   assert.ok(amazonSections.length >= 1, "amazon page must keep its sections");
   for (const section of amazonSections) {
     assert.ok(section.picks.length >= 1, `${section.id} must keep remaining picks`);
+  }
+  assert.ok(!amazonSections.some((section) => section.id === "100-and-up"), "empty $100 and up tier must be omitted");
+  assert.equal(TIER_CHECKED_AT, "2026-10-14");
+  for (const pick of amazonPicks) {
+    assert.equal(pick.checkedAt, TIER_CHECKED_AT, `${pick.asin} needs a checkedAt date`);
+    assert.equal(typeof pick.tierPrice, "number");
+    assert.ok(Number.isFinite(pick.tierPrice), `${pick.asin} needs a finite tierPrice`);
+    const expected = tierIdForPrice(pick.tierPrice);
+    const home = amazonSections.find((section) => section.picks.some((item) => item.asin === pick.asin));
+    assert.equal(home?.id, expected, `${pick.asin} must sit in the lowest tier ${expected}`);
+    const tier = TIER_DEFS.find((item) => item.id === expected);
+    assert.ok(tier);
+    if (expected === "100-and-up") {
+      assert.ok(pick.tierPrice >= 100, `${pick.asin} $100 and up must be >= 100`);
+    } else {
+      assert.ok(pick.tierPrice < tier.max, `${pick.asin} must fit ${tier.title}`);
+      const lower = TIER_DEFS.find((item) => item.max < tier.max && pick.tierPrice < item.max);
+      assert.equal(lower, undefined, `${pick.asin} must use the lowest fitting tier`);
+    }
   }
 
   assert.equal(AMAZON_TAG, "hornsandhal0b-20");
@@ -53,19 +84,25 @@ async function main() {
   );
 
   const PRICE_MARK = /\$\s*\d|\d+\s*(?:dollars?|usd|bucks)\b|~\s*\$|about\s+\$|around\s+\$|under\s+\$/i;
-  const BUDGET_HEADING = /under\s+\$?\s*\d|\$\s*\d+\s*(?:and\s+)?(?:under|or less)|budget\s+band|gifts?\s+under/i;
-  const userCopy = [
-    ...amazonSections.flatMap((section) => [
-      section.title,
-      section.dek,
-      ...section.picks.flatMap((pick) => [pick.name, pick.note, pick.lane]),
-    ]),
-  ];
+  const ALLOWED_TIER_IDS = new Set(TIER_DEFS.map((tier) => tier.id));
+  const userCopy = amazonSections.flatMap((section) => [
+    section.dek,
+    ...section.picks.flatMap((pick) => [pick.name, pick.note, pick.lane, pick.theme]),
+  ]);
   for (const field of userCopy) {
     assert.ok(!field.includes("$"), `picks copy must not include $: ${field}`);
     assert.ok(!PRICE_MARK.test(field), `picks copy must not include a per-item price: ${field}`);
-    assert.ok(!BUDGET_HEADING.test(field), `unverified budget-band heading is not allowed: ${field}`);
   }
+  for (const section of amazonSections) {
+    assert.ok(ALLOWED_TIER_IDS.has(section.id), `unexpected tier id ${section.id}`);
+    assert.ok(
+      (pageSource.match(/className="grid-2 picks-grid"/g) ?? []).length >= 1,
+      "/picks must use the same picks-grid in every tier",
+    );
+  }
+  assert.ok(!pageSource.includes("tierPrice"), "/picks must not render tierPrice");
+  assert.ok(!pageSource.includes("checkedAt"), "/picks must not render checkedAt");
+  assert.equal(new Set(amazonSections.map((section) => section.id)).size, amazonSections.length);
 
   const nextConfig = readFileSync(join(root, "next.config.ts"), "utf8");
   assert.ok(
@@ -88,7 +125,6 @@ async function main() {
     assert.ok(!FORBIDDEN.test(blob), `${guide.slug} must not contain tarot, Christian, or Christmas copy`);
     assert.ok(!blob.includes("$"), `${guide.slug} must not include $ or per-item prices`);
     assert.ok(!PRICE_MARK.test(blob), `${guide.slug} must not include a per-item price`);
-    assert.ok(!BUDGET_HEADING.test(blob), `${guide.slug} must not use an unverified budget-band heading`);
     for (const asin of REMOVED_ASINS) {
       assert.ok(!blob.includes(asin), `${guide.slug} must not mention removed ASIN ${asin}`);
     }
@@ -96,8 +132,8 @@ async function main() {
     assert.ok(links.length >= 1, `${guide.slug} must link to a picks section`);
     for (const href of links) {
       assert.ok(
-        href.startsWith("/picks#"),
-        `${guide.slug} outbound editorial links must be /picks#<section>, got ${href}`,
+        /^\/picks#(under-10|under-25|under-50|under-75|under-100|100-and-up)$/.test(href),
+        `${guide.slug} outbound editorial links must be /picks#<tier>, got ${href}`,
       );
     }
   }

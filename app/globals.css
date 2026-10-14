@@ -738,6 +738,15 @@ select {
   border: 1px solid var(--hairline);
 }
 
+.picks-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.picks-grid .card {
+  width: 100%;
+  min-width: 0;
+}
+
 .grid-tees {
   display: flex;
   flex-wrap: wrap;
