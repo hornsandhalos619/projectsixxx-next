@@ -10,7 +10,25 @@ import {
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-assert.equal(FOUNDER_CRIMSON, "#DC143C");
+assert.equal(FOUNDER_CRIMSON, "#E8203F");
+
+function srgbLinear(channel: number): number {
+  const c = channel / 255;
+  return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+}
+function contrastOnBlack(hex: string): number {
+  const value = hex.replace("#", "");
+  const r = Number.parseInt(value.slice(0, 2), 16);
+  const g = Number.parseInt(value.slice(2, 4), 16);
+  const b = Number.parseInt(value.slice(4, 6), 16);
+  const L = 0.2126 * srgbLinear(r) + 0.7152 * srgbLinear(g) + 0.0722 * srgbLinear(b);
+  return (L + 0.05) / 0.05;
+}
+assert.ok(
+  contrastOnBlack(FOUNDER_CRIMSON) >= 4.5,
+  `--founder-crimson must clear WCAG AA 4.5:1 on #000, got ${contrastOnBlack(FOUNDER_CRIMSON).toFixed(3)}:1`,
+);
+
 assert.equal(isFounderCredit("6"), true);
 assert.equal(isFounderCredit("Matthew Feldman"), true);
 assert.equal(isFounderCredit("SiXXX"), true);
@@ -40,8 +58,8 @@ assert.deepEqual(whole, [{ founder: true, value: "6" }]);
 
 const tokens = readFileSync(join(root, "app/styles/void-tokens.css"), "utf8");
 assert.ok(
-  /--founder-crimson:\s*#DC143C/.test(tokens),
-  "void tokens must define --founder-crimson as #DC143C",
+  /--founder-crimson:\s*#E8203F/.test(tokens),
+  "void tokens must define --founder-crimson as #E8203F",
 );
 
 const css = readFileSync(join(root, "app/globals.css"), "utf8");

@@ -4,10 +4,10 @@
  * Inline tokens: Matthew Feldman and Sixxx (any casing), never a bare "6"
  * (avoids Line 6, 14.6, Cipher Grid 6, etc.).
  */
-export const FOUNDER_CRIMSON = "#DC143C";
+export const FOUNDER_CRIMSON = "#E8203F";
 
-/** WCAG contrast vs pure black (#000). #B0102A is 2.95:1 and fails AA 4.5:1. */
-export const FOUNDER_CRIMSON_CONTRAST = 4.21;
+/** WCAG contrast vs pure black (#000). #E8203F is 4.71:1 (clears AA 4.5:1 at body size). */
+export const FOUNDER_CRIMSON_CONTRAST = 4.71;
 
 const WHOLE = /^(6|matthew feldman|sixxx)$/i;
 const INLINE = /\bMatthew Feldman\b|\bSixxx\b/gi;
