@@ -8,6 +8,7 @@ import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
 import { listFeaturedArtists } from "@/lib/gallery/store";
 import { listHomepageSlots } from "@/lib/homepage/store";
 import { publishedPosts } from "@/lib/journal";
+import { EmailCapture } from "@/components/EmailCapture";
 import { ShopCategoryTiles } from "@/components/ShopCategoryTiles";
 import { shopifyUrl } from "@/config/shops";
 import { listFeaturedLibrary } from "@/lib/titles/store";
@@ -313,6 +314,12 @@ export default async function HomePage() {
               Contact the house
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="email-capture-band" aria-label="Keep the night list">
+        <div className="shell">
+          <EmailCapture source="home" />
         </div>
       </section>
     </>
