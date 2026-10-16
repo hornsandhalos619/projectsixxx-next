@@ -135,13 +135,13 @@ async function main() {
   assert.equal(halloween?.heading, "Last-Minute Halloween Goth Jewelry");
   assert.equal(
     halloween?.description,
-    "Gothic chokers, vampire pendants and black onyx rings that can still arrive before Oct 31. Horns or Halos, pick fast.",
+    "Gothic chokers, signet rings and sterling chains on a shelf that ships fast. Horns or Halos, choose fast.",
   );
   assert.equal(desk?.title, "Dark Aesthetic Desk Setup Guide (2026)");
   assert.equal(desk?.heading, "Dark Aesthetic Desk Setup Guide");
   assert.equal(
     desk?.description,
-    "Build an obsidian and crimson desk: black keyboards, moon desk mats, red light bars and skull stands, plus a silver Halos variant.",
+    "Build an obsidian and crimson desk: a black desk mat, a black mechanical keyboard, a glass chess set and black candelabra flame, plus a silver and gold Halos variant.",
   );
 
   const PRICE_LOCKED_SLUGS = new Set([
