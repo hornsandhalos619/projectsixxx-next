@@ -74,6 +74,10 @@ async function main() {
   assert.ok(disclosureHtml.includes('class="ftc"'), "disclosure must use existing .ftc type");
 
   const pageSource = readFileSync(join(root, "app/picks/page.tsx"), "utf8");
+  assert.ok(
+    pageSource.includes("<h1>Horns &amp; Halos on Amazon</h1>"),
+    "/picks h1 stays Horns & Halos on Amazon",
+  );
   assert.ok(pageSource.includes("AffiliateDisclosure"), "/picks must mount the affiliate disclosure");
   assert.ok(pageSource.includes("amazonLink(p.asin)"), "/picks must build doors from amazonLink");
   assert.ok(pageSource.includes('rel="sponsored nofollow"'), "/picks outbound doors must use rel=sponsored nofollow");
@@ -208,6 +212,21 @@ async function main() {
   assert.ok(guidePage.includes("alternates"), "guide pages set a self-canonical");
   assert.ok(guidePage.includes("guideCanonicalUrl"), "guide canonicals are self URLs on /guides/[slug]");
   assert.ok(guidePage.includes("guideHeading"), "guide H1 uses heading with title fallback");
+
+  const lastGrid = pageSource.lastIndexOf("picks-grid");
+  const guidesBlock = pageSource.indexOf('aria-label="Guides"');
+  assert.ok(lastGrid !== -1 && guidesBlock !== -1, "/picks must keep picks-grid and a Guides block");
+  assert.ok(guidesBlock > lastGrid, "/picks Guides block must sit outside the affiliate card grid");
+  assert.ok(pageSource.includes('href="/guides"'), "/picks Guides block links to /guides");
+  assert.ok(
+    pageSource.includes("`/guides/${guide.slug}`"),
+    "/picks Guides block links to each published guide",
+  );
+  const cardSlice = pageSource.slice(
+    pageSource.indexOf("section.picks.map"),
+    pageSource.lastIndexOf("</article>"),
+  );
+  assert.ok(!cardSlice.includes("/guides"), "/picks Guides links must not live inside affiliate cards");
 
   console.log("amazon page + dark gift guides ok");
 }
