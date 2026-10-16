@@ -13,7 +13,7 @@ export const amazonLink = (asin: string) =>
 export type AmazonLane = "Horns" | "Halos" | "Both";
 
 export type AmazonTheme =
-  | "Altar and candlelight"
+  | "Candlelight"
   | "Silver and gold"
   | "Steel and black"
   | "Gothic library"
@@ -43,7 +43,7 @@ export const TIER_CHECKED_AT = "2026-10-16";
 export const TIER_DEFS = [
   { id: "under-10", title: "Under $10", dek: "Small doors into the house.", max: 10 },
   { id: "under-25", title: "Under $25", dek: "Everyday dark gifts.", max: 25 },
-  { id: "under-50", title: "Under $50", dek: "A fuller altar, a fuller desk.", max: 50 },
+  { id: "under-50", title: "Under $50", dek: "A fuller shelf, a fuller desk.", max: 50 },
   { id: "under-75", title: "Under $75", dek: "A chain that lasts.", max: 75 },
   { id: "under-100", title: "Under $100", dek: "The long-stay pieces.", max: 100 },
   { id: "100-and-up", title: "$100 and up", dek: "The high shelf.", max: Number.POSITIVE_INFINITY },
@@ -69,7 +69,7 @@ export const amazonPicks: AmazonPick[] = [
     asin: "B096KQMC2T",
     name: "CANDWAX black 10-inch taper candles, 4 pack",
     lane: "Horns",
-    theme: "Altar and candlelight",
+    theme: "Candlelight",
     note: "Tall, smokeless black tapers sized for a candelabra.",
     tierPrice: 9.95,
     checkedAt: TIER_CHECKED_AT,
@@ -96,7 +96,7 @@ export const amazonPicks: AmazonPick[] = [
     asin: "B08GSG8C41",
     name: "5-arm black metal candelabra",
     lane: "Horns",
-    theme: "Altar and candlelight",
+    theme: "Candlelight",
     note: "A pure black five-arm holder for taper candles.",
     tierPrice: 21.99,
     checkedAt: TIER_CHECKED_AT,
@@ -150,7 +150,7 @@ export const amazonPicks: AmazonPick[] = [
     asin: "B08HC6MKVL",
     name: "Matte black pillar candle holders, set of 3",
     lane: "Horns",
-    theme: "Altar and candlelight",
+    theme: "Candlelight",
     note: "Three heights of matte black metal for pillar candles.",
     tierPrice: 29.99,
     checkedAt: TIER_CHECKED_AT,

@@ -3,6 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { site } from "@/config/site";
 import { isValidSlug } from "@/lib/cms/slug";
+import { SHARE_IMAGE_PATH, absoluteUrl } from "@/lib/seo";
 
 export type GuideStatus = "draft" | "published";
 
@@ -41,6 +42,12 @@ export function guideJsonLd(guide: GuideMeta): GuideJsonLd[] {
       datePublished: guide.date || undefined,
       url,
       mainEntityOfPage: url,
+      image: absoluteUrl(SHARE_IMAGE_PATH),
+      author: {
+        "@type": "Organization",
+        name: site.name,
+        url: site.url,
+      },
       publisher: {
         "@type": "Organization",
         name: site.name,

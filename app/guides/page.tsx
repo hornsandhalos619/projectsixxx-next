@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { publishedGuides } from "@/lib/guides";
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Dark Gift Guides from Horns & Halos";
+const description =
+  "Hand-picked dark gift guides and gothic reading notes from Horns & Halos. Candlelight, steel, and classic doorways that lead back to the house shelf.";
 
 export const metadata: Metadata = {
-  title: "Guides",
-  description: "Dark gift guides and gothic reading notes from Horns & Halos.",
+  title,
+  description,
+  ...shareMetadata("/guides", { title, description }),
 };
 
 export default function GuidesIndexPage() {

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { journalTaxonomy, site } from "../config/site";
 import { publishedProducts, shopCategories } from "../config/affiliates";
+import { publishedGuides } from "./guides";
 import robots from "../app/robots";
 import sitemap from "../app/sitemap";
 
@@ -89,6 +90,13 @@ async function checkSitemap() {
 
   for (const url of required) {
     assert.ok(urls.includes(url), `sitemap missing ${url}`);
+  }
+
+  for (const guide of publishedGuides()) {
+    assert.ok(
+      urls.includes(`https://projectsixxx.com/guides/${guide.slug}`),
+      `sitemap missing published guide /guides/${guide.slug}`,
+    );
   }
 
   for (const category of journalTaxonomy) {

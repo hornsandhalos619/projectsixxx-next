@@ -9,6 +9,7 @@ import {
   guideJsonLd,
   publishedGuides,
 } from "@/lib/guides";
+import { shareMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -23,6 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: guide.title,
     description: guide.description,
+    ...shareMetadata(`/guides/${guide.slug}`, {
+      title: guide.title,
+      description: guide.description,
+      type: "article",
+    }),
     alternates: { canonical: guideCanonicalUrl(guide.slug) },
   };
 }

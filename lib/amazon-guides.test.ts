@@ -20,7 +20,7 @@ import { getGuide, guideCanonicalUrl, guideHeading, guideJsonLd, publishedGuides
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const REMOVED_ASINS = ["091386613X", "B0BXHHFQLL", "B0771RKRBW", "B0GXV18FQ3"] as const;
-const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas)\b/i;
+const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas|altar)\b/i;
 const AMAZON_HOST = /amazon\.com/i;
 
 async function main() {
@@ -74,6 +74,10 @@ async function main() {
   assert.ok(disclosureHtml.includes('class="ftc"'), "disclosure must use existing .ftc type");
 
   const pageSource = readFileSync(join(root, "app/picks/page.tsx"), "utf8");
+  assert.ok(
+    pageSource.includes("<h1>Horns &amp; Halos on Amazon</h1>"),
+    "/picks h1 stays Horns & Halos on Amazon",
+  );
   assert.ok(pageSource.includes("AffiliateDisclosure"), "/picks must mount the affiliate disclosure");
   assert.ok(pageSource.includes("amazonLink(p.asin)"), "/picks must build doors from amazonLink");
   assert.ok(pageSource.includes('rel="sponsored nofollow"'), "/picks outbound doors must use rel=sponsored nofollow");
@@ -92,7 +96,16 @@ async function main() {
   for (const field of userCopy) {
     assert.ok(!field.includes("$"), `picks copy must not include $: ${field}`);
     assert.ok(!PRICE_MARK.test(field), `picks copy must not include a per-item price: ${field}`);
+    assert.ok(!FORBIDDEN.test(field), `picks copy must not include banned words: ${field}`);
   }
+  assert.ok(
+    amazonPicks.some((pick) => pick.theme === "Candlelight"),
+    "candle picks must use the Candlelight theme label",
+  );
+  assert.ok(
+    !amazonPicks.some((pick) => /altar/i.test(pick.theme)),
+    "theme labels must not say Altar",
+  );
   for (const section of amazonSections) {
     assert.ok(ALLOWED_TIER_IDS.has(section.id), `unexpected tier id ${section.id}`);
     assert.ok(
@@ -208,6 +221,21 @@ async function main() {
   assert.ok(guidePage.includes("alternates"), "guide pages set a self-canonical");
   assert.ok(guidePage.includes("guideCanonicalUrl"), "guide canonicals are self URLs on /guides/[slug]");
   assert.ok(guidePage.includes("guideHeading"), "guide H1 uses heading with title fallback");
+
+  const lastGrid = pageSource.lastIndexOf("picks-grid");
+  const guidesBlock = pageSource.indexOf('aria-label="Guides"');
+  assert.ok(lastGrid !== -1 && guidesBlock !== -1, "/picks must keep picks-grid and a Guides block");
+  assert.ok(guidesBlock > lastGrid, "/picks Guides block must sit outside the affiliate card grid");
+  assert.ok(pageSource.includes('href="/guides"'), "/picks Guides block links to /guides");
+  assert.ok(
+    pageSource.includes("`/guides/${guide.slug}`"),
+    "/picks Guides block links to each published guide",
+  );
+  const cardSlice = pageSource.slice(
+    pageSource.indexOf("section.picks.map"),
+    pageSource.lastIndexOf("</article>"),
+  );
+  assert.ok(!cardSlice.includes("/guides"), "/picks Guides links must not live inside affiliate cards");
 
   console.log("amazon page + dark gift guides ok");
 }
