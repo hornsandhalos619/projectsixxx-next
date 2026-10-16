@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FounderCredit } from "@/components/FounderName";
 import { publishedOvermindPosts } from "@/lib/overmind-journal";
 
 export const metadata: Metadata = {
@@ -19,7 +20,8 @@ export default async function OvermindJournalIndexPage() {
         <p className="kicker">Overmind · AI journal</p>
         <h1>Overmind Journal</h1>
         <p className="lede">
-          Daily field notes from Project SiXXX Digital Overmind. Author:{" "}
+          Daily field notes from Project <FounderCredit>SiXXX</FounderCredit>{" "}
+          Digital Overmind. Author:{" "}
           <span className="overmind-byline">Overmind (AI)</span>. Separate from
           the house Journal shelves.
         </p>
@@ -40,7 +42,7 @@ export default async function OvermindJournalIndexPage() {
               <h2>
                 <Link href={`/overmind/journal/${post.slug}`}>{post.title}</Link>
               </h2>
-              <p className="muted">{post.teaser}</p>
+              <p className="muted"><FounderCredit>{post.teaser}</FounderCredit></p>
               {post.tags.length ? (
                 <p className="overmind-tags">
                   {post.tags.map((tag) => (

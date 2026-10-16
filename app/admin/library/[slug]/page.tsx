@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FounderCredit } from "@/components/FounderName";
 import { LibraryDeleteButton, LibraryEditor } from "@/components/LibraryEditor";
 import { canSeeLibraryAdmin } from "@/config/roles";
 import { detectLiveStore } from "@/lib/live";
@@ -31,7 +32,7 @@ export default async function AdminLibraryEditPage({
         <p className="kicker">Library console</p>
         <h1>{work.title}</h1>
         <p className="lede">
-          {work.author} · {work.year}
+          <FounderCredit>{work.author}</FounderCredit> · {work.year}
         </p>
       </header>
       <p className="muted" style={{ marginBottom: "1.25rem" }}>

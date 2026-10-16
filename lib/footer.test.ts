@@ -39,10 +39,10 @@ assert.ok(
   "footer must sit on the void ground",
 );
 assert.ok(
-  footer.includes("{site.name} · {site.mood}") &&
+  footer.includes("Project <FounderName>{site.shortName}</FounderName> · {site.mood}") &&
     footer.includes("{site.domain}") &&
     footer.includes("footer-house-host"),
-  "house brand line must keep site.name · mood, with domain in footer-house-host",
+  "house brand line must keep Project SiXXX · mood, with domain in footer-house-host",
 );
 assert.ok(
   /@media\s*\(\s*max-width:\s*480px\s*\)[\s\S]*\.footer-house-host/.test(css),

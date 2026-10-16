@@ -31,6 +31,8 @@
   --bone-mute: rgba(232, 226, 214, 0.32);
   --crimson: #C41E2A;
   --crimson-hot: #FF2A35;
+  /* Founder name/handle. #B0102A is 2.95:1 vs #000 (fails WCAG AA 4.5:1). #DC143C is 4.21:1. */
+  --founder-crimson: #DC143C;
   --ember: #6B1218;
   --ember-glow: rgba(196, 30, 42, 0.45);
   --fissure-glow: rgba(255, 42, 53, 0.35);

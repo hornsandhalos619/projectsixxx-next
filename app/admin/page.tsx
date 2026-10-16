@@ -8,6 +8,7 @@ import {
   canSeeLibraryAdmin,
   canSeeShopAdmin,
 } from "@/config/roles";
+import { FounderCredit } from "@/components/FounderName";
 import { getViewer } from "@/lib/session";
 
 export const metadata: Metadata = { title: "Admin" };
@@ -20,7 +21,12 @@ export default async function AdminHubPage() {
         <p className="kicker">Console</p>
         <h1>Admin</h1>
         <p className="lede">
-          {viewer.name && viewer.name !== viewer.email ? `${viewer.name} · ` : ""}
+          {viewer.name && viewer.name !== viewer.email ? (
+            <>
+              <FounderCredit>{viewer.name}</FounderCredit>
+              {" · "}
+            </>
+          ) : null}
           {viewer.email} · {viewer.role}
         </p>
       </header>

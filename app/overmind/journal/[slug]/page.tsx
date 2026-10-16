@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { FounderCredit } from "@/components/FounderName";
+import { mdxComponents } from "@/components/mdx";
 import {
   allOvermindPosts,
   getOvermindPost,
@@ -42,7 +44,7 @@ export default async function OvermindPostPage({ params }: Props) {
           {post.date}
         </p>
         <h1>{post.title}</h1>
-        <p className="lede">{post.teaser}</p>
+        <p className="lede"><FounderCredit>{post.teaser}</FounderCredit></p>
         <p className="muted">
           <span className="overmind-byline">Overmind (AI)</span>
           {post.tags.length ? ` · ${post.tags.join(" · ")}` : null}
@@ -50,7 +52,7 @@ export default async function OvermindPostPage({ params }: Props) {
       </header>
 
       <div className="mdx overmind-mdx">
-        <MDXRemote source={post.content} />
+        <MDXRemote source={post.content} components={mdxComponents} />
       </div>
 
       <nav className="cta-row overmind-pager" aria-label="Adjacent posts">

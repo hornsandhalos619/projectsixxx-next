@@ -1059,6 +1059,66 @@ select {
   }
 }
 
+/* Founder name / handle — house crimson + one shine pass every ~7s. */
+.founder-name {
+  display: inline;
+  font: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--founder-crimson);
+  background-image: linear-gradient(
+    90deg,
+    var(--founder-crimson) 0%,
+    var(--founder-crimson) 42%,
+    color-mix(in srgb, #ffffff 30%, var(--founder-crimson)) 50%,
+    var(--founder-crimson) 58%,
+    var(--founder-crimson) 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: founder-shine 7s ease-in-out infinite;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .founder-name {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes founder-shine {
+  0%,
+  78.57% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .founder-name {
+    animation: none;
+    color: var(--founder-crimson);
+    -webkit-text-fill-color: var(--founder-crimson);
+    background-image: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .founder-name {
+    animation: none;
+    background-image: none;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}
+
 .store-links {
   display: grid;
   gap: 0.5rem;

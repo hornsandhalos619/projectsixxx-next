@@ -1,3 +1,4 @@
+import React from "react";
 import {
   manifestoAxiom,
   manifestoParagraphs,
@@ -5,6 +6,7 @@ import {
   manifestoTitle,
   manifestoWelcome,
 } from "@/config/manifesto";
+import { wrapFounderNames } from "@/components/FounderName";
 
 function renderMarks(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -33,7 +35,7 @@ export function Manifesto() {
             if (paragraph === manifestoSignoff) {
               return (
                 <p className="manifesto-sign" key={paragraph}>
-                  {paragraph}
+                  {wrapFounderNames(paragraph)}
                 </p>
               );
             }

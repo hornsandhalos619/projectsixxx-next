@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AMAZON_ASSOCIATE_LINE } from "@/components/AffiliateDisclosure";
+import { FounderName } from "@/components/FounderName";
 import { site } from "@/config/site";
 
 export function Footer() {
@@ -27,7 +28,7 @@ export function Footer() {
         </p>
         <div className="footer-credits">
           <small>
-            {site.name} · {site.mood}
+            Project <FounderName>{site.shortName}</FounderName> · {site.mood}
             <span className="footer-house-host"> · {site.domain}</span>
           </small>
           <p className="footer-copyright">

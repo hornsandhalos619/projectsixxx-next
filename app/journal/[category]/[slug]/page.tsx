@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { FounderCredit } from "@/components/FounderName";
+import { mdxComponents } from "@/components/mdx";
 import { getPost, isJournalCategory, publishedPosts } from "@/lib/journal";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
@@ -37,11 +39,11 @@ export default async function PostPage({ params }: Props) {
         <h1>{post.title}</h1>
         <p className="lede">{post.dek}</p>
         <p className="muted">
-          {post.author} · {post.date}
+          <FounderCredit>{post.author}</FounderCredit> · {post.date}
         </p>
       </header>
       <div className="mdx">
-        <MDXRemote source={post.content} />
+        <MDXRemote source={post.content} components={mdxComponents} />
       </div>
       <div className="cta-row">
         <Link className="btn btn-house" href="/journal/fine-art">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FounderCredit } from "@/components/FounderName";
 import { allLibraryWorks } from "@/lib/library";
 import { getLibraryTitle } from "@/lib/titles/store";
 
@@ -31,7 +32,7 @@ export default async function LibraryWorkPage({ params }: Props) {
         <h1>{work.title}</h1>
         <p className="lede">{work.dek}</p>
         <p className="muted">
-          {work.author} · {work.year} · {work.format}
+          <FounderCredit>{work.author}</FounderCredit> · {work.year} · {work.format}
         </p>
       </header>
       <div className="prose">
