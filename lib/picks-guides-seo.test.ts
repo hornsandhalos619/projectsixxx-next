@@ -101,11 +101,14 @@ for (const guide of publishedGuides()) {
 
 const CONTRAST = /,\s*not\s/i;
 const PRICE_MARK = /\$\s*\d|\d+\s*(?:dollars?|usd|bucks)\b/i;
-const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas)\b/i;
+const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas|altar)\b/i;
 
 const picksTitle = "Dark Aesthetic Gift Picks by Budget | Project SiXXX";
+const picksDesc =
+  "Hand-picked Horns & Halos finds on Amazon, grouped by budget tier. Candlelight, silver and gold, steel, books, chess and the desk.";
 assert.ok(picksPage.includes(`absolute: title`), "/picks title must be absolute so the brand is not doubled");
 assert.ok(picksPage.includes(`"${picksTitle}"`), "/picks metadata title must match the screened copy");
+assert.ok(picksPage.includes(`"${picksDesc}"`), "/picks metadata description must match the screened copy");
 assert.ok(picksPage.includes("<h1>Horns &amp; Halos on Amazon</h1>"), "/picks h1 stays unchanged");
 
 const guidesTitle = "Dark Gift Guides from Horns & Halos";
@@ -114,8 +117,23 @@ assert.ok(guidesPage.includes(`"${guidesTitle}"`), "/guides metadata title must 
 const guidesDescMatch = guidesPage.match(/const description =\s*"([^"]+)"/);
 assert.ok(guidesDescMatch, "/guides must keep a metadata description");
 const guidesDesc = guidesDescMatch[1];
+assert.equal(
+  guidesDesc,
+  "Hand-picked dark gift guides and gothic reading notes from Horns & Halos. Candlelight, steel, and classic doorways that lead back to the house shelf.",
+);
 assert.ok(guidesDesc.length >= 120 && guidesDesc.length <= 155, `/guides description length ${guidesDesc.length}`);
 assert.ok(!CONTRAST.test(guidesDesc) && !PRICE_MARK.test(guidesDesc) && !FORBIDDEN.test(guidesDesc));
+
+const amazonPage = read("config/amazon-page.ts");
+for (const source of [
+  picksPage,
+  guidesPage,
+  amazonPage,
+  read("content/guides/halloween-samhain-guide.mdx"),
+  read("content/overmind/journal/sunday-the-patrons-gather.mdx"),
+]) {
+  assert.ok(!/\baltar\b/i.test(source), "rendered copy must not say altar");
+}
 
 const gothic = publishedGuides().find((guide) => guide.slug === "gothic-reading-comparison");
 assert.ok(gothic, "gothic-reading guide must publish");
@@ -124,7 +142,7 @@ assert.ok(
   gothic.description.length >= 120 && gothic.description.length <= 155,
   `gothic-reading description length ${gothic.description.length}`,
 );
-for (const field of [gothic.title, gothic.description, guidesTitle, guidesDesc, picksTitle]) {
+for (const field of [gothic.title, gothic.description, guidesTitle, guidesDesc, picksTitle, picksDesc]) {
   assert.ok(!CONTRAST.test(field), `copy must stay affirmative: ${field}`);
   assert.ok(!PRICE_MARK.test(field), `copy must omit prices: ${field}`);
   assert.ok(!FORBIDDEN.test(field), `copy must omit forbidden season/faith words: ${field}`);

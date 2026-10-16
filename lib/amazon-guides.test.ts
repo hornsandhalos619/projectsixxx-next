@@ -20,7 +20,7 @@ import { getGuide, guideCanonicalUrl, guideHeading, guideJsonLd, publishedGuides
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const REMOVED_ASINS = ["091386613X", "B0BXHHFQLL", "B0771RKRBW", "B0GXV18FQ3"] as const;
-const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas)\b/i;
+const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas|altar)\b/i;
 const AMAZON_HOST = /amazon\.com/i;
 
 async function main() {
@@ -96,7 +96,16 @@ async function main() {
   for (const field of userCopy) {
     assert.ok(!field.includes("$"), `picks copy must not include $: ${field}`);
     assert.ok(!PRICE_MARK.test(field), `picks copy must not include a per-item price: ${field}`);
+    assert.ok(!FORBIDDEN.test(field), `picks copy must not include banned words: ${field}`);
   }
+  assert.ok(
+    amazonPicks.some((pick) => pick.theme === "Candlelight"),
+    "candle picks must use the Candlelight theme label",
+  );
+  assert.ok(
+    !amazonPicks.some((pick) => /altar/i.test(pick.theme)),
+    "theme labels must not say Altar",
+  );
   for (const section of amazonSections) {
     assert.ok(ALLOWED_TIER_IDS.has(section.id), `unexpected tier id ${section.id}`);
     assert.ok(

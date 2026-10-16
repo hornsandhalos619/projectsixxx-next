@@ -8,7 +8,7 @@ import { picksItemListJsonLd, shareMetadata } from "@/lib/seo";
 
 const title = "Dark Aesthetic Gift Picks by Budget | Project SiXXX";
 const description =
-  "Hand-picked Horns & Halos finds on Amazon, grouped by budget tier. Altar and candlelight, silver and gold, steel, books, chess and the desk.";
+  "Hand-picked Horns & Halos finds on Amazon, grouped by budget tier. Candlelight, silver and gold, steel, books, chess and the desk.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
