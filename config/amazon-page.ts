@@ -88,7 +88,7 @@ export const amazonPicks: AmazonPick[] = [
     name: "Stainless steel square signet ring",
     lane: "Both",
     theme: "Steel and black",
-    note: "Comes in black, silver or gold. Pick your side.",
+    note: "Comes in black, silver or gold. Choose wisely.",
     tierPrice: 9.98,
     checkedAt: TIER_CHECKED_AT,
   },
