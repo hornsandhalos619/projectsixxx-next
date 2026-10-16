@@ -38,7 +38,7 @@ export type AmazonSection = {
   picks: AmazonPick[];
 };
 
-export const TIER_CHECKED_AT = "2026-10-14";
+export const TIER_CHECKED_AT = "2026-10-16";
 
 export const TIER_DEFS = [
   { id: "under-10", title: "Under $10", dek: "Small doors into the house.", max: 10 },
@@ -61,7 +61,7 @@ export function tierIdForPrice(price: number): AmazonTierId {
 }
 
 /**
- * Live picks with a checked price from picks.md (2026-10-14 PT).
+ * Live picks with a checked price (rechecked 2026-10-16 PT, one dp page at a time).
  * Held off the page until a price lands: B074274RH9, B0105VZ4GI, 0345337662.
  */
 export const amazonPicks: AmazonPick[] = [
@@ -125,7 +125,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Halos",
     theme: "Silver and gold",
     note: "Fine gold over sterling, in lengths from 14 to 26 inches.",
-    tierPrice: 18.99,
+    tierPrice: 15.19,
     checkedAt: TIER_CHECKED_AT,
   },
   {
@@ -134,7 +134,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Horns",
     theme: "Steel and black",
     note: "A sturdy black workwear hoodie.",
-    tierPrice: 19.44,
+    tierPrice: 23.5,
     checkedAt: TIER_CHECKED_AT,
   },
   {
@@ -143,7 +143,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Horns",
     theme: "Gothic library",
     note: "The creation story of the dark, wise and humane.",
-    tierPrice: 10,
+    tierPrice: 6.49,
     checkedAt: TIER_CHECKED_AT,
   },
   {
@@ -179,7 +179,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Halos",
     theme: "Silver and gold",
     note: "Italian sterling rope in 2mm or 3mm.",
-    tierPrice: 54.9,
+    tierPrice: 74.9,
     checkedAt: TIER_CHECKED_AT,
   },
   {
