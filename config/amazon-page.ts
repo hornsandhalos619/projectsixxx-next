@@ -93,15 +93,6 @@ export const amazonPicks: AmazonPick[] = [
     checkedAt: TIER_CHECKED_AT,
   },
   {
-    asin: "B08RC8V9QN",
-    name: "CANDWAX 3x3 black pillar candles, set of 3",
-    lane: "Horns",
-    theme: "Altar and candlelight",
-    note: "Unscented, no-drip black pillars for an altar or a table.",
-    tierPrice: 22.95,
-    checkedAt: TIER_CHECKED_AT,
-  },
-  {
     asin: "B08GSG8C41",
     name: "5-arm black metal candelabra",
     lane: "Horns",
