@@ -37,7 +37,7 @@ async function main() {
     assert.ok(section.picks.length >= 1, `${section.id} must keep remaining picks`);
   }
   assert.ok(!amazonSections.some((section) => section.id === "100-and-up"), "empty $100 and up tier must be omitted");
-  assert.equal(TIER_CHECKED_AT, "2026-10-14");
+  assert.equal(TIER_CHECKED_AT, "2026-10-16");
   for (const pick of amazonPicks) {
     assert.equal(pick.checkedAt, TIER_CHECKED_AT, `${pick.asin} needs a checkedAt date`);
     assert.equal(typeof pick.tierPrice, "number");
@@ -74,6 +74,9 @@ async function main() {
   assert.ok(disclosureHtml.includes('class="ftc"'), "disclosure must use existing .ftc type");
 
   const pageSource = readFileSync(join(root, "app/picks/page.tsx"), "utf8");
+  assert.ok(pageSource.includes("<h1>Six Picks</h1>"), "/picks headline must be Six Picks");
+  assert.ok(pageSource.includes('title: "Six Picks"'), "/picks metadata title must be Six Picks");
+  assert.ok(!pageSource.includes("Horns &amp; Halos on Amazon"), "old /picks headline must be gone");
   assert.ok(pageSource.includes("AffiliateDisclosure"), "/picks must mount the affiliate disclosure");
   assert.ok(pageSource.includes("amazonLink(p.asin)"), "/picks must build doors from amazonLink");
   assert.ok(pageSource.includes('rel="sponsored nofollow"'), "/picks outbound doors must use rel=sponsored nofollow");

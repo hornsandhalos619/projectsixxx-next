@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FounderCredit } from "@/components/FounderName";
 import { listLibraryTitles } from "@/lib/titles/store";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default async function LibraryIndexPage() {
             </h2>
             <p className="muted">{work.blurb}</p>
             <p className="muted">
-              {work.author} · {work.year}
+              <FounderCredit>{work.author}</FounderCredit> · {work.year}
             </p>
           </article>
         ))}

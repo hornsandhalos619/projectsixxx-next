@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { mdxComponents } from "@/components/mdx";
 import { getGuide, publishedGuides } from "@/lib/guides";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -33,7 +34,7 @@ export default async function GuidePage({ params }: Props) {
         <p className="lede">{guide.description}</p>
       </header>
       <div className="mdx">
-        <MDXRemote source={guide.content} />
+        <MDXRemote source={guide.content} components={mdxComponents} />
       </div>
       <div className="cta-row">
         <Link className="btn btn-house" href="/picks">

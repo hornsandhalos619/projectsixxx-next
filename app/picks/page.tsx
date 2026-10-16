@@ -3,7 +3,7 @@ import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { amazonLink, amazonSections } from "@/config/amazon-page";
 
 export const metadata: Metadata = {
-  title: "Amazon picks",
+  title: "Six Picks",
   description: "Hand-picked Horns & Halos finds on Amazon, grouped by budget tier. Altar and candlelight, silver and gold, steel, books, chess and the desk.",
 };
 
@@ -12,7 +12,7 @@ export default function AmazonPage() {
     <div className="shell">
       <header className="page-head">
         <p className="kicker">Amazon</p>
-        <h1>Horns &amp; Halos on Amazon</h1>
+        <h1>Six Picks</h1>
         <p className="lede">Picked by hand for the house. Choose your side.</p>
         <AffiliateDisclosure />
         <nav aria-label="Sections" className="cta-row" style={{ marginTop: "1rem" }}>
