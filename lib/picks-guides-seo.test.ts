@@ -99,4 +99,35 @@ for (const guide of publishedGuides()) {
   );
 }
 
+const CONTRAST = /,\s*not\s/i;
+const PRICE_MARK = /\$\s*\d|\d+\s*(?:dollars?|usd|bucks)\b/i;
+const FORBIDDEN = /\b(tarot|christmas|christian|nativity|advent|xmas)\b/i;
+
+const picksTitle = "Dark Aesthetic Gift Picks by Budget | Project SiXXX";
+assert.ok(picksPage.includes(`absolute: title`), "/picks title must be absolute so the brand is not doubled");
+assert.ok(picksPage.includes(`"${picksTitle}"`), "/picks metadata title must match the screened copy");
+assert.ok(picksPage.includes("<h1>Horns &amp; Halos on Amazon</h1>"), "/picks h1 stays unchanged");
+
+const guidesTitle = "Dark Gift Guides from Horns & Halos";
+assert.ok(guidesTitle.length > "Guides".length, "/guides title must be lengthened");
+assert.ok(guidesPage.includes(`"${guidesTitle}"`), "/guides metadata title must match the screened copy");
+const guidesDescMatch = guidesPage.match(/const description =\s*"([^"]+)"/);
+assert.ok(guidesDescMatch, "/guides must keep a metadata description");
+const guidesDesc = guidesDescMatch[1];
+assert.ok(guidesDesc.length >= 120 && guidesDesc.length <= 155, `/guides description length ${guidesDesc.length}`);
+assert.ok(!CONTRAST.test(guidesDesc) && !PRICE_MARK.test(guidesDesc) && !FORBIDDEN.test(guidesDesc));
+
+const gothic = publishedGuides().find((guide) => guide.slug === "gothic-reading-comparison");
+assert.ok(gothic, "gothic-reading guide must publish");
+assert.ok(gothic.title.length <= 60, `gothic-reading title is ${gothic.title.length} chars`);
+assert.ok(
+  gothic.description.length >= 120 && gothic.description.length <= 155,
+  `gothic-reading description length ${gothic.description.length}`,
+);
+for (const field of [gothic.title, gothic.description, guidesTitle, guidesDesc, picksTitle]) {
+  assert.ok(!CONTRAST.test(field), `copy must stay affirmative: ${field}`);
+  assert.ok(!PRICE_MARK.test(field), `copy must omit prices: ${field}`);
+  assert.ok(!FORBIDDEN.test(field), `copy must omit forbidden season/faith words: ${field}`);
+}
+
 console.log("picks + guides technical SEO ok");

@@ -3,8 +3,9 @@ import Link from "next/link";
 import { publishedGuides } from "@/lib/guides";
 import { shareMetadata } from "@/lib/seo";
 
-const title = "Guides";
-const description = "Dark gift guides and gothic reading notes from Horns & Halos.";
+const title = "Dark Gift Guides from Horns & Halos";
+const description =
+  "Hand-picked dark gift guides and gothic reading notes from Horns & Halos. Altar light, steel, and classic doorways that lead back to the house shelf.";
 
 export const metadata: Metadata = {
   title,
