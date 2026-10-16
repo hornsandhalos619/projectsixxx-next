@@ -15,7 +15,7 @@ import {
   tierIdForPrice,
 } from "../config/amazon-page";
 import { primaryNav } from "../config/site";
-import { publishedGuides } from "./guides";
+import { getGuide, guideCanonicalUrl, guideHeading, guideJsonLd, publishedGuides } from "./guides";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -37,7 +37,7 @@ async function main() {
     assert.ok(section.picks.length >= 1, `${section.id} must keep remaining picks`);
   }
   assert.ok(!amazonSections.some((section) => section.id === "100-and-up"), "empty $100 and up tier must be omitted");
-  assert.equal(TIER_CHECKED_AT, "2026-10-14");
+  assert.equal(TIER_CHECKED_AT, "2026-10-16");
   for (const pick of amazonPicks) {
     assert.equal(pick.checkedAt, TIER_CHECKED_AT, `${pick.asin} needs a checkedAt date`);
     assert.equal(typeof pick.tierPrice, "number");
@@ -113,18 +113,55 @@ async function main() {
   );
 
   const guides = publishedGuides();
-  assert.equal(guides.length, 3, "three editorial guides must publish");
+  assert.equal(guides.length, 6, "six editorial guides must publish");
   const slugs = new Set(guides.map((guide) => guide.slug));
   assert.ok(slugs.has("halloween-samhain-guide"));
   assert.ok(slugs.has("choose-your-side-holiday-guide"));
   assert.ok(slugs.has("gothic-reading-comparison"));
+  assert.ok(slugs.has("gothic-jewelry-gifts-under-50"));
+  assert.ok(slugs.has("last-minute-halloween-goth-jewelry"));
+  assert.ok(slugs.has("dark-aesthetic-desk-setup"));
+
+  const jewelry = getGuide("gothic-jewelry-gifts-under-50");
+  const halloween = getGuide("last-minute-halloween-goth-jewelry");
+  const desk = getGuide("dark-aesthetic-desk-setup");
+  assert.equal(jewelry?.title, "Best Gothic Jewelry Gifts Under $50 (2026)");
+  assert.equal(jewelry?.heading, "Best Gothic Jewelry Gifts Under $50 (2026)");
+  assert.equal(
+    jewelry?.description,
+    "Obsidian, crimson, silver and gold gothic jewelry gifts under $50. Choose your side: Horns or Halos. Check today's price on each pick.",
+  );
+  assert.equal(halloween?.title, "Last-Minute Halloween Goth Jewelry (Fast Shipping)");
+  assert.equal(halloween?.heading, "Last-Minute Halloween Goth Jewelry");
+  assert.equal(
+    halloween?.description,
+    "Gothic chokers, signet rings and sterling chains on a shelf that ships fast. Horns or Halos, choose fast.",
+  );
+  assert.equal(desk?.title, "Dark Aesthetic Desk Setup Guide (2026)");
+  assert.equal(desk?.heading, "Dark Aesthetic Desk Setup Guide");
+  assert.equal(
+    desk?.description,
+    "Build an obsidian and crimson desk: a black desk mat, a black mechanical keyboard, a glass chess set and black candelabra flame, plus a silver and gold Halos variant.",
+  );
+
+  const PRICE_LOCKED_SLUGS = new Set([
+    "gothic-jewelry-gifts-under-50",
+    "last-minute-halloween-goth-jewelry",
+    "dark-aesthetic-desk-setup",
+  ]);
 
   for (const guide of guides) {
     const blob = `${guide.title}\n${guide.description}\n${guide.content}`;
     assert.ok(!AMAZON_HOST.test(blob), `${guide.slug} must not contain amazon.com links`);
     assert.ok(!FORBIDDEN.test(blob), `${guide.slug} must not contain tarot, Christian, or Christmas copy`);
-    assert.ok(!blob.includes("$"), `${guide.slug} must not include $ or per-item prices`);
-    assert.ok(!PRICE_MARK.test(blob), `${guide.slug} must not include a per-item price`);
+    assert.ok(!guide.content.includes("$"), `${guide.slug} body must not include $ or per-item prices`);
+    assert.ok(!PRICE_MARK.test(guide.content), `${guide.slug} body must not include a per-item price`);
+    if (guide.slug !== "gothic-jewelry-gifts-under-50") {
+      assert.ok(!guide.title.includes("$"), `${guide.slug} title must not include $`);
+      assert.ok(!PRICE_MARK.test(guide.title), `${guide.slug} title must not include a per-item price`);
+      assert.ok(!guide.description.includes("$"), `${guide.slug} meta must not include $`);
+      assert.ok(!PRICE_MARK.test(guide.description), `${guide.slug} meta must not include a per-item price`);
+    }
     for (const asin of REMOVED_ASINS) {
       assert.ok(!blob.includes(asin), `${guide.slug} must not mention removed ASIN ${asin}`);
     }
@@ -136,6 +173,24 @@ async function main() {
         `${guide.slug} outbound editorial links must be /picks#<tier>, got ${href}`,
       );
     }
+    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(guide.date), `${guide.slug} date must be YYYY-MM-DD`);
+    if (PRICE_LOCKED_SLUGS.has(guide.slug)) {
+      assert.ok(
+        guide.content.includes("Check today's price"),
+        `${guide.slug} must say Check today's price where products are mentioned`,
+      );
+    }
+
+    const jsonLd = guideJsonLd(guide);
+    const types = jsonLd.map((block) => block["@type"]);
+    assert.ok(types.includes("Article"), `${guide.slug} JSON-LD must include Article`);
+    assert.ok(types.includes("BreadcrumbList"), `${guide.slug} JSON-LD must include BreadcrumbList`);
+    const article = jsonLd.find((block) => block["@type"] === "Article");
+    assert.equal(article?.headline, guideHeading(guide));
+    assert.equal(article?.url, guideCanonicalUrl(guide.slug));
+    const crumbs = jsonLd.find((block) => block["@type"] === "BreadcrumbList");
+    const items = crumbs?.itemListElement as Array<{ item: string }>;
+    assert.equal(items[items.length - 1]?.item, guideCanonicalUrl(guide.slug));
   }
 
   const nav = readFileSync(join(root, "config/site.ts"), "utf8");
@@ -148,6 +203,11 @@ async function main() {
 
   const guidePage = readFileSync(join(root, "app/guides/[slug]/page.tsx"), "utf8");
   assert.ok(guidePage.includes('href="/picks"'), "guide pages keep the /guides/[slug] route and point at /picks");
+  assert.ok(guidePage.includes("application/ld+json"), "guide pages emit JSON-LD");
+  assert.ok(guidePage.includes("guideJsonLd"), "guide pages use shared Article + BreadcrumbList JSON-LD");
+  assert.ok(guidePage.includes("alternates"), "guide pages set a self-canonical");
+  assert.ok(guidePage.includes("guideCanonicalUrl"), "guide canonicals are self URLs on /guides/[slug]");
+  assert.ok(guidePage.includes("guideHeading"), "guide H1 uses heading with title fallback");
 
   console.log("amazon page + dark gift guides ok");
 }
