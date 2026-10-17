@@ -6,7 +6,7 @@ export function EmailCapture({
   source,
   label = "Keep the night list",
   buttonLabel = "Join",
-  success = "Received. If the list is empty, we still heard you.",
+  success = "You're in. Watch your inbox.",
   successCta = "Open the shop",
   tag,
   nextHref,
@@ -21,19 +21,23 @@ export function EmailCapture({
   /** After capture, offer this shop URL (public). */
   nextHref?: string;
 }) {
-  const [status, setStatus] = useState<"idle" | "ok" | "err">("idle");
+  const [status, setStatus] = useState<"idle" | "saving" | "ok" | "err" | "invalid">("idle");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = String(data.get("email") ?? "");
     try {
+      setStatus("saving");
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email, source, tag }),
       });
-      setStatus(res.ok ? "ok" : "err");
+      const body = await res.json().catch(() => null);
+      if (res.ok && body?.persisted === true) setStatus("ok");
+      else if (res.status === 400) setStatus("invalid");
+      else setStatus("err");
     } catch {
       setStatus("err");
     }
@@ -71,10 +75,11 @@ export function EmailCapture({
           autoComplete="email"
         />
       </label>
-      <button className="btn btn-house" type="submit">
+      <button className="btn btn-house" type="submit" disabled={status === "saving"}>
         {buttonLabel}
       </button>
-      {status === "err" ? <p className="muted">Need a real email.</p> : null}
+      {status === "err" ? <p className="muted">Your seat is saving, try once more in a moment.</p> : null}
+      {status === "invalid" ? <p className="muted">Enter an email like you@example.com.</p> : null}
     </form>
   );
 }
