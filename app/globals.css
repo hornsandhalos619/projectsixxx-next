@@ -2254,3 +2254,20 @@ a.card:focus-visible,
   letter-spacing: 0.04em;
   color: var(--ash);
 }
+
+/* === Homepage edits 2026-10-21: Duality crown + tools row === */
+.duality-crown {
+  text-align: center;
+  margin: 0 auto 1.25rem;
+  max-width: 44rem;
+}
+.duality-crown-line {
+  color: var(--bone);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0.5rem auto 0;
+}
+.duality-crown .portal-second {
+  color: var(--bone-dim);
+  margin-top: 0.75rem;
+}

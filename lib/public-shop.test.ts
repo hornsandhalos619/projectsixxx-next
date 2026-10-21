@@ -71,7 +71,7 @@ async function main() {
   assert.equal(stadiumXl.body, STADIUM_XL_FOUNDER_COPY);
 
   const guitarShelf = shopCategories.find((category) => category.slug === "guitars");
-  assert.equal(guitarShelf?.dek, "Instruments that earn the night.");
+  assert.equal(guitarShelf?.dek, "A demanding instrument for the dedicated audiophile.");
 
   const contrast = /\bnot\b|\bNo [A-Z]/;
   const helixSlugs = new Set(["line-6-helix-lt", "line-6-stadium-xl"]);
