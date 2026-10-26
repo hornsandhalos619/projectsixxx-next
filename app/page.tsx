@@ -51,51 +51,30 @@ export default async function HomePage() {
           <h1 className="display visually-hidden">Project SiXXX</h1>
           <p className="mood house">{site.mood}</p>
           <p className="lede">
-            A house for the darkness that shines in the light. Art, music, film,
-            literature, fashion, technology, and frontier AI — under one night.
-            Horns & Halos is the portal, not a merch rack.
+            A house within darkness that gleams in the light.
+            <br />
+            Horns & Halos are the tool and portal to this house.
           </p>
         </div>
       </section>
 
-      <section className="section section--centered obsidian-hero" aria-label="Obsidian glass">
+      <section className="section section--centered obsidian-hero" aria-label="Horns & Halos">
         <div className="shell">
-          <p className="kicker">Obsidian glass</p>
-          <h2 className="display">Horns material</h2>
-          <p className="lede" style={{ marginInline: "auto" }}>
-            Polished obsidian glass. Crimson fissure base. Void field — sculpture, not a CSS blob.
-          </p>
+          {/* Duality crowns the stone + horns plate (Founder 2026-10-21). No red frame. */}
+          <div className="duality-crown">
+            <p className="kicker">{duality.title}</p>
+            <p className="duality-crown-line">{duality.first}</p>
+            <p className="portal-second">{duality.second}</p>
+          </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className="obsidian-hero-plate void-fissure"
+            className="obsidian-hero-plate"
             src={portalArt.hornsObsidianGlass}
-            alt="Obsidian glass horns with crimson fissure base"
+            alt="Obsidian horns rising from a stone base"
             width={1200}
             height={1200}
           />
         </div>
-      </section>
-
-      <section className="twin" aria-label="Horns and Halos">
-        <div className="shell twin-head" style={{ marginBottom: "1.5rem" }}>
-          <p className="kicker">{duality.title}</p>
-          <p className="lede">{duality.first}</p>
-          <p className="portal-second">{duality.second}</p>
-        </div>
-        <PortalCta className="gate gate--horns">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="gate-art" src={portalArt.hornsBg} alt="" />
-          <div className="gate-veil" aria-hidden />
-          <span className="label">Horns</span>
-          <p className="hint">{duality.hornsStandalone}</p>
-        </PortalCta>
-        <PortalCta className="gate gate--halos">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="gate-art" src={portalArt.halosBg} alt="" />
-          <div className="gate-veil" aria-hidden />
-          <span className="label">Halos</span>
-          <p className="hint">{duality.halosStandalone}</p>
-        </PortalCta>
       </section>
 
       <Manifesto />
@@ -125,7 +104,7 @@ export default async function HomePage() {
           <Link className="strip" href="/services">
             <span className="name">Services</span>
             <h2>Tech in the dark</h2>
-            <p>Web, agents, B2B — sterile bones.</p>
+            <p>Web design and agentic bots.</p>
           </Link>
         </div>
       </section>
@@ -236,25 +215,6 @@ export default async function HomePage() {
             </a>
             <Link className="btn btn-house" href="/shop">
               House shop hub
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <p className="kicker">Services</p>
-          <h2>Tech that can sit next to the art</h2>
-          <p className="muted">
-            Web design, agentic bots, B2B — and the seven pillars that keep music,
-            film, and literature visible beside technology.
-          </p>
-          <div className="cta-row">
-            <Link className="btn btn-house" href="/services">
-              Services
-            </Link>
-            <Link className="btn" href="/schedule">
-              Schedule
             </Link>
           </div>
         </div>

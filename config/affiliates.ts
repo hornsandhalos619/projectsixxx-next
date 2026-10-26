@@ -75,44 +75,44 @@ export const shopCategories: {
   seoDescription: string;
 }[] = [
   {
-    slug: "guitars",
-    title: "Guitars",
-    dek: "Instruments that earn the night.",
-    seoTitle: "Guitars — Project SiXXX Shop",
+    slug: "computer-gear",
+    title: "Computer Gear",
+    dek: "Equipment for the digital realm.",
+    seoTitle: "Computer Gear — Project SiXXX Shop",
     seoDescription:
-      "Affiliate guitar shelf. Live Line 6 Helix LT, Helix Stadium XL, HX Stomp, Quad Cortex, Katana-50 Gen 3, and ESP LTD EC-1000. Est. in Darkness.",
-  },
-  {
-    slug: "synths",
-    title: "Synths",
-    dek: "Voltage, breath, and the machines that refuse to be polite.",
-    seoTitle: "Synths — Project SiXXX Shop",
-    seoDescription:
-      "Affiliate synth shelf. Live MicroFreak, MiniFreak, Minilogue XD, Grandmother, and Digitone II. Est. in Darkness.",
-  },
-  {
-    slug: "tablets",
-    title: "Tablets",
-    dek: "A drawing surface that can take a beating and still listen.",
-    seoTitle: "Tablets — Project SiXXX Shop",
-    seoDescription:
-      "Affiliate tablet shelf. Live iPad Pro, Cintiq 16, Galaxy Tab S10 Ultra, Surface Pro, Kamvas 13, Intuos Pro, and Artist Pro 16. Est. in Darkness.",
+      "Affiliate computer-gear shelf. Founder Legion 5i first, then studio headphones, Scarlett 2i2, and T7 Shield. Est. in Darkness.",
   },
   {
     slug: "art-supplies",
     title: "Art Supplies",
-    dek: "Pigment, paper, steel — the unglamorous tools that actually mark.",
+    dek: "Pigment, paper, pencil, pen. The tools of the craft.",
     seoTitle: "Art Supplies — Project SiXXX Shop",
     seoDescription:
       "Affiliate art-supply shelf. Live Molotow, POSCA, Sharpie, Zebra Sarasa, Prismacolor Premier, and Apple Pencil Pro. Est. in Darkness.",
   },
   {
-    slug: "computer-gear",
-    title: "Computer Gear",
-    dek: "The box you sit in front of when the house is closed.",
-    seoTitle: "Computer Gear — Project SiXXX Shop",
+    slug: "tablets",
+    title: "Tablets",
+    dek: "Where paper and pen meet high resolution and tools.",
+    seoTitle: "Tablets — Project SiXXX Shop",
     seoDescription:
-      "Affiliate computer-gear shelf. Founder Legion 5i first, then studio headphones, Scarlett 2i2, and T7 Shield. Est. in Darkness.",
+      "Affiliate tablet shelf. Live iPad Pro, Cintiq 16, Galaxy Tab S10 Ultra, Surface Pro, Kamvas 13, Intuos Pro, and Artist Pro 16. Est. in Darkness.",
+  },
+  {
+    slug: "synths",
+    title: "Synths",
+    dek: "Voltage made musical.",
+    seoTitle: "Synths — Project SiXXX Shop",
+    seoDescription:
+      "Affiliate synth shelf. Live MicroFreak, MiniFreak, Minilogue XD, Grandmother, and Digitone II. Est. in Darkness.",
+  },
+  {
+    slug: "guitars",
+    title: "Guitars",
+    dek: "A demanding instrument for the dedicated audiophile.",
+    seoTitle: "Guitars — Project SiXXX Shop",
+    seoDescription:
+      "Affiliate guitar shelf. Live Line 6 Helix LT, Helix Stadium XL, HX Stomp, Quad Cortex, Katana-50 Gen 3, and ESP LTD EC-1000. Est. in Darkness.",
   },
 ];
 
