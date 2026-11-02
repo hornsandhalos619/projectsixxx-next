@@ -29,7 +29,9 @@ assert.equal(picksShare.openGraph?.url, "https://projectsixxx.com/picks");
 const ogImages = picksShare.openGraph?.images;
 assert.ok(Array.isArray(ogImages) && ogImages.length >= 1);
 const ogImage = ogImages[0];
-const ogUrl = typeof ogImage === "string" ? ogImage : ogImage.url;
+assert.ok(ogImage);
+const ogUrl =
+  typeof ogImage === "string" ? ogImage : ogImage instanceof URL ? ogImage.href : ogImage.url;
 assert.equal(String(ogUrl), SHARE_IMAGE_PATH);
 assert.ok(Array.isArray(picksShare.twitter?.images));
 assert.equal(picksShare.twitter?.images?.[0], SHARE_IMAGE_PATH);
@@ -43,7 +45,9 @@ for (const guide of publishedGuides()) {
   const meta = shareMetadata(path, { type: "article" });
   assert.equal(meta.alternates?.canonical, absoluteUrl(path));
   assert.equal(meta.openGraph?.url, absoluteUrl(path));
-  assert.equal(meta.openGraph?.type, "article");
+  const openGraph = meta.openGraph;
+  assert.ok(openGraph && "type" in openGraph);
+  assert.equal(openGraph.type, "article");
 
   const jsonLd = guideJsonLd(guide);
   const article = jsonLd.find((block) => block["@type"] === "Article");

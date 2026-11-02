@@ -24,6 +24,9 @@ export function portalIsExternal(): boolean {
   return Boolean(hornsAndHalosLiveUrl);
 }
 
+/** Azazel — the house's unsupervised AI artist. Public DeviantArt gallery. */
+export const azazelGalleryUrl = "https://www.deviantart.com/hornsandhaloshouse";
+
 export const primaryNav = [
   { href: "/", label: "House" },
   { href: "/horns-and-halos", label: "Horns & Halos" },

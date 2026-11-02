@@ -11,7 +11,7 @@ import { loadShopifyTees } from "@/lib/shopify-tees";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Two lanes: affiliate catalog, Shopify soft-launch (primary). Belief first. Est. in Darkness.",
+    "Horns & Halos gothic tribal streetwear, open on Shopify, plus the house affiliate shelves. HORNS UP / HALOS ON™. Est. in Darkness.",
 };
 
 export const revalidate = 3600;

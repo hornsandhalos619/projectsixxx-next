@@ -88,7 +88,7 @@ async function main() {
   );
 
   const PRICE_MARK = /\$\s*\d|\d+\s*(?:dollars?|usd|bucks)\b|~\s*\$|about\s+\$|around\s+\$|under\s+\$/i;
-  const ALLOWED_TIER_IDS = new Set(TIER_DEFS.map((tier) => tier.id));
+  const ALLOWED_TIER_IDS = new Set<string>(TIER_DEFS.map((tier) => tier.id));
   const userCopy = amazonSections.flatMap((section) => [
     section.dek,
     ...section.picks.flatMap((pick) => [pick.name, pick.note, pick.lane, pick.theme]),
@@ -207,7 +207,13 @@ async function main() {
   }
 
   const nav = readFileSync(join(root, "config/site.ts"), "utf8");
-  assert.ok(!primaryNav.some((item) => item.href === "/picks" || item.href === "/amazon"), "primary nav must not add Amazon");
+  assert.ok(
+    !primaryNav.some((item) => {
+      const href: string = item.href;
+      return href === "/picks" || href === "/amazon";
+    }),
+    "primary nav must not add Amazon",
+  );
   assert.ok(!nav.includes('href: "/guides"'), "primary nav must not add Guides");
 
   const footer = readFileSync(join(root, "components/Footer.tsx"), "utf8");

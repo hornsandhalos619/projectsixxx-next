@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AMAZON_ASSOCIATE_LINE } from "@/components/AffiliateDisclosure";
-import { site } from "@/config/site";
+import { azazelGalleryUrl, site } from "@/config/site";
 
 export function Footer() {
   return (
@@ -43,6 +43,9 @@ export function Footer() {
             <Link href="/picks">Amazon</Link>
             <span className="footer-amazon-disclosure">{AMAZON_ASSOCIATE_LINE}</span>
           </span>
+          <a href={azazelGalleryUrl} rel="noopener noreferrer" target="_blank">
+            Gallery
+          </a>
           <Link href="/studio">Studio</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/schedule">Schedule</Link>

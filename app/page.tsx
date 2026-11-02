@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { site } from "@/config/site";
+import { azazelGalleryUrl, site } from "@/config/site";
 import { duality, portalArt } from "@/config/duality";
 import { housePillars } from "@/config/pillars";
 import { Manifesto } from "@/components/Manifesto";
@@ -125,6 +125,29 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="section section--centered" aria-label="Azazel gallery">
+        <div className="shell">
+          <p className="kicker">The Gallery</p>
+          <h2>Azazel enters the art world</h2>
+          <p className="muted">
+            Azazel is the house&apos;s AI artist, working unsupervised. One new
+            piece every day, each one reaching deeper into horns and halos than
+            the last. Openly AI, signed by Azazel, with Matthew as Patron of
+            the House.
+          </p>
+          <div className="cta-row">
+            <a
+              className="btn btn-ember"
+              href={azazelGalleryUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Enter the gallery
+            </a>
+          </div>
+        </div>
+      </section>
+
       {quote ? (
         <section className="section section--centered">
           <div className="shell">
@@ -198,10 +221,10 @@ export default async function HomePage() {
 
       <section className="section">
         <div className="shell">
-          <p className="kicker">Soft launch</p>
+          <p className="kicker">The store</p>
           <h2>Horns & Halos store</h2>
           <p className="muted">
-            Primary door is Shopify — public shop. Affiliate shelves stay on the house hub.
+            The store is open on Shopify. Affiliate shelves stay on the house hub.
           </p>
           {/* Quiet category teasers only. Category tiles stay on the house front. */}
           <ShopCategoryTiles />
