@@ -30,7 +30,7 @@ export default function ContactPage() {
           Send
         </button>
       </form>
-      <p className="muted">This shell does not persist until an ESP is wired. Empty LEADS_* still succeeds on list capture.</p>
+      <p className="muted">This contact form does not store messages. The house list keeps an address only when Shopify or the house database is configured.</p>
     </div>
   );
 }
