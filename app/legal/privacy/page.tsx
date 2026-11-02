@@ -12,8 +12,11 @@ export default function PrivacyPage() {
       <div className="prose">
         <p>
           Project SiXXX collects what you type into contact, schedule, and list
-          forms. If LEADS_* is empty, those addresses are not persisted. Auth
-          providers only run when their keys are present. We do not sell lists.
+          forms. List addresses are kept in Shopify, or in the house database,
+          when that store is configured. The form turns the address away when
+          nothing is configured to keep it. The contact form on this site does
+          not store messages. Auth providers only run when their keys are
+          present. We do not sell lists.
         </p>
       </div>
     </div>

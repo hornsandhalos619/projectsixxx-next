@@ -90,6 +90,9 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 | `HORNS_AND_HALOS_URL` | External portal CTA |
 | `SHOPIFY_URL` | Primary shop outbound (display-only on House console) |
 | `SPREADSHOP_URL` | Paused lane |
+| `SHOPIFY_ADMIN_ACCESS_TOKEN` | Saves Join the House and other list forms as Shopify customers (`write_customers`, `read_customers`). No charge on the current plan. Leave unset to use Supabase, Postgres, or Blob. |
+| `SHOPIFY_SHOP` | Optional `*.myshopify.com` host when `SHOPIFY_URL` is a custom domain. |
+| `LEADS_ENDPOINT` | Optional ESP forwarder. Used when the Shopify token is unset. |
 | `NEXT_PUBLIC_SHOW_FEATURED_ROSTER` | Homepage featured roster. Default off. Set `true` only after named collaborators approve. Each roster entry also needs `published: true`. |
 
 ## Local

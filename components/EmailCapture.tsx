@@ -6,7 +6,7 @@ export function EmailCapture({
   source,
   label = "Keep the night list",
   buttonLabel = "Join",
-  success = "Received. If the list is empty, we still heard you.",
+  success = "Received. You're on the list.",
   successCta = "Open the shop",
   tag,
   nextHref,
@@ -21,7 +21,7 @@ export function EmailCapture({
   /** After capture, offer this shop URL (public). */
   nextHref?: string;
 }) {
-  const [status, setStatus] = useState<"idle" | "ok" | "err">("idle");
+  const [status, setStatus] = useState<"idle" | "ok" | "err" | "invalid">("idle");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,7 +33,9 @@ export function EmailCapture({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ email, source, tag }),
       });
-      setStatus(res.ok ? "ok" : "err");
+      if (res.status === 400) setStatus("invalid");
+      else if (res.ok) setStatus("ok");
+      else setStatus("err");
     } catch {
       setStatus("err");
     }
@@ -74,7 +76,8 @@ export function EmailCapture({
       <button className="btn btn-house" type="submit">
         {buttonLabel}
       </button>
-      {status === "err" ? <p className="muted">Need a real email.</p> : null}
+      {status === "invalid" ? <p className="muted">Need a real email.</p> : null}
+      {status === "err" ? <p className="muted">The list didn&apos;t keep that. Try again.</p> : null}
     </form>
   );
 }

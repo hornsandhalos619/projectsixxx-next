@@ -2271,3 +2271,153 @@ a.card:focus-visible,
   color: var(--bone-dim);
   margin-top: 0.75rem;
 }
+
+/* Join the House — homepage list */
+.jth {
+  --jth-bg: #0a0a0b;
+  --jth-bone: #e8e1d3;
+  --jth-silver: #a9acb2;
+  --jth-red: #9b1b1f;
+  background: var(--jth-bg);
+  color: var(--jth-bone);
+  padding: clamp(4rem, 10vw, 7.5rem) 1.5rem;
+  border-top: 1px solid rgba(169, 172, 178, 0.18);
+  border-bottom: 1px solid rgba(169, 172, 178, 0.18);
+}
+
+.jth-inner {
+  max-width: 34rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.jth-sigil {
+  width: 72px;
+  height: 72px;
+  color: var(--jth-silver);
+  margin: 0 auto 2rem;
+  display: block;
+}
+
+.jth-kicker {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--jth-silver);
+  margin: 0 0 1rem;
+}
+
+.jth-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+  color: var(--jth-bone);
+}
+
+.jth-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--jth-red);
+  margin: 1.25rem auto 0;
+}
+
+.jth-lede,
+.jth-status {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(232, 225, 211, 0.78);
+  margin: 0 0 2.5rem;
+}
+
+.jth-form {
+  display: flex;
+  max-width: 28rem;
+  margin: 0 auto;
+  border: 1px solid rgba(169, 172, 178, 0.45);
+}
+
+.jth-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  color: var(--jth-bone);
+  padding: 0.95rem 1.1rem;
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  outline: none;
+}
+
+.jth-input::placeholder {
+  color: rgba(169, 172, 178, 0.6);
+}
+
+.jth-form:focus-within {
+  border-color: var(--jth-bone);
+}
+
+.jth-button {
+  background: transparent;
+  color: var(--jth-bone);
+  border: 0;
+  border-left: 1px solid rgba(169, 172, 178, 0.45);
+  padding: 0 1.6rem;
+  min-height: 3rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 1;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.jth-button:hover,
+.jth-button:focus-visible {
+  background: var(--jth-red);
+  color: #fff;
+}
+
+.jth-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.jth-fine,
+.jth-error {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 0.75rem;
+  color: rgba(169, 172, 178, 0.6);
+  margin: 1.25rem 0 0;
+  letter-spacing: 0.04em;
+}
+
+.jth-error {
+  color: var(--jth-bone);
+}
+
+@media (max-width: 520px) {
+  .jth-form {
+    flex-direction: column;
+  }
+
+  .jth-button {
+    border-left: 0;
+    border-top: 1px solid rgba(169, 172, 178, 0.45);
+    min-height: 3.25rem;
+  }
+}

@@ -3,6 +3,7 @@ import { site } from "@/config/site";
 import { duality, portalArt } from "@/config/duality";
 import { housePillars } from "@/config/pillars";
 import { Manifesto } from "@/components/Manifesto";
+import { JoinTheHouse } from "@/components/JoinTheHouse";
 import { PortalCta } from "@/components/PortalCta";
 import { isFeaturedRosterEnabled } from "@/lib/gallery/flags";
 import { listFeaturedArtists } from "@/lib/gallery/store";
@@ -219,6 +220,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <JoinTheHouse />
 
       <section className="section">
         <div className="shell">
