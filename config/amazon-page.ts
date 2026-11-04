@@ -38,7 +38,7 @@ export type AmazonSection = {
   picks: AmazonPick[];
 };
 
-export const TIER_CHECKED_AT = "2026-10-16";
+export const TIER_CHECKED_AT = "2026-11-04";
 
 export const TIER_DEFS = [
   { id: "under-10", title: "Under $10", dek: "Small doors into the house.", max: 10 },
@@ -61,7 +61,7 @@ export function tierIdForPrice(price: number): AmazonTierId {
 }
 
 /**
- * Live picks with a checked price (rechecked 2026-10-16 PT, one dp page at a time).
+ * Live picks with a checked price (rechecked 2026-11-04 PT, one dp page at a time).
  * Held off the page until a price lands: B074274RH9, B0105VZ4GI, 0345337662.
  */
 export const amazonPicks: AmazonPick[] = [
@@ -71,7 +71,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Horns",
     theme: "Candlelight",
     note: "Tall, smokeless black tapers sized for a candelabra.",
-    tierPrice: 9.95,
+    tierPrice: 12.95,
     checkedAt: TIER_CHECKED_AT,
   },
   {
@@ -116,7 +116,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Halos",
     theme: "Silver and gold",
     note: "Fine gold over sterling, in lengths from 14 to 26 inches.",
-    tierPrice: 15.19,
+    tierPrice: 16.14,
     checkedAt: TIER_CHECKED_AT,
   },
   {
@@ -143,7 +143,7 @@ export const amazonPicks: AmazonPick[] = [
     lane: "Horns",
     theme: "Chess and the desk",
     note: "One black surface from keyboard to mouse.",
-    tierPrice: 19.99,
+    tierPrice: 17.99,
     checkedAt: TIER_CHECKED_AT,
   },
   {

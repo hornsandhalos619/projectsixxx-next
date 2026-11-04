@@ -37,7 +37,7 @@ async function main() {
     assert.ok(section.picks.length >= 1, `${section.id} must keep remaining picks`);
   }
   assert.ok(!amazonSections.some((section) => section.id === "100-and-up"), "empty $100 and up tier must be omitted");
-  assert.equal(TIER_CHECKED_AT, "2026-10-16");
+  assert.equal(TIER_CHECKED_AT, "2026-11-04");
   for (const pick of amazonPicks) {
     assert.equal(pick.checkedAt, TIER_CHECKED_AT, `${pick.asin} needs a checkedAt date`);
     assert.equal(typeof pick.tierPrice, "number");
