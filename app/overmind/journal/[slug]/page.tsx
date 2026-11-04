@@ -5,8 +5,11 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import {
   allOvermindPosts,
   getOvermindPost,
+  overmindCanonicalUrl,
+  overmindJsonLd,
   publishedOvermindPosts,
 } from "@/lib/overmind-journal";
+import { shareMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -20,7 +23,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getOvermindPost(slug);
   if (!post || post.status !== "published") return { title: "Overmind Journal" };
-  return { title: post.title, description: post.teaser };
+  return {
+    title: post.title,
+    description: post.teaser,
+    ...shareMetadata(`/overmind/journal/${post.slug}`, {
+      title: post.title,
+      description: post.teaser,
+      type: "article",
+    }),
+    alternates: { canonical: overmindCanonicalUrl(post.slug) },
+  };
 }
 
 export default async function OvermindPostPage({ params }: Props) {
@@ -33,8 +45,14 @@ export default async function OvermindPostPage({ params }: Props) {
   const newer = idx > 0 ? siblings[idx - 1] : undefined;
   const older = idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : undefined;
 
+  const jsonLd = overmindJsonLd(post);
+
   return (
     <article className="shell overmind-journal">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="page-head overmind-head">
         <p className="kicker">
           <Link href="/overmind/journal">Overmind Journal</Link>

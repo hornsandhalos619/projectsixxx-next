@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  outputFileTracingIncludes: {
+    "/sitemap.xml": ["./content/**/*"],
+    "/overmind/journal/[slug]": ["./content/**/*"],
+  },
   async redirects() {
     return [
       {
