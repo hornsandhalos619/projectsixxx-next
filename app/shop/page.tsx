@@ -130,12 +130,18 @@ export default async function ShopPage() {
 
       <TeeEditorial tees={tees} />
 
-      <section className="section" aria-label="Soft-launch list">
-        <p className="kicker">Soft launch</p>
-        <h2>The door is emailed</h2>
+      <section className="section" aria-label="Shop list">
+        <p className="kicker">The shop is open</p>
+        <h2>First release line, available now.</h2>
         <p className="muted">
-          One welcome. The shop URL stays private until Proof PASS.
+          Horns and Halos Release 001 tees and hoodies are live in the shop. Join the list for one welcome note and
+          first word on every new release.
         </p>
+        <div className="cta-row">
+          <a className="btn btn-ember" href={shopifyUrl} rel="noopener noreferrer" target="_blank">
+            Open the shop
+          </a>
+        </div>
         <EmailCapture
           source={SOFT_LAUNCH_SOURCE}
           tag={SOFT_LAUNCH_TAG}
