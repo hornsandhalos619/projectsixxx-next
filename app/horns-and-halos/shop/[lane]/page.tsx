@@ -90,7 +90,7 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
             <ul>
               {products.map((product) => (
                 <li key={product.handle} data-handle={product.handle}>
-                  <a href={product.url} target="_blank" rel="noopener noreferrer">Open {product.title} listing and size guide ↗</a>
+                  <a href={product.url} target="_blank" rel="noopener noreferrer">Open {product.title} listing, options &amp; size guide ↗</a>
                   <span>{product.price ?? "See live price"}</span>
                 </li>
               ))}
