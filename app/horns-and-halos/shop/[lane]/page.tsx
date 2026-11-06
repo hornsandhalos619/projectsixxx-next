@@ -79,12 +79,24 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
       <section className="shell section hh-buyer-guide" aria-labelledby="buyer-guide-title" id="buyer-guide">
         <p className="kicker">Buyer guide / {copy.name}</p>
         <h2 id="buyer-guide-title">Choose the line. Then check the fit.</h2>
-        <p className="hh-buyer-guide-intro">This page contains Release 001, not the whole Horns & Halos catalog. It is a collection of garments printed to order, not digital downloads. The four listed pieces have their own product pages on my own Shopify store.</p>
+        <p className="hh-buyer-guide-intro">This page contains Release 001, not the whole Horns & Halos catalog. It is a collection of garments printed to order, not digital downloads. This {copy.name} release contains {products.length === 1 ? "one" : products.length === 3 ? "three" : String(products.length)} Release 001 {products.length === 1 ? "product" : "products"}, each with its own product page on my own Shopify store.</p>
         <div className="hh-guide-grid">
           <article><h3>Read the sleeve</h3><p>Infinite Conflict. belongs to Horns. Unbroken, Eternal Balance., and Brilliance belong to Halos. Each design has its own standalone idea; the world portal brings them together without mixing the collections.</p></article>
-          <article><h3>Size with the listing</h3><p>These Release 001 tees run S–2XL at $35. Use the size guide on the actual product page before choosing. Garment blanks may vary; the publisher's guide advises sizing up when in doubt. Fabric composition is not stated on all four listings, so this guide does not guess it.</p></article>
+          <article><h3>Size with the listing</h3><p>These Release 001 tees run S–2XL at $35. Use the size guide on the actual product page before choosing. Garment blanks may vary; the publisher's guide advises sizing up when in doubt. Fabric composition is not stated on these listings, so this guide does not guess it.</p></article>
           <article><h3>Made to order</h3><p>The listings describe typical production and transit of 7–14 business days in the US, not a guaranteed delivery date. For damaged or misprinted pieces, contact support within 14 days (see the refund policy linked below). Wash cold, inside out, hang dry, and do not iron the print.</p></article>
         </div>
+        {products.length > 0 && (
+          <nav className="hh-guide-products" aria-label={`Before you buy: ${copy.name} listings`}>
+            <ul>
+              {products.map((product) => (
+                <li key={product.handle} data-handle={product.handle}>
+                  <a href={product.url} target="_blank" rel="noopener noreferrer">Open {product.title} listing and size guide ↗</a>
+                  <span>{product.price ?? "See live price"}</span>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
         <nav className="hh-guide-links" aria-label="Before you buy">
           <a href="https://hornshalosshop.myshopify.com/collections/all" target="_blank" rel="noopener noreferrer">Browse the full shop, including digital items ↗</a>
           <a href="https://hornshalosshop.myshopify.com/policies/refund-policy" target="_blank" rel="noopener noreferrer">Refund &amp; support policy ↗</a>
