@@ -83,7 +83,7 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
         <div className="hh-guide-grid">
           <article><h3>Read the sleeve</h3><p>Infinite Conflict. belongs to Horns. Unbroken, Eternal Balance., and Brilliance belong to Halos. Each design has its own standalone idea; the world portal brings them together without mixing the collections.</p></article>
           <article><h3>Size with the listing</h3><p>These Release 001 tees run S–2XL at $35. Use the size guide on the actual product page before choosing. Garment blanks may vary; the publisher's guide advises sizing up when in doubt. Fabric composition is not stated on these listings, so this guide does not guess it.</p></article>
-          <article><h3>Made to order</h3><p>The listings describe typical production and transit of 7–14 business days in the US, not a guaranteed delivery date. For damaged or misprinted pieces, contact support within 14 days (see the refund policy linked below). Wash cold, inside out, hang dry, and do not iron the print.</p></article>
+          <article><h3>Made to order</h3><p>The listings describe typical production and transit of 7–14 business days in the US, not a guaranteed delivery date. For damaged, defective, misprinted, or wrong items, contact support within 30 days of delivery with your order number and a photo; the linked refund policy covers replacement or refund. Wash cold, inside out, hang dry, and do not iron the print.</p></article>
         </div>
         {products.length > 0 && (
           <nav className="hh-guide-products" aria-label={`Before you buy: ${copy.name} listings`}>
