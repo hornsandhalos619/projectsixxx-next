@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortalCta } from "@/components/PortalCta";
 import { duality, portalArt } from "@/config/duality";
+import { HornsHalosReleaseShelf } from "@/components/HornsHalosReleaseShelf";
 
 export const metadata: Metadata = {
   title: "Horns & Halos",
@@ -65,6 +66,7 @@ export default function HornsAndHalosPage() {
               <h2>Horns</h2>
             </div>
             <p className="gate-line">{duality.hornsStandalone}</p>
+            <HornsHalosReleaseShelf lane="horns" />
           </div>
         </article>
 
@@ -91,6 +93,7 @@ export default function HornsAndHalosPage() {
               <h2>Halos</h2>
             </div>
             <p className="gate-line">{duality.halosStandalone}</p>
+            <HornsHalosReleaseShelf lane="halos" />
           </div>
         </article>
       </section>
