@@ -49,6 +49,7 @@ export function Footer() {
           <Link href="/studio">Studio</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/schedule">Schedule</Link>
+          <Link href="/legal">Policies</Link>
           <Link href="/legal/privacy">Privacy</Link>
           <Link href="/legal/terms">Terms</Link>
         </nav>

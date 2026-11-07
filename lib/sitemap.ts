@@ -39,6 +39,7 @@ export const SITEMAP_CORE_PATHS = [
   "/guides/gothic-jewelry-gifts-under-50",
   "/guides/last-minute-halloween-goth-jewelry",
   "/guides/dark-aesthetic-desk-setup",
+  "/legal",
   "/legal/privacy",
   "/legal/terms",
 ] as const;
@@ -145,6 +146,7 @@ const CORE_PAGE_META: Record<
   "/guides/gothic-jewelry-gifts-under-50": { changeFrequency: "monthly", priority: 0.5 },
   "/guides/last-minute-halloween-goth-jewelry": { changeFrequency: "monthly", priority: 0.5 },
   "/guides/dark-aesthetic-desk-setup": { changeFrequency: "monthly", priority: 0.5 },
+  "/legal": { changeFrequency: "yearly", priority: 0.3 },
   "/legal/privacy": { changeFrequency: "yearly", priority: 0.3 },
   "/legal/terms": { changeFrequency: "yearly", priority: 0.3 },
 };

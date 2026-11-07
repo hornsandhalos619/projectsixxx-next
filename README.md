@@ -67,7 +67,7 @@ After changing `FOUNDER_EMAILS`, sign out and sign in again so the session re-se
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (documented; server prefers service role) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server writes. Never expose in HTML or client bundles. |
 
-Apply `supabase/migrations/0001_house_cms.sql` and `supabase/migrations/0002_house_accounts.sql` in the Supabase SQL editor. Then optional seed:
+Apply `supabase/migrations/0001_house_cms.sql`, `supabase/migrations/0002_house_accounts.sql`, and `supabase/migrations/0004_house_leads.sql` in the Supabase SQL editor. Join the House writes `house_leads` when Supabase is configured. `newsletter_signups` is not the live list. Then optional seed:
 
 ```bash
 npx tsx scripts/seed-cms.ts

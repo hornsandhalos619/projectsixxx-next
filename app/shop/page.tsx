@@ -6,6 +6,8 @@ import { TeeEditorial } from "@/components/TeeEditorial";
 import { shopifyUrl, visibleOutboundShops } from "@/config/shops";
 import { SOFT_LAUNCH_COPY, SOFT_LAUNCH_SOURCE, SOFT_LAUNCH_TAG } from "@/config/leads";
 import { EmailCapture } from "@/components/EmailCapture";
+import { GateISizeGuide } from "@/components/GateISizeGuide";
+import { PolicyLinks } from "@/components/PolicyLinks";
 import { loadShopifyTees } from "@/lib/shopify-tees";
 
 export const metadata: Metadata = {
@@ -128,7 +130,15 @@ export default async function ShopPage() {
         <ShopCategoryTiles cardClassName="card void-glass" />
       </section>
 
+      <section className="section" aria-label="Shop policies">
+        <p className="kicker">Policies</p>
+        <h2>Shipping, refunds, and the house</h2>
+        <PolicyLinks />
+      </section>
+
       <TeeEditorial tees={tees} />
+
+      <GateISizeGuide />
 
       <section className="section" aria-label="Shop list">
         <p className="kicker">The shop is open</p>

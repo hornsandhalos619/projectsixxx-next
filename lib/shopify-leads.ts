@@ -104,9 +104,9 @@ async function refreshExisting(
   email: string,
   tags: string[],
   source: string,
-): Promise<void> {
+): Promise<boolean> {
   const existing = await findCustomer(fetchImpl, email);
-  if (!existing) return;
+  if (!existing) return false;
   const merged = [...new Set([...(existing.tags ?? []), ...tags])];
   await admin(
     fetchImpl,
@@ -125,6 +125,7 @@ async function refreshExisting(
     },
   );
   await writeConsent(fetchImpl, existing.id);
+  return true;
 }
 
 /**
@@ -164,11 +165,11 @@ export async function saveShopifyLead(
       if (payload.customer?.id && payload.userErrors.length === 0) return "saved";
       if (isDuplicate(payload.userErrors)) {
         try {
-          await refreshExisting(fetchImpl, input.email, input.tags, input.source);
+          if (await refreshExisting(fetchImpl, input.email, input.tags, input.source)) return "saved";
         } catch {
           console.error("shopify lead refresh failed");
         }
-        return "saved";
+        return "failed";
       }
       if (state && isConsent(payload.userErrors)) continue;
       return "failed";

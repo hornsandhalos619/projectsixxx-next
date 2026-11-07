@@ -75,6 +75,7 @@ async function checkSitemap() {
     "https://projectsixxx.com/guides/gothic-jewelry-gifts-under-50",
     "https://projectsixxx.com/guides/last-minute-halloween-goth-jewelry",
     "https://projectsixxx.com/guides/dark-aesthetic-desk-setup",
+    "https://projectsixxx.com/legal",
     "https://projectsixxx.com/legal/privacy",
     "https://projectsixxx.com/legal/terms",
     "https://projectsixxx.com/journal/fine-art",

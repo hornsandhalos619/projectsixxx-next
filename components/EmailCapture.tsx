@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { leadCaptureSucceeded } from "@/lib/lead-response";
 
 export function EmailCapture({
   source,
@@ -34,7 +35,7 @@ export function EmailCapture({
         body: JSON.stringify({ email, source, tag }),
       });
       if (res.status === 400) setStatus("invalid");
-      else if (res.ok) setStatus("ok");
+      else if (await leadCaptureSucceeded(res)) setStatus("ok");
       else setStatus("err");
     } catch {
       setStatus("err");

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { leadCaptureSucceeded } from "@/lib/lead-response";
 
 /**
  * Join the House. The Shopify /contact customer form rejects posts from this
@@ -39,7 +40,7 @@ export function JoinTheHouse() {
           tag: "newsletter,projectsixxx-site",
         }),
       });
-      setStatus(response.ok ? "ok" : "err");
+      setStatus((await leadCaptureSucceeded(response)) ? "ok" : "err");
     } catch {
       setStatus("err");
     }

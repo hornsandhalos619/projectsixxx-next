@@ -617,6 +617,55 @@ select {
   margin-top: 1rem;
 }
 
+.policy-links p {
+  max-width: 40rem;
+  color: var(--ash);
+}
+
+.policy-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spec-table {
+  margin-top: 1.25rem;
+  overflow-x: auto;
+  border: 1px solid var(--hairline);
+  max-width: 40rem;
+}
+
+.spec-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spec-table caption {
+  caption-side: bottom;
+  padding: 0.75rem 1rem 0;
+  text-align: left;
+  color: var(--ash);
+  font-size: var(--label);
+}
+
+.spec-table th,
+.spec-table td {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.spec-table th {
+  font-size: var(--label);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
 .pillars {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
