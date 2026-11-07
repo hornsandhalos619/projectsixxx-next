@@ -175,11 +175,15 @@ async function main() {
   assert.ok(!/PLACEHOLDER/i.test(shopHtml), "rendered /shop tee editorial omits PLACEHOLDER");
   assert.ok(!shopHtml.includes("URL placeholder"));
   for (const tee of liveTees) {
+    const titleHtml = tee.title
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
     assert.ok(
       shopHtml.includes(`/products/${tee.handle}`),
       `rendered /shop must link /products/${tee.handle}`,
     );
-    assert.ok(shopHtml.includes(tee.title), `rendered /shop must use live title ${tee.title}`);
+    assert.ok(shopHtml.includes(titleHtml), `rendered /shop must use live title ${tee.title}`);
   }
   assert.ok(!shopHtml.includes("Oculus"));
   assert.ok(!shopHtml.includes("Outer Horns"));

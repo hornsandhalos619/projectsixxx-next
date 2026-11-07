@@ -5,7 +5,10 @@ import { neon } from "@neondatabase/serverless";
 import { put } from "@vercel/blob";
 import { localAllowed } from "@/lib/cms/local-allowed";
 import { getSupabase, supabaseConfigured } from "@/lib/supabase";
+import { leadCaptureSucceeded } from "@/lib/lead-response";
 import { saveShopifyLead } from "@/lib/shopify-leads";
+
+export { leadCaptureSucceeded };
 
 export type LeadResult = { ok: true; persisted: boolean; via?: string };
 
