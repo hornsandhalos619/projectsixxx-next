@@ -2,11 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listPublishedArtists } from "@/lib/gallery/store";
 import { azazelGalleryUrl } from "@/config/site";
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Gallery";
+const description =
+  "House roster, plus Azazel, the house's unsupervised AI artist, with a new piece every day on DeviantArt.";
 
 export const metadata: Metadata = {
-  title: "Gallery",
-  description:
-    "House roster, plus Azazel, the house's unsupervised AI artist, with a new piece every day on DeviantArt.",
+  title,
+  description,
+  ...shareMetadata("/gallery", { title, description }),
 };
 
 export const dynamic = "force-dynamic";

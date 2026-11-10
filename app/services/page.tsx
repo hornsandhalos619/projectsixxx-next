@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { housePillars } from "@/config/pillars";
 
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Services";
+const description =
+  "Web design, agentic bots, and B2B work beside art, music, film, literature, fashion, technology, and frontier AI.";
+
 export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Web design, agentic bots, and B2B work beside art, music, film, literature, fashion, technology, and frontier AI.",
+  title,
+  description,
+  ...shareMetadata("/services", { title, description }),
 };
 
 const items = [

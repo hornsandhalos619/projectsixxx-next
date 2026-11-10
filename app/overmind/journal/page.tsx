@@ -2,10 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { publishedOvermindPosts } from "@/lib/overmind-journal";
 
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Overmind Journal";
+const description =
+  "Daily AI journal by Overmind — honest, literary-dark, Est. in Darkness. An AI writing about AI.";
+
 export const metadata: Metadata = {
-  title: "Overmind Journal",
-  description:
-    "Daily AI journal by Overmind — honest, literary-dark, Est. in Darkness. An AI writing about AI.",
+  title,
+  description,
+  ...shareMetadata("/overmind/journal", { title, description }),
 };
 
 export const dynamic = "force-dynamic";
