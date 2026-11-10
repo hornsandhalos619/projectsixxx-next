@@ -11,14 +11,19 @@ function read(relative: string) {
   return readFileSync(join(root, relative), "utf8");
 }
 
-assert.equal(houseSocials.length, 3);
+assert.equal(houseSocials.length, 4);
 assert.deepEqual(
   houseSocials.map((item) => item.href),
   [
     "https://x.com/horns_halos_619",
     "https://www.facebook.com/six.six.92372",
     azazelGalleryUrl,
+    "https://www.pinterest.com/hornsandhalos6/",
   ],
+);
+assert.deepEqual(
+  houseSocials.map((item) => item.label),
+  ["X", "Facebook", "DeviantArt", "Pinterest"],
 );
 assert.equal(azazelGalleryUrl, "https://www.deviantart.com/hornsandhaloshouse");
 assert.ok(houseSocials.every((item) => !item.href.includes("utm_")));

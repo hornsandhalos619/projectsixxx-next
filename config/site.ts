@@ -29,12 +29,14 @@ export const azazelGalleryUrl = "https://www.deviantart.com/hornsandhaloshouse";
 
 /**
  * Official house accounts only. Threshold-verified 2026-11-10.
- * Do not add Instagram, TikTok, Pinterest, YouTube, or Threads until a handle is confirmed.
+ * Pinterest added 2026-11-10 after the owned profile https://www.pinterest.com/hornsandhalos6/ was confirmed.
+ * Do not add Instagram, TikTok, YouTube, or Threads until a handle is confirmed.
  */
 export const houseSocials = [
   { label: "X", href: "https://x.com/horns_halos_619" },
   { label: "Facebook", href: "https://www.facebook.com/six.six.92372" },
   { label: "DeviantArt", href: azazelGalleryUrl },
+  { label: "Pinterest", href: "https://www.pinterest.com/hornsandhalos6/" },
 ] as const;
 
 export const primaryNav = [
