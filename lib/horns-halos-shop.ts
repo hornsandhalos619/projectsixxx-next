@@ -27,6 +27,21 @@ export const hhLanes = {
 } as const;
 
 export type HhLaneKey = keyof typeof hhLanes;
+
+export const HH_FULL_SHOP_URL = "https://hornshalosshop.myshopify.com/collections/all";
+export const HH_REFUND_POLICY_URL = "https://hornshalosshop.myshopify.com/policies/refund-policy";
+
+export type HhUtmSpot = "card" | "guide";
+
+export function taggedProductUrl(url: string, lane: HhLaneKey, spot: HhUtmSpot): string {
+  const tagged = new URL(url);
+  tagged.searchParams.set("utm_source", "projectsixxx");
+  tagged.searchParams.set("utm_medium", "referral");
+  tagged.searchParams.set("utm_campaign", "release-001");
+  tagged.searchParams.set("utm_content", `${lane}-${spot}`);
+  return tagged.toString();
+}
+
 export type HhProduct = {
   id: string;
   handle: string;

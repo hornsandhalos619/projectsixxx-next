@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { hhLanes, loadHhProducts, selectLaneProducts, type HhLaneKey } from "@/lib/horns-halos-shop";
+import { HH_FULL_SHOP_URL, HH_REFUND_POLICY_URL, hhLanes, loadHhProducts, selectLaneProducts, taggedProductUrl, type HhLaneKey } from "@/lib/horns-halos-shop";
 
 export const revalidate = 900;
 
@@ -55,7 +55,7 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
         {products.length > 0 ? (
           <div className={`grid-tees hh-release-grid hh-release-grid--${products.length}`}>
             {products.map((product) => (
-              <a key={product.handle} className="card hh-product-card" href={product.url} target="_blank" rel="noopener noreferrer">
+              <a key={product.handle} className="card hh-product-card" href={taggedProductUrl(product.url, key, "card")} target="_blank" rel="noopener noreferrer">
                 <div className="hh-image-withheld" role="img" aria-label="Product image withheld pending source verification"><span>Product image withheld pending source verification</span></div>
                 <div className="hh-product-card-copy">
                   <p className="kicker">{copy.name} / Release 001</p>
@@ -90,7 +90,7 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
             <ul>
               {products.map((product) => (
                 <li key={product.handle} data-handle={product.handle}>
-                  <a href={product.url} target="_blank" rel="noopener noreferrer">Open {product.title} listing, options &amp; size guide ↗</a>
+                  <a href={taggedProductUrl(product.url, key, "guide")} target="_blank" rel="noopener noreferrer">Open {product.title} listing, options &amp; size guide ↗</a>
                   <span>{product.price ?? "See live price"}</span>
                 </li>
               ))}
@@ -98,8 +98,8 @@ export default async function HhShopLane({ params }: { params: Promise<{ lane: s
           </nav>
         )}
         <nav className="hh-guide-links" aria-label="Before you buy">
-          <a href="https://hornshalosshop.myshopify.com/collections/all" target="_blank" rel="noopener noreferrer">Browse the full shop, including digital items ↗</a>
-          <a href="https://hornshalosshop.myshopify.com/policies/refund-policy" target="_blank" rel="noopener noreferrer">Refund &amp; support policy ↗</a>
+          <a href={HH_FULL_SHOP_URL} target="_blank" rel="noopener noreferrer">Browse the full shop, including digital items ↗</a>
+          <a href={HH_REFUND_POLICY_URL} target="_blank" rel="noopener noreferrer">Refund &amp; support policy ↗</a>
           <Link href="/horns-and-halos">Enter the full world portal</Link>
           <span>Old Outer Horns and Oculus listings are not live, so they are not offered here.</span>
         </nav>
