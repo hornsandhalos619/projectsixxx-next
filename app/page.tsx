@@ -10,7 +10,8 @@ import { listFeaturedArtists } from "@/lib/gallery/store";
 import { listHomepageSlots } from "@/lib/homepage/store";
 import { publishedPosts } from "@/lib/journal";
 import { ShopCategoryTiles } from "@/components/ShopCategoryTiles";
-import { shopifyUrl } from "@/config/shops";
+import { FollowTheHouse } from "@/components/FollowTheHouse";
+import { shopifyUrl, tapestryCollectionUrl } from "@/config/shops";
 import { listFeaturedLibrary } from "@/lib/titles/store";
 
 export default async function HomePage() {
@@ -56,6 +57,17 @@ export default async function HomePage() {
             <br />
             Horns & Halos are the tool and portal to this house.
           </p>
+          <div className="cta-row">
+            <a
+              className="btn btn-ember"
+              href={tapestryCollectionUrl("home-hero")}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Shop the drop
+            </a>
+          </div>
+          <FollowTheHouse spot="home" />
         </div>
       </section>
 

@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { FollowTheHouse } from "@/components/FollowTheHouse";
 import { PortalCta } from "@/components/PortalCta";
 import { duality, portalArt } from "@/config/duality";
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Horns & Halos";
+const description = `${duality.first} ${duality.second}`;
 
 export const metadata: Metadata = {
-  title: "Horns & Halos",
-  description: `${duality.first} ${duality.second}`,
+  title,
+  description,
+  ...shareMetadata("/horns-and-halos", { title, description }),
 };
 
 export default function HornsAndHalosPage() {
@@ -40,6 +46,8 @@ export default function HornsAndHalosPage() {
         <p className="lede portal-first">{duality.first}</p>
         <p className="portal-second">{duality.second}</p>
       </div>
+
+      <FollowTheHouse spot="portal" />
 
       <section className="nave" aria-label="The two gates">
         <article className="nave-field nave-field--horns" id="horns">
