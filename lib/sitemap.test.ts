@@ -34,6 +34,7 @@ async function main() {
     gallery: throwSync("gallery"),
     affiliates: throwSync("affiliates"),
     guides: throwSync("guides"),
+    tapestryDrop: throwSync("tapestryDrop"),
   });
   const urls = urlsOf(entries);
 
@@ -41,6 +42,7 @@ async function main() {
     assert.ok(urls.includes(url), `core sitemap missing ${url} when every source throws`);
   }
 
+  assert.ok(urls.includes(`${site.url}/drop`), "core sitemap must include /drop");
   assert.equal(urls.length, coreUrls().length, "throwing sources must not add live-derived urls");
   assert.ok(entries.every(isValidSitemapEntry), "every fallback entry needs a string url and valid Date");
   assert.equal(new Set(urls).size, urls.length, "fallback urls must be unique");
@@ -64,6 +66,11 @@ async function main() {
       throw new Error("affiliates sync");
     },
     guides: () => [{ slug: "ok-guide", date: "2026-10-15" }, { slug: "BAD SLUG" }],
+    tapestryDrop: () => [
+      { slug: "horns-halos-crest-tapestry-iv-the-raven-moon" },
+      { slug: "BAD SLUG" },
+      { slug: "horns-halos-crest-tapestry-vi-heaven-above-hell-below" },
+    ],
   });
   const mixedUrls = urlsOf(mixed);
   for (const url of coreUrls()) {
@@ -72,8 +79,13 @@ async function main() {
   assert.ok(mixedUrls.includes(`${site.url}/overmind/journal/ok-overmind`));
   assert.ok(mixedUrls.includes(`${site.url}/gallery/house-artist`));
   assert.ok(mixedUrls.includes(`${site.url}/guides/ok-guide`));
+  assert.ok(mixedUrls.includes(`${site.url}/drop/horns-halos-crest-tapestry-iv-the-raven-moon`));
   assert.ok(!mixedUrls.includes(`${site.url}/overmind/journal/BAD SLUG`));
   assert.ok(!mixedUrls.includes(`${site.url}/guides/BAD SLUG`));
+  assert.ok(
+    !mixedUrls.includes(`${site.url}/drop/horns-halos-crest-tapestry-vi-heaven-above-hell-below`),
+    "excluded upright-cross tapestry must not enter the sitemap",
+  );
   assert.ok(mixed.every(isValidSitemapEntry), "garbage live rows must not emit invalid entries");
 
   console.log(`sitemap resilience ok (${entries.length} core urls when every source throws)`);
