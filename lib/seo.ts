@@ -41,6 +41,7 @@ export function shareMetadata(
     },
     twitter: {
       card: "summary_large_image",
+      site: "@horns_halos_619",
       images: [SHARE_IMAGE_PATH],
       ...(extras.title ? { title: extras.title } : {}),
       ...(extras.description ? { description: extras.description } : {}),
