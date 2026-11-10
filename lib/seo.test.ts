@@ -68,6 +68,7 @@ async function checkSitemap() {
     "https://projectsixxx.com/studio",
     "https://projectsixxx.com/overmind/journal",
     "https://projectsixxx.com/picks",
+    "https://projectsixxx.com/drop",
     "https://projectsixxx.com/guides",
     "https://projectsixxx.com/guides/halloween-samhain-guide",
     "https://projectsixxx.com/guides/choose-your-side-holiday-guide",
@@ -134,6 +135,9 @@ async function checkSitemap() {
     "/shop/tablets/tablet-placeholder",
     "/shop/art-supplies/art-supplies-placeholder",
     "/shop/computer-gear/computer-gear-placeholder",
+    "/drop/horns-halos-crest-tapestry-vi-heaven-above-hell-below",
+    "/drop/project-sixxx-crest-tapestry-i-the-black-vigil",
+    "/drop/horns-halos-crest-tapestry-viii-the-paladin-and-the-infernal-knight",
   ];
 
   for (const path of blocked) {
