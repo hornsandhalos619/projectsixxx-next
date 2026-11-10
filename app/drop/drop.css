@@ -1,0 +1,120 @@
+/* Crest tapestry landing pages — house tokens only. */
+.drop-page {
+  padding-bottom: 4.5rem;
+}
+
+.drop-hero {
+  margin: 0 auto 0.5rem;
+  border: 1px solid var(--hairline);
+  background: var(--obsidian);
+}
+
+.drop-hero img,
+.drop-card img,
+.drop-related-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background: var(--obsidian);
+}
+
+.drop-head {
+  padding-top: 2rem;
+}
+
+.drop-price {
+  margin: 0.85rem 0 0;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  letter-spacing: 0.06em;
+}
+
+.drop-index-grid,
+.drop-related-grid {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0;
+  display: grid;
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.drop-index-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.drop-related-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.drop-card,
+.drop-related-card {
+  display: block;
+  background: var(--void);
+  color: inherit;
+  padding: 0 0 1.25rem;
+  height: 100%;
+}
+
+.drop-card:hover,
+.drop-related-card:hover {
+  background: color-mix(in srgb, var(--crimson) 10%, var(--void));
+}
+
+.drop-card img,
+.drop-related-card img {
+  aspect-ratio: 1;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.drop-card-copy,
+.drop-related-card-copy {
+  padding: 1rem 1.15rem 0;
+}
+
+.drop-card h2,
+.drop-related-card h3 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.drop-card .drop-price,
+.drop-related-card .drop-price {
+  font-size: 1.15rem;
+  margin-top: 0.55rem;
+}
+
+.drop-more {
+  margin-top: 3rem;
+}
+
+.drop-shop-link {
+  margin-top: 1.75rem;
+}
+
+.drop-shop-link a {
+  color: var(--silver);
+  border-bottom: 1px solid color-mix(in srgb, var(--silver) 40%, transparent);
+}
+
+.drop-shop-link a:hover,
+.drop-shop-link a:focus-visible {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.drop-empty {
+  margin: 2rem 0;
+  color: var(--ash);
+}
+
+@media (max-width: 720px) {
+  .drop-index-grid,
+  .drop-related-grid {
+    grid-template-columns: 1fr;
+  }
+}
