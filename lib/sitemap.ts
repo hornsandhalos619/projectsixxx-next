@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { shopCategories } from "@/config/affiliates";
 import { journalTaxonomy, site } from "@/config/site";
 import { isValidSlug } from "@/lib/cms/slug";
+import { excludedTapestryHandleSet } from "@/lib/tapestry-drop";
 
 export type SitemapSource = () => unknown;
 export type SitemapSources = {
@@ -11,6 +12,7 @@ export type SitemapSources = {
   gallery?: SitemapSource;
   affiliates?: SitemapSource;
   guides?: SitemapSource;
+  tapestryDrop?: SitemapSource;
 };
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
@@ -32,6 +34,7 @@ export const SITEMAP_CORE_PATHS = [
   "/studio",
   "/overmind/journal",
   "/picks",
+  "/drop",
   "/guides",
   "/guides/halloween-samhain-guide",
   "/guides/choose-your-side-holiday-guide",
@@ -138,6 +141,7 @@ const CORE_PAGE_META: Record<
   "/studio": { changeFrequency: "monthly", priority: 0.6 },
   "/overmind/journal": { changeFrequency: "weekly", priority: 0.6 },
   "/picks": { changeFrequency: "weekly", priority: 0.7 },
+  "/drop": { changeFrequency: "weekly", priority: 0.8 },
   "/guides": { changeFrequency: "weekly", priority: 0.6 },
   "/guides/halloween-samhain-guide": { changeFrequency: "monthly", priority: 0.5 },
   "/guides/choose-your-side-holiday-guide": { changeFrequency: "monthly", priority: 0.5 },
@@ -198,6 +202,7 @@ function defaultSources(): Required<SitemapSources> {
     gallery: () => import("@/lib/gallery/store").then((mod) => mod.listPublishedArtists()),
     affiliates: () => import("@/lib/affiliates/store").then((mod) => mod.listPublishedAffiliateProducts()),
     guides: () => import("@/lib/guides").then((mod) => mod.publishedGuides()),
+    tapestryDrop: () => import("@/lib/tapestry-drop").then((mod) => mod.listTapestryLandings()),
   };
 }
 
@@ -288,14 +293,29 @@ function affiliateEntries(products: unknown[]): MetadataRoute.Sitemap {
   return keep(items);
 }
 
+function tapestryDropEntries(products: unknown[]): MetadataRoute.Sitemap {
+  const items: Array<SitemapEntry | null> = [];
+  for (const product of products) {
+    try {
+      const slug = field(product, "slug");
+      if (!isValidSlug(slug) || excludedTapestryHandleSet.has(slug)) continue;
+      items.push(entry(`/drop/${slug}`, "weekly", 0.7));
+    } catch (error) {
+      console.error("sitemap tapestry drop entry failed", error);
+    }
+  }
+  return keep(items);
+}
+
 async function assemble(sources: Required<SitemapSources>): Promise<MetadataRoute.Sitemap> {
-  const [journal, overmind, library, gallery, affiliates, guides] = await Promise.all([
+  const [journal, overmind, library, gallery, affiliates, guides, tapestryDrop] = await Promise.all([
     safe("journal", sources.journal),
     safe("overmind", sources.overmind),
     safe("library", sources.library),
     safe("gallery", sources.gallery),
     safe("affiliates", sources.affiliates),
     safe("guides", sources.guides),
+    safe("tapestryDrop", sources.tapestryDrop),
   ]);
 
   const sections: MetadataRoute.Sitemap[] = [coreSitemapEntries()];
@@ -329,6 +349,11 @@ async function assemble(sources: Required<SitemapSources>): Promise<MetadataRout
     sections.push(guideEntries(guides));
   } catch (error) {
     console.error("sitemap guides section failed", error);
+  }
+  try {
+    sections.push(tapestryDropEntries(tapestryDrop));
+  } catch (error) {
+    console.error("sitemap tapestry drop section failed", error);
   }
 
   return keep(sections.flat());
