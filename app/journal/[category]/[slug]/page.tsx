@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getPost, isJournalCategory, publishedPosts } from "@/lib/journal";
+import { shareMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ category: string; slug: string }> };
 
@@ -19,7 +20,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category, slug } = await params;
   const post = await getPost(category, slug);
   if (!post || post.visibility !== "published") return { title: "Journal" };
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    ...shareMetadata(`/journal/${category}/${slug}`, {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+    }),
+  };
 }
 
 export default async function PostPage({ params }: Props) {

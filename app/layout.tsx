@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/config/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { shareMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -22,21 +23,26 @@ const plex = IBM_Plex_Sans({
 });
 
 
+const defaultTitle = `${site.name} — ${site.mood}`;
+const homeShare = shareMetadata("/", {
+  title: defaultTitle,
+  description: site.description,
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${site.domain}`),
   title: {
-    default: `${site.name} — ${site.mood}`,
+    default: defaultTitle,
     template: `%s — ${site.name}`,
   },
   description: site.description,
+  alternates: homeShare.alternates,
   openGraph: {
-    title: site.name,
-    description: site.description,
-    url: site.url,
+    ...homeShare.openGraph,
     siteName: site.name,
     locale: "en_US",
-    type: "website",
   },
+  twitter: homeShare.twitter,
   verification: {
     google: "gyXQTr7AzMIDkSVuWKw23dD_1QyqJ_fduppUTNMDo14",
     other: { "p:domain_verify": "1d7384e3ca0a063c89de014eb97831e4" },

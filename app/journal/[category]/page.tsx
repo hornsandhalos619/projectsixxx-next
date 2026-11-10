@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { journalTaxonomy, taxonomyCopy } from "@/config/site";
 import { isJournalCategory, postsIn } from "@/lib/journal";
+import { shareMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ category: string }> };
 
@@ -16,7 +17,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   if (!isJournalCategory(category)) return { title: "Journal" };
   const copy = taxonomyCopy[category];
-  return { title: copy.title, description: copy.dek };
+  return {
+    title: copy.title,
+    description: copy.dek,
+    ...shareMetadata(`/journal/${category}`, {
+      title: copy.title,
+      description: copy.dek,
+    }),
+  };
 }
 
 export default async function CategoryPage({ params }: Props) {
