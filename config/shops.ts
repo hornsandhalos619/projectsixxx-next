@@ -45,3 +45,18 @@ export const outboundShops: OutboundShop[] = [
 export function visibleOutboundShops(shops: OutboundShop[] = outboundShops) {
   return shops.filter((shop) => shop.url.length > 0);
 }
+
+/** Verified 2026-11-10 via Shopify /collections.json (20 Crest Tapestries). */
+export const tapestryCollectionHandle = "crest-tapestries";
+
+export function tapestryCollectionUrl(utmContent = "home-hero"): string {
+  const url = new URL(
+    `${shopifyUrl.replace(/\/$/, "")}/collections/${tapestryCollectionHandle}`,
+  );
+  url.searchParams.set("utm_source", "projectsixxx");
+  url.searchParams.set("utm_medium", "referral");
+  url.searchParams.set("utm_campaign", "tapestry-drop");
+  url.searchParams.set("utm_content", utmContent);
+  return url.toString();
+}
+
