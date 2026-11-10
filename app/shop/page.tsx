@@ -8,10 +8,16 @@ import { SOFT_LAUNCH_COPY, SOFT_LAUNCH_SOURCE, SOFT_LAUNCH_TAG } from "@/config/
 import { EmailCapture } from "@/components/EmailCapture";
 import { loadShopifyTees } from "@/lib/shopify-tees";
 
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Shop";
+const description =
+  "Horns & Halos gothic tribal streetwear, open on Shopify, plus the house affiliate shelves. HORNS UP / HALOS ON™. Est. in Darkness.";
+
 export const metadata: Metadata = {
-  title: "Shop",
-  description:
-    "Horns & Halos gothic tribal streetwear, open on Shopify, plus the house affiliate shelves. HORNS UP / HALOS ON™. Est. in Darkness.",
+  title,
+  description,
+  ...shareMetadata("/shop", { title, description }),
 };
 
 export const revalidate = 3600;

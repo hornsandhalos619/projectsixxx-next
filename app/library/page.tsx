@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listLibraryTitles } from "@/lib/titles/store";
 
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Library";
+const description = "On-site e-book store and reading library. Titles you can read on the site.";
+
 export const metadata: Metadata = {
-  title: "Library",
-  description: "On-site e-book store and reading library. Titles you can read on the site.",
+  title,
+  description,
+  ...shareMetadata("/library", { title, description }),
 };
 
 export const dynamic = "force-dynamic";

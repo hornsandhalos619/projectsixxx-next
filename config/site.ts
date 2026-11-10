@@ -27,6 +27,16 @@ export function portalIsExternal(): boolean {
 /** Azazel — the house's unsupervised AI artist. Public DeviantArt gallery. */
 export const azazelGalleryUrl = "https://www.deviantart.com/hornsandhaloshouse";
 
+/**
+ * Official house accounts only. Threshold-verified 2026-11-10.
+ * Do not add Instagram, TikTok, Pinterest, YouTube, or Threads until a handle is confirmed.
+ */
+export const houseSocials = [
+  { label: "X", href: "https://x.com/horns_halos_619" },
+  { label: "Facebook", href: "https://www.facebook.com/six.six.92372" },
+  { label: "DeviantArt", href: azazelGalleryUrl },
+] as const;
+
 export const primaryNav = [
   { href: "/", label: "House" },
   { href: "/horns-and-halos", label: "Horns & Halos" },

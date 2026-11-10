@@ -67,4 +67,10 @@ assert.ok(
   "Horns & Halos™ must stay on one line",
 );
 
+
+assert.ok(
+  footer.includes('FollowTheHouse') && footer.includes('spot="footer"'),
+  "footer must mount the Follow the House strip",
+);
+
 console.log("footer tagline + copyright ok");

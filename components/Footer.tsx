@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { AMAZON_ASSOCIATE_LINE } from "@/components/AffiliateDisclosure";
+import { FollowTheHouse } from "@/components/FollowTheHouse";
 import { azazelGalleryUrl, site } from "@/config/site";
 
 export function Footer() {
   return (
     <footer className="footer">
       <div className="shell footer-inner">
+        <FollowTheHouse spot="footer" />
         <p className="footer-tagline">
           <span className="visually-hidden">
             HORNS UP trademark. HALOS ON trademark. Choose wisely.

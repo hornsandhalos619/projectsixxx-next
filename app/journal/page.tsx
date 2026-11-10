@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { journalTaxonomy, taxonomyCopy } from "@/config/site";
 import { publishedPosts } from "@/lib/journal";
+import { shareMetadata } from "@/lib/seo";
+
+const title = "Journal";
+const description = "House writing. Craft, commerce, and the quiet tests.";
 
 export const metadata: Metadata = {
-  title: "Journal",
-  description: "House writing. Craft, commerce, and the quiet tests.",
+  title,
+  description,
+  ...shareMetadata("/journal", { title, description }),
 };
 
 export const dynamic = "force-dynamic";
