@@ -95,6 +95,14 @@ Local `next dev` without those vars writes gitignored files under `data/`. That 
 | `LEADS_ENDPOINT` | Optional ESP forwarder. Used when the Shopify token is unset. |
 | `NEXT_PUBLIC_SHOW_FEATURED_ROSTER` | Homepage featured roster. Default off. Set `true` only after named collaborators approve. Each roster entry also needs `published: true`. |
 
+## Palace of Wonders
+
+Immersive 3D house at `/palace` — traversable halls, OVERMIND + agent NPC cast, maze seals, Release 001 gallery pedestals, and the Threshold of Death (storyline from player choices).
+
+- Procedural photoreal halls ship now; drop a Blender `public/palace/shell.glb` when the case export is ready (`public/palace/README.md`).
+- NPC wire: optional `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` (see `.env.example`). Without keys, sealed script dialogue still runs.
+- Portal CTAs from House home, Horns & Halos, and Shop.
+
 ## Local
 
 ```bash

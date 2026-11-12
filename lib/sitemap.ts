@@ -20,6 +20,7 @@ type SitemapEntry = MetadataRoute.Sitemap[number];
 export const SITEMAP_CORE_PATHS = [
   "/",
   "/horns-and-halos",
+  "/palace",
   "/journal",
   "/library",
   "/gallery",
@@ -127,6 +128,7 @@ const CORE_PAGE_META: Record<
 > = {
   "/": { changeFrequency: "weekly", priority: 1 },
   "/horns-and-halos": { changeFrequency: "weekly", priority: 0.9 },
+  "/palace": { changeFrequency: "weekly", priority: 0.9 },
   "/journal": { changeFrequency: "weekly", priority: 0.8 },
   "/library": { changeFrequency: "weekly", priority: 0.8 },
   "/gallery": { changeFrequency: "weekly", priority: 0.8 },

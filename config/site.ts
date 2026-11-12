@@ -40,6 +40,7 @@ export const houseSocials = [
 export const primaryNav = [
   { href: "/", label: "House" },
   { href: "/horns-and-halos", label: "Horns & Halos" },
+  { href: "/palace", label: "Palace" },
   { href: "/journal", label: "Journal" },
   { href: "/library", label: "Library" },
   { href: "/gallery", label: "Gallery" },
