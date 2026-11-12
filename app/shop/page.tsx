@@ -44,7 +44,14 @@ export default async function ShopPage() {
           >
             Enter Shopify store
           </a>
+          <Link className="btn btn-silver" href="/palace">
+            Palace of Wonders
+          </Link>
         </div>
+        <p className="muted" style={{ marginTop: "0.85rem" }}>
+          The shop is a door. The Palace is deeper exploration — OVERMIND, agents, maze, and the
+          Threshold of Death.
+        </p>
       </header>
 
       <section className="section" aria-label="Shop duality">

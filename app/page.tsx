@@ -66,6 +66,9 @@ export default async function HomePage() {
             >
               Shop the drop
             </a>
+            <Link className="btn btn-silver" href="/palace">
+              Palace of Wonders
+            </Link>
           </div>
           <FollowTheHouse spot="home" />
         </div>
@@ -305,6 +308,9 @@ export default async function HomePage() {
           <div className="cta-row">
             <Link className="btn btn-house" href="/journal/fine-art/what-makes-art-fine">
               Read the cut
+            </Link>
+            <Link className="btn btn-ember" href="/palace">
+              Enter the Palace
             </Link>
             <PortalCta className="btn btn-silver">Cross the Threshold</PortalCta>
             <Link className="btn" href="/contact">

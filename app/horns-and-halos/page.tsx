@@ -105,6 +105,9 @@ export default function HornsAndHalosPage() {
 
       <div className="shell section section--centered">
         <div className="cta-row cta-row--centered">
+          <Link className="btn btn-ember" href="/palace">
+            Enter the Palace of Wonders
+          </Link>
           <PortalCta className="btn btn-silver">Cross the Threshold</PortalCta>
           <Link className="btn btn-silver" href="/gallery/project-sixxx">
             House roster
