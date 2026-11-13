@@ -9,7 +9,12 @@ const read = (path: string) => readFileSync(join(root, path), "utf8");
 const glbPath = join(root, "public/palace/palace.glb");
 const glb = readFileSync(glbPath);
 assert.equal(glb.subarray(0, 4).toString("utf8"), "glTF", "palace.glb must be a binary glTF");
-assert.ok(statSync(glbPath).size > 1_000_000, "palace.glb should be the meshopt model");
+assert.equal(statSync(glbPath).size, 6_968_892, "palace.glb must stay the v3 default model");
+
+const hdPath = join(root, "public/palace/palace-hd.glb");
+const hd = readFileSync(hdPath);
+assert.equal(hd.subarray(0, 4).toString("utf8"), "glTF", "palace-hd.glb must be a binary glTF");
+assert.equal(statSync(hdPath).size, 22_485_816, "palace-hd.glb must be the concatenated HD model");
 
 const catalog = JSON.parse(read("public/palace/palace-hotspots.json")) as {
   shop?: string;
@@ -24,7 +29,11 @@ assert.ok(catalog.hotspots.every((spot) => typeof spot.hotspot_id === "string" &
 
 const viewer = read("public/palace/palace.js");
 assert.match(viewer, /['"]\/palace\/palace\.glb['"]/);
+assert.match(viewer, /['"]\/palace\/palace-hd\.glb['"]/);
 assert.match(viewer, /['"]\/palace\/palace-hotspots\.json['"]/);
+assert.match(viewer, /get\('hd'\)/);
+assert.match(viewer, /q === '1'/);
+assert.match(viewer, /q === '0'/);
 assert.match(viewer, /prefers-reduced-motion:\s*reduce/);
 assert.match(viewer, /hotspot_id/);
 assert.match(viewer, /palace_2d_url/);
@@ -38,7 +47,8 @@ assert.match(html, /src="\/palace\/palace\.js"/);
 assert.match(html, /noindex/);
 
 const page = read("app/palace/page.tsx");
-assert.match(page, /src="\/palace\/index\.html"/);
+assert.match(page, /\/palace\/index\.html\?hd=/);
+assert.match(page, /index\.html/);
 assert.match(page, /index:\s*false/);
 
 const nextConfig = read("next.config.ts");

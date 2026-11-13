@@ -16,11 +16,21 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function PalacePage() {
+export default async function PalacePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ hd?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const raw = Array.isArray(params.hd) ? params.hd[0] : params.hd;
+  const src =
+    raw === "1" || raw === "0"
+      ? `/palace/index.html?hd=${raw}`
+      : "/palace/index.html";
   return (
     <iframe
       className="palace-frame"
-      src="/palace/index.html"
+      src={src}
       title="Palace of Wonders"
     />
   );

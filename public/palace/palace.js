@@ -1,24 +1,32 @@
 // Palace of Wonders v3: minimal Three.js viewer. Each room is the 2D painting projected onto matched geometry
 // (unlit, emission-only), so every room opens at its painting camera (ROOM_* extras: cam_pos, hfov, shift).
 // Doors teleport between rooms like the 2D site; 2D hotspots and products open a drawer.
-//
-// Replace these two files to ship a new palace. No code change.
-//   public/palace/palace.glb
-//   public/palace/palace-hotspots.json
-// The catalog joins to model nodes on hotspot_id (JSON wins for those fields).
-// shop and palace_2d_url drive the skip link and the Great Hall portal.
-// Optional start_room selects the opening room. Camera bounds stay on the model.
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
+// Two tiers: palace.glb (~7 MB) by default; palace-hd.glb (~22 MB, Real-ESRGAN 2x paintings) on desktop with a
+// fast connection, or forced with ?hd=1 (?hd=0 forces the light file).
+function pickModel() {
+  const q = new URLSearchParams(location.search).get('hd');
+  if (q === '1') return '/palace/palace-hd.glb';
+  if (q === '0') return '/palace/palace.glb';
+  const c = navigator.connection || {};
+  const desktop = matchMedia('(pointer: fine)').matches && Math.min(screen.width, screen.height) >= 800;
+  const fast = !c.saveData && (!c.effectiveType || c.effectiveType === '4g') && (!c.downlink || c.downlink >= 5);
+  return desktop && fast ? '/palace/palace-hd.glb' : '/palace/palace.glb';
+}
 const ASSETS = {
-  model: '/palace/palace.glb',
   hotspots: '/palace/palace-hotspots.json',
 };
 const DEFAULT_SHOP = 'https://hornshalosshop.myshopify.com';
 const DEFAULT_ROOM = 'great-hall';
+const CONFIG = {
+  model: pickModel(),
+  shop: DEFAULT_SHOP,
+  startRoom: DEFAULT_ROOM,
+};
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const canvas = document.getElementById('scene');
@@ -45,7 +53,7 @@ const catalogPromise = fetch(ASSETS.hotspots)
   .catch((err) => { console.warn('Palace hotspots JSON unavailable; using model extras.', err); return null; });
 
 const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-loader.load(ASSETS.model, async (gltf) => {
+loader.load(CONFIG.model, async (gltf) => {
   const catalog = await catalogPromise;
   const byId = new Map();
   if (catalog && Array.isArray(catalog.hotspots)) {
@@ -66,7 +74,7 @@ loader.load(ASSETS.model, async (gltf) => {
   });
   const skip = document.getElementById('skip');
   if (skip) skip.href = (catalog && catalog.shop) || DEFAULT_SHOP;
-  buildRoomMenu(); goRoom((catalog && catalog.start_room) || DEFAULT_ROOM);
+  buildRoomMenu(); goRoom((catalog && catalog.start_room) || CONFIG.startRoom);
   document.getElementById('loading').hidden = true;
 }, (e) => { if (e.total) document.getElementById('pct').textContent = Math.round(e.loaded / e.total * 100) + '%'; },
   (err) => { document.getElementById('loading').textContent = 'The palace could not open: ' + err.message; });
@@ -171,6 +179,6 @@ controls.addEventListener('start', () => {   // free look: drop the lens shift a
 addEventListener('resize', fitAspect);
 const clock = new THREE.Clock();
 renderer.setAnimationLoop(() => {
-  clock.getDelta();
+  const dt = clock.getDelta();
   controls.update(); renderer.render(scene, camera);
 });
