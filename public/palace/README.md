@@ -19,3 +19,12 @@ the 2D site); 2D hotspots open their story/spec; products sit at the 2D stations
 - `palace.glb` (~7 MB): paintings 1600 px, WebP q72. Loaded on phones, tablets and slow or data-saver connections.
 - `palace-hd.glb` (~22 MB): Real-ESRGAN x4plus 2x paintings at 3200x1800 and 1600 px Shopify product originals, WebP q85.
   Loaded automatically on desktop with a fast connection. Force it with `?hd=1`, or force the light file with `?hd=0`.
+
+## v3.1 (2026-11-13 PT): floors welded to walls, walking
+- Floors and walls in every room are now one welded mesh (shared edges, no seams) on a solid foundation slab;
+  open rooms' ground runs from behind the camera to the backdrop and is welded to it.
+- Camera stays inside the current room: orbit can't go below eye level (maxPolarAngle 0.5π), and camera + pivot are
+  clamped to the room's walk_bounds, above the floor and under the ceiling.
+- Walking: thumb joystick bottom-right (24px + safe-area inset): up = forward, down = back, left/right = turn.
+  Arrow keys / WASD do the same on desktop. Walls stop you; walking into a gold door ring enters the next room.
+  The object list stays bottom-left and the product drawer sits above the joystick.
