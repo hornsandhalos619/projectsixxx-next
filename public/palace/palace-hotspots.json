@@ -1,0 +1,17 @@
+{
+ "generated": "2026-11-12 PT (v3)",
+ "shop": "https://hornshalosshop.myshopify.com",
+ "palace_2d_url": "https://hornshalosshop.myshopify.com/pages/palace-of-wonders",
+ "rooms": [
+  {
+   "slug": "banquet-hall",
+   "id2d": "banquet-hall",
+   "dims_m": [
+    28.19047619047619,
+    26.82334043507058,
+    13.5
+   ]
+  }
+ ],
+ "hotspots": []
+}
