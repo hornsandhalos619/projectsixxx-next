@@ -9,12 +9,12 @@ const read = (path: string) => readFileSync(join(root, path), "utf8");
 const glbPath = join(root, "public/palace/palace.glb");
 const glb = readFileSync(glbPath);
 assert.equal(glb.subarray(0, 4).toString("utf8"), "glTF", "palace.glb must be a binary glTF");
-assert.equal(statSync(glbPath).size, 6_909_828, "palace.glb must be the v3.1 light model");
+assert.equal(statSync(glbPath).size, 7_113_056, "palace.glb must be the v3.2 light model");
 
 const hdPath = join(root, "public/palace/palace-hd.glb");
 const hd = readFileSync(hdPath);
 assert.equal(hd.subarray(0, 4).toString("utf8"), "glTF", "palace-hd.glb must be a binary glTF");
-assert.equal(statSync(hdPath).size, 22_426_532, "palace-hd.glb must be the v3.1 HD model");
+assert.equal(statSync(hdPath).size, 22_629_768, "palace-hd.glb must be the v3.2 HD model");
 
 const catalog = JSON.parse(read("public/palace/palace-hotspots.json")) as {
   shop?: string;
@@ -38,6 +38,11 @@ assert.match(viewer, /prefers-reduced-motion:\s*reduce/);
 assert.match(viewer, /hotspot_id/);
 assert.match(viewer, /palace_2d_url/);
 assert.match(viewer, /NoToneMapping/);
+assert.match(viewer, /logarithmicDepthBuffer:\s*true/);
+assert.match(viewer, /0\.25,\s*300/);
+assert.match(viewer, /THREE\.FrontSide/);
+assert.match(viewer, /anisotropy/);
+assert.match(viewer, /emberFrag/);
 assert.match(viewer, /interactive === 'door'/);
 assert.match(viewer, /cam_pos/);
 assert.match(viewer, /id="joy"|getElementById\('joy'\)/);

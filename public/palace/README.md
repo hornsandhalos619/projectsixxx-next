@@ -1,5 +1,5 @@
 # Palace of Wonders: 3D web viewer (minimal)
-Static files for projectsixxx.com. NOT deployed anywhere yet.
+Static files for projectsixxx.com. Preview rides on the projectsixxx-next palace PR; this folder is the source.
 - index.html, palace.css, palace.js, palace.glb (meshopt + WebP, ~3.9 MB), palace-hotspots.json
 - Three.js r170 loaded from jsDelivr via an import map; no build step.
 - Click/tap a product (glowing frame, banner, plinth or screen) -> drawer with live price snapshot and "View in the shop" (Shopify product URL with palace UTM). Draft/unpublished items show "Coming to the palace" with no link.
@@ -28,3 +28,8 @@ the 2D site); 2D hotspots open their story/spec; products sit at the 2D stations
 - Walking: thumb joystick bottom-right (24px + safe-area inset): up = forward, down = back, left/right = turn.
   Arrow keys / WASD do the same on desktop. Walls stop you; walking into a gold door ring enters the next room.
   The object list stays bottom-left and the product drawer sits above the joystick.
+
+## v3.2 (2026-11-14 PT): tearing, sharper paintings, firelight
+- Tearing: camera clip is 0.25–300 with a logarithmic depth buffer (was 0.1–1500). Floor decals sit 3.5 cm up with polygonOffset; furniture bottoms are lifted off the floor. Walls overshoot the ceiling and the ceiling overshoots the walls so the joint cannot open a crack. Shells use front faces only (zero-thickness double-sided walls were flickering).
+- Texturing: the viewer re-projects each room's painting in the fragment shader from the painting camera (no affine-UV smear, no clamped-edge stretch). Out-of-frame surfaces fill with the sampled room colour plus a light procedural grain. Anisotropic filtering, sRGB, and mipmaps are set on every colour texture; a mild unsharp + grain kick in up close.
+- Ambient fire: hearths, torches, candles, chandeliers and lanterns from the paintings get procedural flame cards, a warm flickering point light (capped at 2–3 in the current room), drifting embers and, on hearths, smoke wisps. Effects are cheaper on phones and under prefers-reduced-motion / data-saver. Joystick and walking are unchanged.
