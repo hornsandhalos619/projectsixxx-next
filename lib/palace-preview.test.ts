@@ -69,3 +69,12 @@ assert.doesNotMatch(read("config/site.ts"), /\/palace/);
 assert.doesNotMatch(read("app/page.tsx"), /\/palace/);
 assert.doesNotMatch(read("components/Header.tsx"), /\/palace/);
 assert.doesNotMatch(read("components/Footer.tsx"), /\/palace/);
+
+const gameHtml = read("public/palace-game/index.html");
+assert.match(gameHtml, /href="css\/game\.css"/);
+assert.match(gameHtml, /src="js\/main\.js"/);
+assert.match(gameHtml, /noindex/);
+assert.match(read("public/palace-game/CREDITS.md"), /three\.js r170/);
+assert.match(read("app/palace-game/page.tsx"), /\/palace-game\/index\.html/);
+assert.match(read("app/palace-game/page.tsx"), /index:\s*false/);
+assert.doesNotMatch(read("app/palace/page.tsx"), /palace-game/);
