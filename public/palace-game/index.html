@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Palace of Wonders · Horns &amp; Halos</title>
+<meta name="description" content="Walk the Palace of Wonders: the Entrance Hall and Great Hall of Horns & Halos. Every piece on display links to the shop.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0a0c">
+<link rel="icon" href="assets/ui/sigil.webp" type="image/webp">
+<link rel="stylesheet" href="css/game.css">
+<link rel="modulepreload" href="vendor/three/three.module.min.js">
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
+</head>
+<body>
+<canvas id="scene" aria-label="Palace of Wonders, the Great Hall, 3D view"></canvas>
+<header id="bar">
+  <span class="brand">Palace of Wonders</span>
+  <span id="room" aria-live="polite">Entrance Hall</span>
+  <details id="pieces"><summary>Pieces in this hall</summary><ul id="piece-list"></ul></details>
+  <button id="mute" aria-pressed="false" title="Sound">Sound on</button>
+  <a id="skip" href="https://hornshalosshop.myshopify.com/" target="_blank" rel="noopener">Skip to shop</a>
+</header>
+<div id="loading" role="status">
+  <div class="sigil" aria-hidden="true"></div>
+  <h1>Palace of Wonders</h1>
+  <p id="loadmsg">Opening the gates… <span id="pct">0%</span></p>
+  <div id="bar-wrap"><div id="bar-fill"></div></div>
+  <button id="enter" hidden>Enter the Palace</button>
+  <p class="tip">Joystick or WASD to walk · drag to look · tap a glowing piece to inspect it · sound starts when you enter</p>
+</div>
+<div id="crosshair" aria-hidden="true"></div>
+<button id="prompt" hidden></button>
+<div id="toast" hidden role="status"></div>
+<aside id="panel" hidden aria-live="polite" aria-label="Product">
+  <button id="p-close" aria-label="Close">×</button>
+  <img id="p-img" alt="">
+  <p id="p-type"></p>
+  <h2 id="p-title"></h2>
+  <p id="p-price"></p>
+  <p id="p-avail"></p>
+  <label id="p-vrow">Option <select id="p-variant"></select></label>
+  <label>Qty <input id="p-qty" type="number" min="1" max="9" value="1" inputmode="numeric"></label>
+  <div class="row"><button id="p-add">Add to cart</button><button id="p-buy" class="primary">Buy now</button></div>
+  <a id="p-link" target="_blank" rel="noopener">View in the shop</a>
+  <p class="fine">Prices from the shop's public catalog, Nov 14, 2026. Checkout shows the final price.</p>
+</aside>
+<section id="dialog" hidden aria-live="polite">
+  <button id="dl-close" aria-label="Close">×</button>
+  <p class="who"><b id="dl-name"></b> <span id="dl-role"></span></p>
+  <p id="dl-text"></p>
+  <div id="dl-buttons"></div>
+</section>
+<div id="joy" role="application" aria-label="Movement joystick: up walks forward, down walks back, left and right turn"><div id="knob"></div></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

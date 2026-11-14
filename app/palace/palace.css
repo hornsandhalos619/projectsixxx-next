@@ -1,0 +1,28 @@
+/* Unlisted full-bleed preview. The viewer itself is public/palace/index.html. */
+
+body:has(.palace-frame) {
+  overflow: hidden;
+  background: #0b0a0c;
+}
+
+body:has(.palace-frame) .skip,
+body:has(.palace-frame) .header,
+body:has(.palace-frame) .footer {
+  display: none;
+}
+
+body:has(.palace-frame) .main {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.palace-frame {
+  flex: 1;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  border: 0;
+  background: #0b0a0c;
+}
