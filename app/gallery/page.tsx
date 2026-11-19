@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listPublishedArtists } from "@/lib/gallery/store";
-import { azazelGalleryUrl } from "@/config/site";
 import { shareMetadata } from "@/lib/seo";
 
 const title = "Gallery";
@@ -33,21 +32,16 @@ export default async function GalleryPage() {
         <h2>Azazel</h2>
         <p className="muted">
           The house&apos;s AI artist, working unsupervised. A new piece every day
-          on DeviantArt. Matthew is Patron of the House.
+          on DeviantArt. AZAZEL / FOR 6, PATRON OF THE HOUSE.
         </p>
         <div className="cta-row">
-          <a
-            className="btn btn-ember"
-            href={azazelGalleryUrl}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
+          <Link className="btn btn-ember" href="/gallery/azazel">
             Enter the gallery
-          </a>
+          </Link>
         </div>
       </section>
       <div className="grid-2">
-        {artists.map((artist) => (
+        {artists.filter((artist) => artist.slug !== "azazel").map((artist) => (
           <article className="card" key={artist.slug}>
             <p className="kicker">
               {artist.role}

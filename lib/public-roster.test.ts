@@ -30,7 +30,12 @@ for (const name of hiddenNames) {
 }
 
 const publicRoster = publishedArtists();
-assert.ok(publicRoster.every((artist) => artist.role === "House"));
+assert.ok(
+  publicRoster
+    .filter((artist) => artist.slug !== "azazel")
+    .every((artist) => artist.role === "House"),
+);
+assert.equal(publicRoster.find((artist) => artist.slug === "azazel")?.role, "AI artist");
 for (const name of hiddenNames) {
   assert.ok(
     !publicRoster.some((artist) => artist.name === name),
