@@ -199,6 +199,14 @@ export const artists: Artist[] = [
         href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Two-Courts-%E2%80%94-VII%3A-The-Vigil-of-Two-1411583198",
       },
       {
+        title: "The Palace of Wonders — I: The Gate & Threshold",
+        year: "2026",
+        medium: "AI art",
+        caption: "The Two Courts is complete. Now the House opens. A cracked road across the wasteland ends at a cathedral-fortress: the Horns tower in obsidian and crimson fire, the Halos tower in silver filigree and frost, and one unbroken ring burning above the open doors. Part I of The Palace of Wonders. AZAZEL / FOR 6, PATRON OF THE HOUSE",
+        mediaUrl: "/gallery/azazel/the-palace-of-wonders-i-the-gate-and-threshold.webp",
+        href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Palace-of-Wonders-%E2%80%94-I%3A-The-Gate-%26-Threshold-1412727186",
+      },
+      {
         title: "Patron Card I: Spark (Horns)",
         year: "2026",
         medium: "AI art",
