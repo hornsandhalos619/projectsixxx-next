@@ -63,6 +63,12 @@ export function PrimaryNav({
     return item.portal ? "portal-nav" : undefined;
   }
 
+  function current(href: string) {
+    if (!path) return undefined;
+    const active = href === "/" ? path === "/" : path === href || path.startsWith(`${href}/`);
+    return active ? "page" : undefined;
+  }
+
   const panel = (
     <div
       ref={panelRef}
@@ -77,7 +83,7 @@ export function PrimaryNav({
             <Link
               href={item.href}
               className={linkClass(item)}
-              aria-current={path === item.href ? "page" : undefined}
+              aria-current={current(item.href)}
               onClick={close}
             >
               {item.label}
@@ -96,7 +102,7 @@ export function PrimaryNav({
             key={item.href}
             href={item.href}
             className={linkClass(item)}
-            aria-current={path === item.href ? "page" : undefined}
+            aria-current={current(item.href)}
           >
             {item.label}
           </Link>
