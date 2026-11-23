@@ -41,6 +41,7 @@ export const primaryNav = [
   { href: "/", label: "House" },
   { href: "/horns-and-halos", label: "Horns & Halos" },
   { href: "/journal", label: "Journal" },
+  { href: "/board", label: "Board" },
   { href: "/library", label: "Library" },
   { href: "/gallery", label: "Gallery" },
   { href: "/shop", label: "Shop" },

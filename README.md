@@ -67,7 +67,7 @@ After changing `FOUNDER_EMAILS`, sign out and sign in again so the session re-se
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon key (documented; server prefers service role) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server writes. Never expose in HTML or client bundles. |
 
-Apply `supabase/migrations/0001_house_cms.sql` and `supabase/migrations/0002_house_accounts.sql` in the Supabase SQL editor. Then optional seed:
+Apply `supabase/migrations/0001_house_cms.sql` and `supabase/migrations/0002_house_accounts.sql` in the Supabase SQL editor. The members' board uses `supabase/migrations/0005_house_board.sql` (`board_threads`, `board_replies`). Leave that file unapplied until the preview looks right. Until those tables exist, `/board` stays empty instead of erroring. Then optional seed:
 
 ```bash
 npx tsx scripts/seed-cms.ts

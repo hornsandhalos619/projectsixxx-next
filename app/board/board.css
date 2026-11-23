@@ -1,0 +1,158 @@
+.board-halls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 2.75rem;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.board-halls .card {
+  min-height: 8.5rem;
+  color: inherit;
+}
+
+.board-halls .card h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--bone);
+}
+
+.board-halls .card[aria-current="page"] {
+  box-shadow:
+    inset 0 -2px 0 var(--crimson),
+    inset 0 1px 0 var(--glass-specular);
+}
+
+.board-floor-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.board-floor-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-lg);
+}
+
+.board-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.board-thread {
+  padding: 1.35rem 0 1.45rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.board-thread h3,
+.board-reply h3 {
+  margin: 0.3rem 0 0.45rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+  letter-spacing: 0.02em;
+}
+
+.board-thread h3 a:hover,
+.board-thread h3 a:focus-visible {
+  color: var(--silver);
+}
+
+.board-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: var(--label);
+  font-weight: 500;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.board-meta a {
+  color: var(--silver);
+}
+
+.board-meta a[aria-current="page"],
+.board-meta a:hover,
+.board-meta a:focus-visible {
+  color: var(--gold);
+}
+
+.board-pin {
+  color: var(--gold);
+}
+
+.board-seal {
+  color: var(--crimson);
+}
+
+.board-hold {
+  color: var(--silver);
+}
+
+.board-body {
+  margin: 0.85rem 0 0;
+  max-width: 42rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--bone);
+  line-height: 1.7;
+}
+
+.board-replies {
+  margin-top: 2.75rem;
+}
+
+.board-replies h2 {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-lg);
+  letter-spacing: 0.03em;
+}
+
+.board-reply {
+  padding: 1.15rem 0 1.25rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.board-reply h3 {
+  font-size: 1.25rem;
+}
+
+.board-tools .admin-banner {
+  flex-basis: 100%;
+}
+
+.board-form {
+  max-width: 40rem;
+  margin-top: 1.5rem;
+}
+
+.board-note {
+  max-width: 40rem;
+  margin: 0 0 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .board-halls {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .board-halls {
+    grid-template-columns: 1fr;
+  }
+}

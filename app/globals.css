@@ -2030,7 +2030,7 @@ a.card:focus-visible,
 }
 
 .nav-parchment.is-open {
-  max-height: 28rem;
+  max-height: 36rem;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);

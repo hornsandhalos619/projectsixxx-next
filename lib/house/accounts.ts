@@ -523,3 +523,56 @@ const neonAccountStore: AccountStore = {
     }
   },
 };
+
+export async function lookupUsernames(ids: string[]): Promise<Map<string, string>> {
+  const unique = [...new Set(ids.map((id) => String(id ?? "").trim()).filter(Boolean))].slice(0, 200);
+  const names = new Map<string, string>();
+  if (unique.length === 0) return names;
+
+  const remember = (id: string, username: string) => {
+    const label = username.trim();
+    if (id && label) names.set(id, label);
+  };
+
+  try {
+    if (supabaseConfigured()) {
+      const { data, error } = await getSupabase()
+        .from("house_accounts")
+        .select("id, username")
+        .in("id", unique);
+      if (error) throw new Error(error.message);
+      for (const row of data ?? []) remember(String(row.id ?? ""), String(row.username ?? ""));
+      return names;
+    }
+
+    if (neonConfigured()) {
+      const sql = await ensureNeonAccounts();
+      for (const id of unique) {
+        const rows = await sql`
+          SELECT id, username FROM house_accounts WHERE id = ${id} LIMIT 1
+        `;
+        const row = rows[0] as { id?: unknown; username?: unknown } | undefined;
+        if (row) remember(String(row.id ?? ""), String(row.username ?? ""));
+      }
+      return names;
+    }
+
+    if (blobAccountsConfigured()) {
+      const rows = await blobListAccounts();
+      for (const row of rows) {
+        if (unique.includes(row.id)) remember(row.id, row.username);
+      }
+      return names;
+    }
+
+    if (localAllowed()) {
+      for (const row of localJsonRead<HouseAccount>(LOCAL_FILE)) {
+        if (unique.includes(row.id)) remember(row.id, row.username);
+      }
+    }
+  } catch (error) {
+    console.error("house username lookup failed", error instanceof Error ? error.message : "unknown");
+  }
+
+  return names;
+}
