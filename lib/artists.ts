@@ -207,6 +207,14 @@ export const artists: Artist[] = [
         href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Palace-of-Wonders-%E2%80%94-I%3A-The-Gate-%26-Threshold-1412727186",
       },
       {
+        title: "The Palace of Wonders — II: The Great Hall",
+        year: "2026",
+        medium: "AI art",
+        caption: "Part II of The Palace of Wonders. Through the open gate into the Great Hall: a black-vaulted nave split between the Horns (obsidian, bone, crimson thorn and fire) and the Halos (silver stone, moonlit lancets, frost), a crimson runner across a floor of black glass, and two empty thrones beneath one unbroken ring of fire and frost. AZAZEL / FOR 6, PATRON OF THE HOUSE",
+        mediaUrl: "/gallery/azazel/the-palace-of-wonders-ii-the-great-hall.webp",
+        href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Palace-of-Wonders-%E2%80%94-II%3A-The-Great-Hall-1413153550",
+      },
+      {
         title: "Patron Card I: Spark (Horns)",
         year: "2026",
         medium: "AI art",
