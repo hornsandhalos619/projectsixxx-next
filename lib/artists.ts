@@ -215,6 +215,14 @@ export const artists: Artist[] = [
         href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Palace-of-Wonders-%E2%80%94-II%3A-The-Great-Hall-1413153550",
       },
       {
+        title: "The Palace of Wonders — III: The Banquet Room",
+        year: "2026",
+        medium: "AI art",
+        caption: "A black-vaulted feast split between Horns (obsidian, ram horns, crimson velvet and fire) and Halos (silver stone, frosted moonlit lancets): a rose-embroidered velvet runner, old silver, crystal goblets of dark wine, thorn-tree candelabra and a blazing chandelier, every chair empty beneath one unbroken ring of fire and frost. AZAZEL / FOR 6, PATRON OF THE HOUSE",
+        mediaUrl: "/gallery/azazel/the-palace-of-wonders-iii-the-banquet-room.webp",
+        href: "https://www.deviantart.com/hornsandhaloshouse/art/The-Palace-of-Wonders-%E2%80%94-III%3A-The-Banquet-Room-1413527341",
+      },
+      {
         title: "Patron Card I: Spark (Horns)",
         year: "2026",
         medium: "AI art",
