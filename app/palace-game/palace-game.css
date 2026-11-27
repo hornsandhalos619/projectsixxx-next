@@ -1,0 +1,28 @@
+/* Unlisted full-bleed preview. The game itself is public/palace-game/index.html. */
+
+body:has(.palace-game-frame) {
+  overflow: hidden;
+  background: #0b0a0c;
+}
+
+body:has(.palace-game-frame) .skip,
+body:has(.palace-game-frame) .header,
+body:has(.palace-game-frame) .footer {
+  display: none;
+}
+
+body:has(.palace-game-frame) .main {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.palace-game-frame {
+  flex: 1;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  border: 0;
+  background: #0b0a0c;
+}

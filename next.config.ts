@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
         destination: "/picks",
         permanent: true,
       },
+      {
+        source: "/pages/palace-of-wonders",
+        destination: "/palace",
+        permanent: false,
+      },
     ];
   },
 };

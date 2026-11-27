@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Palace of Wonders · Horns &amp; Halos</title>
+<meta name="description" content="Walk the Palace of Wonders, the 3D house of Horns & Halos and Project SiXXX. Every piece in the palace links to the shop.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/palace/palace.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="scene" aria-label="Palace of Wonders 3D view"></canvas>
+<header id="bar">
+  <span class="brand">Palace of Wonders</span>
+  <label>Room <select id="rooms" aria-label="Go to room"></select></label>
+  <label><input type="checkbox" id="ceil"> Ceilings</label>
+  <a id="skip" href="https://hornshalosshop.myshopify.com/" target="_blank" rel="noopener">Skip to shop</a>
+</header>
+<div id="loading" role="status">Opening the gates… <span id="pct">0%</span></div>
+<aside id="drawer" hidden aria-live="polite">
+  <button id="close" aria-label="Close">×</button>
+  <img id="d-img" alt="">
+  <h2 id="d-title"></h2>
+  <p id="d-meta"></p>
+  <p id="d-price"></p>
+  <a id="d-link" target="_blank" rel="noopener">View in the shop</a>
+  <p id="d-coming" hidden>Coming to the palace</p>
+</aside>
+<details id="objects"><summary>Objects in this room</summary><ul id="obj-list"></ul></details>
+<div id="joy" role="application" aria-label="Movement joystick: up walks forward, down walks back, left and right turn"><div id="knob"></div></div>
+<p id="hint">Joystick or arrow keys / WASD to walk · drag to look · tap a glowing piece to open it</p>
+<script type="module" src="/palace/palace.js"></script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+{
+ "shop": "https://hornshalosshop.myshopify.com",
+ "fetched": "2026-11-14",
+ "source": "https://hornshalosshop.myshopify.com/products.json",
+ "products": [
+  {
+   "handle": "horns-halos-crest-tapestry-i-the-fallen-and-the-crowned",
+   "title": "Horns & Halos Crest Tapestry I \u2014 The Fallen and the Crowned",
+   "type": "Tapestry",
+   "kind": "tapestry",
+   "slot": "tapL1",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-tapestry-i-the-fallen-and-the-crowned",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/media-hh1-art-2400.jpg?v=1794199291&width=800",
+   "tex": "assets/products/horns-halos-crest-tapestry-i-the-fallen-and-the-crowned.webp",
+   "variants": [
+    {
+     "id": 46466017427591,
+     "title": "26\u2033\u00d736\u2033",
+     "price": "48.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "horns-halos-crest-tapestry-iii-the-unicorn-and-the-goat-king",
+   "title": "Horns & Halos Crest Tapestry III \u2014 The Unicorn and the Goat King",
+   "type": "Tapestry",
+   "kind": "tapestry",
+   "slot": "tapL2",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-tapestry-iii-the-unicorn-and-the-goat-king",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/media-hh3-art-2400.jpg?v=1794199355&width=800",
+   "tex": "assets/products/horns-halos-crest-tapestry-iii-the-unicorn-and-the-goat-king.webp",
+   "variants": [
+    {
+     "id": 46466017886343,
+     "title": "26\u2033\u00d736\u2033",
+     "price": "48.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "horns-halos-crest-tapestry-viii-the-paladin-and-the-infernal-knight",
+   "title": "Horns & Halos Crest Tapestry VIII \u2014 The Paladin and the Infernal Knight",
+   "type": "Tapestry",
+   "kind": "tapestry",
+   "slot": "tapR1",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-tapestry-viii-the-paladin-and-the-infernal-knight",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/media-hh8-art-2400.jpg?v=1794201288&width=800",
+   "tex": "assets/products/horns-halos-crest-tapestry-viii-the-paladin-and-the-infernal-knight.webp",
+   "variants": [
+    {
+     "id": 46466094792839,
+     "title": "26\u2033\u00d736\u2033",
+     "price": "48.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "horns-halos-crest-tapestry-iv-the-raven-moon",
+   "title": "Horns & Halos Crest Tapestry IV \u2014 The Raven Moon",
+   "type": "Tapestry",
+   "kind": "tapestry",
+   "slot": "tapR2",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-tapestry-iv-the-raven-moon",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/media-hh4-art-2400.jpg?v=1794199438&width=800",
+   "tex": "assets/products/horns-halos-crest-tapestry-iv-the-raven-moon.webp",
+   "variants": [
+    {
+     "id": 46466018345095,
+     "title": "26\u2033\u00d736\u2033",
+     "price": "48.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "unbroken-ring-gate-i-metal-print",
+   "title": "The Unbroken Ring \u2014 Gate I: The Threshold \u2014 Limited Edition Metal Print",
+   "type": "Metal Print",
+   "kind": "frame",
+   "slot": "easelL",
+   "url": "https://hornshalosshop.myshopify.com/products/unbroken-ring-gate-i-metal-print",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/hh-metal-unbroken-ring-gate-i-11x14.jpg?v=1794435541&width=800",
+   "tex": "assets/products/unbroken-ring-gate-i-metal-print.webp",
+   "variants": [
+    {
+     "id": 46498522235015,
+     "title": "11\u00d714 in Glossy Metal / Prints 1\u20135",
+     "price": "567.04",
+     "available": true
+    },
+    {
+     "id": 46498522267783,
+     "title": "11\u00d714 in Glossy Metal / Prints 6\u201310",
+     "price": "1067.04",
+     "available": false
+    },
+    {
+     "id": 46498522300551,
+     "title": "16\u00d720 in Glossy Metal / Prints 1\u20135",
+     "price": "594.55",
+     "available": true
+    },
+    {
+     "id": 46498522333319,
+     "title": "16\u00d720 in Glossy Metal / Prints 6\u201310",
+     "price": "1094.55",
+     "available": false
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "the-almost-touch-metal-print",
+   "title": "The Two Courts \u2014 I: The Almost-Touch \u2014 Limited Edition Metal Print",
+   "type": "Metal Print",
+   "kind": "frame",
+   "slot": "easelR",
+   "url": "https://hornshalosshop.myshopify.com/products/the-almost-touch-metal-print",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/hh-metal-the-almost-touch-11x14.jpg?v=1794435620&width=800",
+   "tex": "assets/products/the-almost-touch-metal-print.webp",
+   "variants": [
+    {
+     "id": 46498527314055,
+     "title": "11\u00d714 in Glossy Metal / Prints 1\u20135",
+     "price": "567.04",
+     "available": true
+    },
+    {
+     "id": 46498527346823,
+     "title": "11\u00d714 in Glossy Metal / Prints 6\u201310",
+     "price": "1067.04",
+     "available": false
+    },
+    {
+     "id": 46498527379591,
+     "title": "16\u00d720 in Glossy Metal / Prints 1\u20135",
+     "price": "594.55",
+     "available": true
+    },
+    {
+     "id": 46498527412359,
+     "title": "16\u00d720 in Glossy Metal / Prints 6\u201310",
+     "price": "1094.55",
+     "available": false
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "logo-v32-red-metal-print",
+   "title": "Horns & Halos Crest \u2014 Red Halo \u2014 Limited Edition Metal Print",
+   "type": "Metal Print",
+   "kind": "frame",
+   "slot": "hallL",
+   "url": "https://hornshalosshop.myshopify.com/products/logo-v32-red-metal-print",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/hh-metal-logo-v32-red-11x14.jpg?v=1794435734&width=800",
+   "tex": "assets/products/logo-v32-red-metal-print.webp",
+   "variants": [
+    {
+     "id": 46498529345671,
+     "title": "11\u00d714 in Glossy Metal / Prints 1\u20135",
+     "price": "567.04",
+     "available": true
+    },
+    {
+     "id": 46498529378439,
+     "title": "11\u00d714 in Glossy Metal / Prints 6\u201310",
+     "price": "1067.04",
+     "available": false
+    },
+    {
+     "id": 46498529411207,
+     "title": "16\u00d720 in Glossy Metal / Prints 1\u20135",
+     "price": "594.55",
+     "available": true
+    },
+    {
+     "id": 46498529443975,
+     "title": "16\u00d720 in Glossy Metal / Prints 6\u201310",
+     "price": "1094.55",
+     "available": false
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "logo-v32-silver-halo-metal-print",
+   "title": "Horns & Halos Crest \u2014 Silver Halo \u2014 Limited Edition Metal Print",
+   "type": "Metal Print",
+   "kind": "frame",
+   "slot": "hallR",
+   "url": "https://hornshalosshop.myshopify.com/products/logo-v32-silver-halo-metal-print",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/hh-metal-logo-v32-silver-halo-11x14.jpg?v=1794435749&width=800",
+   "tex": "assets/products/logo-v32-silver-halo-metal-print.webp",
+   "variants": [
+    {
+     "id": 46498529673351,
+     "title": "11\u00d714 in Glossy Metal / Prints 1\u20135",
+     "price": "567.04",
+     "available": true
+    },
+    {
+     "id": 46498529706119,
+     "title": "11\u00d714 in Glossy Metal / Prints 6\u201310",
+     "price": "1067.04",
+     "available": false
+    },
+    {
+     "id": 46498529738887,
+     "title": "16\u00d720 in Glossy Metal / Prints 1\u20135",
+     "price": "594.55",
+     "available": true
+    },
+    {
+     "id": 46498529771655,
+     "title": "16\u00d720 in Glossy Metal / Prints 6\u201310",
+     "price": "1094.55",
+     "available": false
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "horns-halos-crest-hoodie-embroidered",
+   "title": "Horns & Halos Crest Hoodie \u2014 Embroidered",
+   "type": "Hoodie",
+   "kind": "hoodie",
+   "slot": "manL1",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-hoodie-embroidered",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/HH-emb-mockup-380-0-embroidery_chest_left_5c02480b-eab5-4c91-a700-32fe98a43e2b.jpg?v=1794199006&width=800",
+   "tex": "assets/products/horns-halos-crest-hoodie-embroidered.webp",
+   "variants": [
+    {
+     "id": 46466013626503,
+     "title": "S",
+     "price": "88.00",
+     "available": true
+    },
+    {
+     "id": 46466013659271,
+     "title": "M",
+     "price": "88.00",
+     "available": true
+    },
+    {
+     "id": 46466013692039,
+     "title": "L",
+     "price": "88.00",
+     "available": true
+    },
+    {
+     "id": 46466013724807,
+     "title": "XL",
+     "price": "88.00",
+     "available": true
+    },
+    {
+     "id": 46466013757575,
+     "title": "2XL",
+     "price": "92.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "break-it-vs-make-it-horns-hoodie",
+   "title": "Break It vs Make It \u2013 Horns Hoodie",
+   "type": "T-SHIRT",
+   "kind": "hoodie",
+   "slot": "manL2",
+   "url": "https://hornshalosshop.myshopify.com/products/break-it-vs-make-it-horns-hoodie",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/unisex-essential-organic-cruiser-2.0-hoodie-black-front-6aeb437534ee1.jpg?v=1793803138&width=800",
+   "tex": "assets/products/break-it-vs-make-it-horns-hoodie.webp",
+   "variants": [
+    {
+     "id": 46427801747591,
+     "title": "S",
+     "price": "95.00",
+     "available": true
+    },
+    {
+     "id": 46427801780359,
+     "title": "M",
+     "price": "95.00",
+     "available": true
+    },
+    {
+     "id": 46427801813127,
+     "title": "L",
+     "price": "95.00",
+     "available": true
+    },
+    {
+     "id": 46427801845895,
+     "title": "XL",
+     "price": "95.00",
+     "available": true
+    },
+    {
+     "id": 46427801878663,
+     "title": "2XL",
+     "price": "97.00",
+     "available": true
+    },
+    {
+     "id": 46427801911431,
+     "title": "3XL",
+     "price": "99.00",
+     "available": true
+    },
+    {
+     "id": 46427801944199,
+     "title": "4XL",
+     "price": "101.00",
+     "available": true
+    },
+    {
+     "id": 46427801976967,
+     "title": "5XL",
+     "price": "103.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "halos-slip-dress-unbroken",
+   "title": "Halos Slip Dress - Unbroken",
+   "type": "CUT-SEW",
+   "kind": "dress",
+   "slot": "manR1",
+   "url": "https://hornshalosshop.myshopify.com/products/halos-slip-dress-unbroken",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/all-over-print-slip-dress-black-front-6aed76e252a67.jpg?v=1793947376&width=800",
+   "tex": "assets/products/halos-slip-dress-unbroken.webp",
+   "variants": [
+    {
+     "id": 46443291541639,
+     "title": "XS",
+     "price": "98.00",
+     "available": true
+    },
+    {
+     "id": 46443291574407,
+     "title": "S",
+     "price": "98.00",
+     "available": true
+    },
+    {
+     "id": 46443291607175,
+     "title": "M",
+     "price": "98.00",
+     "available": true
+    },
+    {
+     "id": 46443291639943,
+     "title": "L",
+     "price": "98.00",
+     "available": true
+    },
+    {
+     "id": 46443291672711,
+     "title": "XL",
+     "price": "98.00",
+     "available": true
+    },
+    {
+     "id": 46443291705479,
+     "title": "2XL",
+     "price": "100.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "break-it-vs-make-it-halos-tee",
+   "title": "Break It vs Make It \u2013 Halos Tee",
+   "type": "T-SHIRT",
+   "kind": "tee",
+   "slot": "manR2",
+   "url": "https://hornshalosshop.myshopify.com/products/break-it-vs-make-it-halos-tee",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/unisex-organic-ribbed-neck-creator-2.0-t-shirt-black-front-6aeb42a711741.jpg?v=1793802942&width=800",
+   "tex": "assets/products/break-it-vs-make-it-halos-tee.webp",
+   "variants": [
+    {
+     "id": 46427784740999,
+     "title": "S",
+     "price": "35.00",
+     "available": true
+    },
+    {
+     "id": 46427784773767,
+     "title": "M",
+     "price": "35.00",
+     "available": true
+    },
+    {
+     "id": 46427784806535,
+     "title": "L",
+     "price": "35.00",
+     "available": true
+    },
+    {
+     "id": 46427784839303,
+     "title": "XL",
+     "price": "35.00",
+     "available": true
+    },
+    {
+     "id": 46427784872071,
+     "title": "2XL",
+     "price": "37.00",
+     "available": true
+    },
+    {
+     "id": 46427784904839,
+     "title": "3XL",
+     "price": "39.00",
+     "available": true
+    },
+    {
+     "id": 46427784937607,
+     "title": "4XL",
+     "price": "41.00",
+     "available": true
+    },
+    {
+     "id": 46427784970375,
+     "title": "5XL",
+     "price": "43.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "halos-mug-unbroken-11oz-black",
+   "title": "Halos Mug - Unbroken 11oz Black",
+   "type": "MUG",
+   "kind": "mug",
+   "slot": "pedL",
+   "url": "https://hornshalosshop.myshopify.com/products/halos-mug-unbroken-11oz-black",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/black-glossy-mug-black-11-oz-handle-on-right-6aed78fec9e91.jpg?v=1793947917&width=800",
+   "tex": "assets/products/halos-mug-unbroken-11oz-black.webp",
+   "variants": [
+    {
+     "id": 46443431919751,
+     "title": "Default Title",
+     "price": "22.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  },
+  {
+   "handle": "horns-halos-crest-cap-embroidered",
+   "title": "Horns & Halos Crest Cap \u2014 Embroidered",
+   "type": "Hat",
+   "kind": "cap",
+   "slot": "pedR",
+   "url": "https://hornshalosshop.myshopify.com/products/horns-halos-crest-cap-embroidered",
+   "image": "https://cdn.shopify.com/s/files/1/0752/1704/3591/files/HH-emb-mockup-140-0-embroidery_front_large_285670fa-9107-4bf7-b4d6-1e65d6a1cc02.jpg?v=1794198919&width=800",
+   "tex": "assets/products/horns-halos-crest-cap-embroidered.webp",
+   "variants": [
+    {
+     "id": 46466012545159,
+     "title": "S/M",
+     "price": "48.00",
+     "available": true
+    },
+    {
+     "id": 46466012577927,
+     "title": "L/XL",
+     "price": "48.00",
+     "available": true
+    }
+   ],
+   "currency": "USD"
+  }
+ ]
+}

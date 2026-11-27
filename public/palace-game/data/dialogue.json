@@ -1,0 +1,60 @@
+{
+ "source": "/workspace/palace/dialogue/batch-2026-11-12-scale/all-npc-lines-draft.csv (status: draft, pending Six spot-check)",
+ "bifrons": {
+  "idle": [
+   "Great Hall ahead: firelight and iron that way; pale light and old stone the other; music if you go straight.",
+   "Two colossi: obsidian with horns, alabaster with a thin gold ring. Their pedestals are blank on purpose.",
+   "Black stone, gold inlay, a floor that keeps a trace of whoever crossed it. Yours is already there, faintly, like a first draft no one has agreed to yet.",
+   "Petitioner, this is the House's most public room, which is why it tells the fewest secrets.",
+   "Braziers to one side, candle stands to the other. The chandeliers refuse to pick.",
+   "If you came only to look, the ring will also let you out. The House does not trap guests who came only to look."
+  ],
+  "portal": [
+   "Gold and obsidian, turning. One face is fire and dark; the other, pale cloud and gold. Neither wins the hour.",
+   "That ring is a way out of the House, if you want one. It will ask you once.",
+   "Stand long enough and the whole hall warms and cools with the ring, a slow indoor weather that has nothing to do with the sky outside.",
+   "Some guests try to wait for their favorite face. The ring is not a bargain.",
+   "Curious about leaving? Say so.",
+   "When it stills, that is the House being kind to tired eyes. The way out still works.",
+   "Crimson underlight, then pale gold rays, then back again. I do not pick a favorite, and I do not recommend one."
+  ],
+  "greet": [
+   "Take your time. The stair took longer.",
+   "The ledger is open, Petitioner. It has been open since before you reached the first step.",
+   "Not locked, the doors. Only heavy, which is a different thing."
+  ]
+ },
+ "mammon": {
+  "enter": [
+   "Welcome. Take your time. Everything here has a maker and a price. Which would you like to know first?",
+   "Three shops, one keeper. I don't rush a guest who hasn't decided what they want.",
+   "Come in, Petitioner. The goods are on the tables, not in my mouth. Ask, and I'll show.",
+   "A philosopher of value, if you need a title. A shopkeeper, if you don't.",
+   "Are you here to look, to weigh, or to take something with you? All three are honest.",
+   "The scale on my desk stays level. I like guests who can stand that."
+  ],
+  "looking": [
+   "Then look. The goods are patient.",
+   "Looking is a kind of appraisal. I won't charge you for it.",
+   "Walk the stations, Petitioner. Touch nothing that asks not to be touched. Ask me before you believe a number you haven't seen.",
+   "No performance required. The work sits; you may circle it.",
+   "Name the thing you hoped to see, if it is not already in front of you.",
+   "I will be here when looking turns into wanting. It often does. It doesn't have to today."
+  ],
+  "worth": [
+   "Before I tell you what it costs, tell me what it is worth to you. Not in coin.",
+   "What will you spend to keep what you took?",
+   "What will you spend to be what you promised?",
+   "What is it worth to you not to choose?",
+   "What do you actually want?",
+   "If it disappeared tonight, what would you miss: the look of it, or the fact that it was yours?"
+  ],
+  "drawer": [
+   "This is the {title}. {spec_line}. It is {status_phrase}.",
+   "Here: the {title}. Only the record may speak. {spec_line}. {status_phrase}.",
+   "On the table: the {title}. {spec_line}. {status_phrase}.",
+   "I show the {title} as it is, not as a story. {spec_line}. {status_phrase}.",
+   "Look first: the {title}. {spec_line}. {status_phrase}. Tell me its worth."
+  ]
+ }
+}
